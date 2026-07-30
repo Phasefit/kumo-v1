@@ -1,0 +1,33 @@
+{
+  "name": "Kumo – lær japansk, tyrkisk og albansk",
+  "short_name": "Kumo",
+  "id": "./",
+  "description": "En interaktiv læringsapp for japansk, tyrkisk og albansk for norske nybegynnere.",
+  "lang": "nb-NO",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#19332f",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "icons/kumo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/kumo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/kumo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

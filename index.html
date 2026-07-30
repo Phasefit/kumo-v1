@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#19332f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kumo" />
+    <meta
+      name="description"
+      content="Kumo – en interaktiv læringsapp for japansk, tyrkisk og albansk."
+    />
+    <title>Kumo – lær japansk, tyrkisk og albansk</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/favicon.ico?v=2" sizes="any" />
+    <link rel="icon" href="icons/kumo-192.png?v=2" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/kumo-180.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Hopp til hovedinnhold</a>
+    <div class="connection-banner hidden" id="connection-banner" role="status">
+      Du er frakoblet. Fremgangen lagres lokalt og synkroniseres når nettet er tilbake.
+    </div>
+    <div class="update-banner hidden" id="update-banner" role="status">
+      <span>En ny versjon av Kumo er klar.</span>
+      <button id="apply-update" type="button">Oppdater nå</button>
+      <button id="dismiss-update" type="button" aria-label="Lukk oppdateringsvarsel">×</button>
+    </div>
+    <section class="app-loading" id="app-loading" aria-live="polite">
+      <span class="brand-mark">雲</span>
+      <strong>Kumo</strong>
+      <p id="app-loading-message">Kontrollerer innlogging …</p>
+    </section>
+
+    <section class="auth-page hidden" id="auth-page" aria-labelledby="auth-title">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <span class="brand-mark">雲</span>
+          <div>
+            <span class="eyebrow">Velkommen til Kumo</span>
+            <h1 id="auth-title">Lær litt, ofte.</h1>
+          </div>
+        </div>
+        <p class="auth-intro">Logg inn for å fortsette, eller opprett en konto for å lagre din egen progresjon.</p>
+        <div class="auth-tabs" role="tablist">
+          <button class="active" id="show-login" type="button" role="tab" aria-controls="login-form" aria-selected="true">Logg inn</button>
+          <button id="show-signup" type="button" role="tab" aria-controls="signup-form" aria-selected="false">Opprett konto</button>
+        </div>
+        <form class="auth-form" id="login-form">
+          <label>E-post<input id="login-email" type="email" autocomplete="email" required /></label>
+          <label>Passord<input id="login-password" type="password" autocomplete="current-password" required /></label>
+          <button class="primary-button" type="submit">Logg inn</button>
+          <button class="text-button auth-link-button" id="show-forgot-password" type="button">Glemt passord?</button>
+        </form>
+        <form class="auth-form hidden" id="signup-form">
+          <label>Navn<input id="signup-name" type="text" autocomplete="name" maxlength="80" /></label>
+          <label>E-post<input id="signup-email" type="email" autocomplete="email" required /></label>
+          <label>Passord<input id="signup-password" type="password" autocomplete="new-password" minlength="10" required /></label>
+          <small class="password-help">Minst 10 tegn, inkludert stor bokstav, liten bokstav og tall.</small>
+          <div class="captcha-slot hidden" data-captcha-slot="signup"></div>
+          <button class="primary-button" type="submit">Opprett konto</button>
+          <button class="text-button auth-link-button" id="resend-confirmation" type="button">
+            Send bekreftelsesmail på nytt
+          </button>
+        </form>
+        <form class="auth-form hidden" id="forgot-password-form">
+          <div class="auth-form-heading">
+            <strong>Nullstill passord</strong>
+            <span>Vi sender en sikker lenke til e-postadressen din.</span>
+          </div>
+          <label>E-post<input id="forgot-email" type="email" autocomplete="email" required /></label>
+          <div class="captcha-slot hidden" data-captcha-slot="reset"></div>
+          <button class="primary-button" type="submit">Send tilbakestillingslenke</button>
+          <button class="text-button auth-link-button" id="back-to-login" type="button">Tilbake til innlogging</button>
+        </form>
+        <form class="auth-form hidden" id="update-password-form">
+          <div class="auth-form-heading">
+            <strong>Velg nytt passord</strong>
+            <span>Minst 10 tegn, inkludert stor bokstav, liten bokstav og tall.</span>
+          </div>
+          <label>Nytt passord<input id="new-password" type="password" autocomplete="new-password" minlength="10" required /></label>
+          <label>Gjenta passord<input id="confirm-new-password" type="password" autocomplete="new-password" minlength="10" required /></label>
+          <button class="primary-button" type="submit">Lagre nytt passord</button>
+        </form>
+        <p class="auth-message" id="auth-message" aria-live="polite"></p>
+        <div class="configuration-help hidden" id="configuration-help">
+          <strong>Supabase mangler</strong>
+          <p>Sett <code>VITE_SUPABASE_URL</code> og <code>VITE_SUPABASE_ANON_KEY</code>, og start appen på nytt.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="language-gate hidden" id="language-gate" aria-labelledby="language-gate-title">
+      <div class="language-gate-card">
+        <span class="brand-mark">雲</span>
+        <span class="eyebrow">Velkommen til Kumo</span>
+        <h1 id="language-gate-title">Hva vil du lære?</h1>
+        <p>Velg språk nå. Du kan bytte senere, og fremgangen lagres separat.</p>
+        <div class="language-choice-grid">
+          <button class="language-choice" data-language-choice="ja">
+            <span>日本語</span>
+            <strong>Japansk</strong>
+            <small>Kana, nyttige fraser og enkel grammatikk</small>
+          </button>
+          <button class="language-choice" data-language-choice="tr">
+            <span>Türkçe</span>
+            <strong>Tyrkisk</strong>
+            <small>Uttale, praktiske fraser og endelser</small>
+          </button>
+          <button class="language-choice" data-language-choice="sq">
+            <span>Shqip</span>
+            <strong>Albansk</strong>
+            <small>Uttale, hilsener og enkel grammatikk</small>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-shell hidden" id="app-shell">
+      <aside class="sidebar" aria-label="Hovedmeny">
+        <a class="brand" href="#" aria-label="Kumo startside">
+          <span class="brand-mark">雲</span>
+          <span>
+            <strong>Kumo</strong>
+            <small id="brand-language">lær japansk</small>
+          </span>
+        </a>
+
+        <div class="language-switcher">
+          <label for="language-select">Språk</label>
+          <select id="language-select" aria-label="Velg språk">
+            <option value="ja">日本語 · Japansk</option>
+            <option value="tr">Türkçe · Tyrkisk</option>
+            <option value="sq">Shqip · Albansk</option>
+          </select>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="home">
+            <span class="nav-icon">⌂</span><span>Oversikt</span>
+          </button>
+          <button class="nav-item" data-view="daily">
+            <span class="nav-icon">◷</span><span>Dagens økt</span>
+          </button>
+          <button class="nav-item" data-view="kana">
+            <span class="nav-icon" id="alphabet-nav-icon">あ</span><span id="alphabet-nav-label">Kana</span>
+          </button>
+          <button class="nav-item" data-view="words">
+            <span class="nav-icon">言</span><span>Ord</span>
+          </button>
+          <button class="nav-item" data-view="grammar">
+            <span class="nav-icon">文</span><span>Grammatikk</span>
+          </button>
+          <button class="nav-item" data-view="quiz">
+            <span class="nav-icon">✓</span><span>Quiz</span>
+          </button>
+          <button class="nav-item" data-view="progress">
+            <span class="nav-icon">↗</span><span>Progresjon</span>
+          </button>
+          <button class="nav-item" data-view="settings">
+            <span class="nav-icon">⚙</span><span>Innstillinger</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-card">
+          <span class="sidebar-card-icon" id="streak-icon">火</span>
+          <p><strong id="sidebar-streak">1 dag</strong> på rad</p>
+          <small>Litt hver dag er hemmeligheten.</small>
+        </div>
+
+        <div class="account-summary">
+          <small>Innlogget som</small>
+          <strong id="account-name">Elev</strong>
+          <span id="account-email"></span>
+          <button id="logout-button" type="button">Logg ut</button>
+        </div>
+
+        <button class="save-button" id="save-progress">
+          <span>✓</span> Lagre progresjon
+        </button>
+        <small class="save-status" id="save-status" aria-live="polite">
+          Lagres automatisk
+        </small>
+        <button class="reset-button" id="reset-progress">Nullstill progresjon</button>
+      </aside>
+
+      <main id="main-content" tabindex="-1">
+        <header class="mobile-header">
+          <a class="brand" href="#">
+            <span class="brand-mark">雲</span>
+            <strong>Kumo</strong>
+          </a>
+          <div class="mobile-actions">
+            <select id="mobile-language-select" aria-label="Velg språk">
+              <option value="ja">日本語</option>
+              <option value="tr">Türkçe</option>
+              <option value="sq">Shqip</option>
+            </select>
+            <button class="menu-button" id="menu-button" aria-label="Åpne meny" aria-expanded="false">☰</button>
+          </div>
+        </header>
+
+        <section class="view active" id="home-view">
+          <div class="topbar">
+            <p id="today-label">Torsdag 18. juni</p>
+            <div class="level-chip">
+              <span>Nivå <strong id="level-number">1</strong></span>
+              <div class="mini-progress"><i id="level-progress"></i></div>
+              <span id="xp-label">0 XP</span>
+            </div>
+          </div>
+
+          <section class="hero">
+            <div class="hero-copy">
+              <span class="eyebrow" id="hero-eyebrow">今日の一歩 · dagens lille steg</span>
+              <h1><span id="hero-greeting">おはようございます、</span><br /><em id="hero-question">klar for japansk?</em></h1>
+              <p id="hero-description">
+                Bruk ti rolige minutter. Vi begynner med tegnene,
+                lydene og ordene du faktisk får bruk for.
+              </p>
+              <button class="primary-button" data-action="start-lesson">
+                Start dagens økt <span>→</span>
+              </button>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <div class="sun"></div>
+              <div class="mountain mountain-back"></div>
+              <div class="mountain mountain-front"></div>
+              <div class="torii">
+                <i class="top-beam"></i>
+                <i class="lower-beam"></i>
+                <i class="post left"></i>
+                <i class="post right"></i>
+              </div>
+              <span class="cloud cloud-one">〜</span>
+              <span class="cloud cloud-two">〜</span>
+            </div>
+          </section>
+
+          <section class="stats-grid">
+            <article class="stat-card">
+              <span class="stat-icon coral" id="streak-stat-icon">火</span>
+              <div>
+                <small>Rekke</small>
+                <strong id="streak-stat">1 dag</strong>
+              </div>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon green" id="learned-stat-icon">葉</span>
+              <div>
+                <small id="learned-stat-label">Lærte tegn</small>
+                <strong><span id="learned-count">0</span> / <span id="symbol-total">15</span></strong>
+              </div>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon gold" id="accuracy-stat-icon">星</span>
+              <div>
+                <small>Riktige svar</small>
+                <strong id="accuracy-stat">–</strong>
+              </div>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon blue">◷</span>
+              <div>
+                <small>Neste repetisjon</small>
+                <strong id="next-review-label">Klar nå</strong>
+              </div>
+            </article>
+          </section>
+
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Fortsett reisen</span>
+              <h2>Dagens læringssti</h2>
+            </div>
+            <span class="lesson-total"><b id="completed-lessons">0</b> av 3 fullført</span>
+          </div>
+
+          <section class="lesson-grid">
+            <button class="lesson-card" data-action="open-kana">
+              <span class="lesson-number">01</span>
+              <span class="lesson-symbol" id="lesson-one-symbol">あ</span>
+              <span class="lesson-meta" id="lesson-one-meta">5 min · tegn</span>
+              <strong id="lesson-one-title">Hiragana: vokalene</strong>
+              <span class="lesson-description" id="lesson-one-description">Lær あ、い、う、え、お med lyd og små huskeregler.</span>
+              <span class="lesson-cta">Begynn <b>→</b></span>
+            </button>
+            <button class="lesson-card" data-action="open-words">
+              <span class="lesson-number">02</span>
+              <span class="lesson-symbol" id="lesson-two-symbol">話</span>
+              <span class="lesson-meta">4 min · ord</span>
+              <strong id="lesson-two-title">Hilsener i hverdagen</strong>
+              <span class="lesson-description" id="lesson-two-description">Si hei, god morgen og takk på en naturlig måte.</span>
+              <span class="lesson-cta">Begynn <b>→</b></span>
+            </button>
+            <button class="lesson-card" data-action="open-quiz">
+              <span class="lesson-number">03</span>
+              <span class="lesson-symbol" id="lesson-three-symbol">問</span>
+              <span class="lesson-meta">3 min · quiz</span>
+              <strong>Test det du husker</strong>
+              <span class="lesson-description">En rask blanding av tegn, uttale og betydning.</span>
+              <span class="lesson-cta">Begynn <b>→</b></span>
+            </button>
+          </section>
+        </section>
+
+        <section class="view" id="daily-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow">5–10 minutter · én ting om gangen</span>
+            <h1>Dagens økt</h1>
+            <p id="daily-intro">En kort blanding av nye ord, grammatikk, lytting, oppgaver og repetisjon.</p>
+          </div>
+
+          <div class="daily-progress-shell">
+            <div>
+              <strong id="daily-step-label">Steg 1 av 6</strong>
+              <small id="daily-time-label">ca. 7 minutter</small>
+            </div>
+            <div class="wide-progress"><i id="daily-progress"></i></div>
+          </div>
+
+          <section class="daily-card" id="daily-card"></section>
+          <div class="daily-actions">
+            <button class="secondary-button" id="daily-previous">← Forrige</button>
+            <button class="primary-button" id="daily-next">Neste →</button>
+          </div>
+        </section>
+
+        <section class="view" id="kana-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow" id="alphabet-eyebrow">Skriftsystem · ひらがな</span>
+            <h1 id="alphabet-title">Hiragana, ett tegn om gangen</h1>
+            <p id="alphabet-description">Trykk på et kort for å høre lyden. Merk tegn du føler at du kan.</p>
+          </div>
+
+          <div class="kana-toolbar">
+            <div>
+              <strong id="kana-mastered-label">0 av 15 mestret</strong>
+              <div class="wide-progress"><i id="kana-progress"></i></div>
+            </div>
+            <button class="secondary-button" id="practice-kana">Øv tilfeldig</button>
+          </div>
+
+          <section class="kana-grid" id="kana-grid"></section>
+
+          <section class="practice-panel hidden" id="kana-practice">
+            <button class="close-panel" id="close-kana-practice" aria-label="Lukk">×</button>
+            <span class="eyebrow">Miniøvelse</span>
+            <p id="practice-question">Hvilken lyd har dette tegnet?</p>
+            <span class="countdown-timer hidden" id="kana-practice-countdown"></span>
+            <strong class="practice-symbol" id="practice-symbol">あ</strong>
+            <div class="option-grid" id="kana-options"></div>
+            <p class="feedback" id="kana-feedback" aria-live="polite"></p>
+          </section>
+        </section>
+
+        <section class="view" id="words-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow" id="words-eyebrow">Ordforråd · ことば</span>
+            <h1>Små ord, ekte samtaler</h1>
+            <p>Trykk på kortet for å snu det. Bruk høyttaleren for uttale.</p>
+          </div>
+
+          <div class="word-layout">
+            <section class="flashcard-area">
+              <div class="word-counter"><span id="word-index">1</span> / <span id="word-total">8</span></div>
+              <button class="flashcard" id="flashcard" aria-label="Snu ordkort">
+                <span class="flashcard-face front">
+                  <small id="word-language-label">Japansk</small>
+                  <strong id="word-japanese">おはようございます</strong>
+                  <span id="word-romaji">ohayō gozaimasu</span>
+                  <em>Trykk for å se betydningen</em>
+                </span>
+                <span class="flashcard-face back">
+                  <small>Norsk</small>
+                  <strong id="word-norwegian">God morgen</strong>
+                  <span class="word-note" id="word-note">Høflig standardform om morgenen.</span>
+                  <em>Trykk for å snu tilbake</em>
+                </span>
+              </button>
+              <div class="flashcard-actions">
+                <button class="round-button" id="previous-word" aria-label="Forrige ord">←</button>
+                <button class="listen-button" id="speak-word"><span>♪</span> Hør uttale</button>
+                <button class="round-button" id="next-word" aria-label="Neste ord">→</button>
+              </div>
+              <div class="pronunciation-practice">
+                <button class="secondary-button" id="practice-pronunciation" type="button">🎙 Øv uttale</button>
+                <p id="pronunciation-feedback" aria-live="polite">
+                  Si uttrykket høyt. Talegjenkjenning brukes bare når nettleseren støtter det.
+                </p>
+              </div>
+              <div class="knowledge-actions">
+                <button class="ghost-button" data-knowledge="learning">Vanskelig · øv mer</button>
+                <button class="primary-button compact" data-knowledge="known">Jeg kan denne</button>
+              </div>
+            </section>
+
+            <aside class="phrase-list" aria-label="Ord i denne bunken">
+              <span class="eyebrow">I denne bunken</span>
+              <h2>Hverdagsfraser</h2>
+              <div id="phrase-list"></div>
+              <div class="difficult-summary">
+                <strong>Vanskelige ord</strong>
+                <span id="difficult-word-count">0</span>
+                <button class="text-button" id="review-difficult">Øv bare på disse</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="grammar-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow">Forklart for norsktalende</span>
+            <h1>Grammatikk uten tåkeprat</h1>
+            <p>Små forklaringer med norsk som utgangspunkt og tydelige sammenligninger.</p>
+          </div>
+          <section class="grammar-grid" id="grammar-grid"></section>
+        </section>
+
+        <section class="view" id="quiz-view">
+          <div class="page-intro quiz-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow" id="quiz-eyebrow">Kunnskapssjekk · テスト</span>
+            <h1>La oss se hva som sitter</h1>
+          </div>
+
+          <section class="quiz-card" id="quiz-card">
+            <div class="quiz-topline">
+              <span id="quiz-progress-label">Spørsmål 1 av 8</span>
+              <span class="countdown-timer hidden" id="quiz-countdown"></span>
+              <span id="quiz-score-label">0 riktige</span>
+            </div>
+            <div class="wide-progress quiz-progress"><i id="quiz-progress"></i></div>
+            <div id="quiz-question-area">
+              <span class="quiz-type" id="quiz-type">HIRAGANA</span>
+              <h2 id="quiz-question">Hvilken lyd har tegnet?</h2>
+              <strong id="quiz-prompt">あ</strong>
+              <button class="audio-hint hidden" id="quiz-audio">♪ Hør ordet</button>
+              <div class="quiz-options" id="quiz-options"></div>
+              <p class="feedback" id="quiz-feedback" aria-live="polite"></p>
+            </div>
+            <div class="quiz-result hidden" id="quiz-result">
+              <span class="result-mark" id="result-mark">よくできました！</span>
+              <h2>Bra jobbet!</h2>
+              <p id="result-copy"></p>
+              <strong id="result-score">0 / 8</strong>
+              <div>
+                <button class="primary-button" id="restart-quiz">Prøv igjen</button>
+                <button class="secondary-button" data-view-target="home">Til oversikten</button>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="progress-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow">Din læringsreise</span>
+            <h1>Progresjon</h1>
+            <p>Fem oversiktlige nivåer fra overlevelsesspråk til grunnleggende grammatikk.</p>
+          </div>
+          <section class="progress-overview" id="progress-overview"></section>
+          <section class="weekly-progress-card" aria-labelledby="weekly-progress-title">
+            <div>
+              <span class="eyebrow">Denne uken</span>
+              <h2 id="weekly-progress-title">Ukemål</h2>
+              <p id="weekly-goal-copy"></p>
+            </div>
+            <div class="week-calendar" id="week-calendar"></div>
+          </section>
+          <section class="level-list" id="level-list"></section>
+        </section>
+
+        <section class="view" id="course-lesson-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="progress">← Progresjon</button>
+            <span class="eyebrow" id="course-lesson-time">Kort leksjon</span>
+            <h1 id="course-lesson-title">Leksjon</h1>
+            <p id="course-lesson-description"></p>
+          </div>
+          <div class="daily-progress-shell">
+            <div><strong id="course-lesson-step">Steg 1 av 1</strong></div>
+            <div class="wide-progress"><i id="course-lesson-progress"></i></div>
+          </div>
+          <section class="daily-card" id="course-lesson-card"></section>
+          <div class="daily-actions">
+            <button class="secondary-button" id="course-lesson-previous">← Forrige</button>
+            <button class="primary-button" id="course-lesson-next">Fullfør leksjonen ✓</button>
+          </div>
+        </section>
+
+        <section class="view" id="settings-view">
+          <div class="page-intro">
+            <button class="back-button" data-view-target="home">← Oversikt</button>
+            <span class="eyebrow">Tilpass Kumo</span>
+            <h1>Innstillinger</h1>
+            <p>Velg språkvisning og hvordan du vil øve.</p>
+          </div>
+          <section class="settings-card">
+            <div class="setting-row account-setting">
+              <div>
+                <strong id="settings-account-name">Konto</strong>
+                <small id="settings-account-email"></small>
+              </div>
+              <button class="secondary-button compact" id="settings-logout-button" type="button">Logg ut</button>
+            </div>
+            <div class="setting-row">
+              <div>
+                <strong>Språk</strong>
+                <small>Fremgangen lagres separat for hvert språk.</small>
+              </div>
+              <select id="settings-language-select" aria-label="Velg kursspråk">
+                <option value="ja">Japansk</option>
+                <option value="tr">Tyrkisk</option>
+                <option value="sq">Albansk</option>
+              </select>
+            </div>
+            <div class="setting-row" id="display-mode-setting">
+              <div>
+                <strong>Japansk visning</strong>
+                <small>Velg hvor mye japansk skrift du vil se.</small>
+              </div>
+              <select id="display-mode-select" aria-label="Velg japansk visning">
+                <option value="romaji">Norsk + romaji</option>
+                <option value="kana">Norsk + kana</option>
+                <option value="kanji">Norsk + kana + kanji</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div>
+                <strong>Ukemål</strong>
+                <small>Hvor mange aktive læringsdager ønsker du?</small>
+              </div>
+              <select id="weekly-goal-select" aria-label="Velg ukemål">
+                <option value="2">2 dager</option>
+                <option value="3">3 dager</option>
+                <option value="4">4 dager</option>
+                <option value="5">5 dager</option>
+                <option value="7">Hver dag</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div>
+                <strong>Redusert bevegelse</strong>
+                <small>Demper animasjoner og myk rulling.</small>
+              </div>
+              <label class="toggle-label">
+                <input id="reduced-motion-toggle" type="checkbox" aria-label="Redusert bevegelse" />
+                <span>På</span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <div>
+                <strong>Automatisk lagring</strong>
+                <small>Fungerer også frakoblet og synkroniserer automatisk.</small>
+              </div>
+              <span class="status-pill" id="sync-status-pill">Synkronisert</span>
+            </div>
+            <button class="secondary-button" id="choose-language-again">Vis språkvelger</button>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="lib/supabase-v2.js?v=2.108.2"></script>
+    <script src="config/runtime-config.js?v=1"></script>
+    <script src="lib/supabaseClient.js?v=1"></script>
+    <script src="services/authService.js?v=5"></script>
+    <script src="services/profileService.js?v=1"></script>
+    <script src="services/courseService.js?v=2"></script>
+    <script src="services/progressService.js?v=2"></script>
+    <script src="services/lessonService.js?v=2"></script>
+    <script src="lib/formatRemainingTime.js?v=1"></script>
+    <script src="components/CountdownTimer.js?v=1"></script>
+    <script src="data/courseContent.js?v=2"></script>
+    <script src="app.js?v=19"></script>
+  </body>
+</html>
