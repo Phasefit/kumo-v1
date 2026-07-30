@@ -20,11 +20,11 @@
     if (/error sending confirmation email/i.test(message) || code.includes("email_send")) {
       return "Supabase fikk ikke sendt bekreftelsesmailen. Kontroller Auth Logs og SMTP-oppsettet.";
     }
+    if (/database error saving new user/i.test(message) || code.includes("unexpected_failure")) {
+      return "Registreringen stoppet i databasen. Database-triggeren for profilen må være riktig konfigurert.";
+    }
     if (action === "signup" && status >= 500 && (!message || message === "{}")) {
       return "Supabase fikk ikke sendt bekreftelsesmailen. Konfigurer SMTP under Authentication → Emails, og prøv igjen.";
-    }
-    if (/database error saving new user/i.test(message) || code.includes("unexpected_failure")) {
-      return "Database-triggeren feilet under opprettelse av brukeren. Kjør database-migrasjonen på nytt og kontroller Auth Logs.";
     }
     if (/redirect/i.test(message) && /allow|url/i.test(message)) {
       return "Bekreftelsesadressen er ikke tillatt. Legg http://127.0.0.1:8765/** til under Authentication → URL Configuration.";
