@@ -1577,23 +1577,29 @@ function finishDailyLesson() {
 }
 
 function renderGrammar() {
-  if (!course.grammarNotes) return;
+  const grammarNotes = Array.isArray(course.grammarNotes) ? course.grammarNotes : [];
+  const writingSections = Array.isArray(course.writingSections) ? course.writingSections : [];
+  const practicalPhrases = Array.isArray(course.practicalPhrases) ? course.practicalPhrases : [];
+  if (!grammarNotes.length && !writingSections.length && !practicalPhrases.length) {
+    $("#grammar-grid").innerHTML = "";
+    return;
+  }
   $("#grammar-grid").innerHTML = `
-    ${course.grammarNotes
+    ${grammarNotes
       .map(
         (note) => `
           <article class="grammar-note">
             <span>${note.tag}</span>
             <h2>${note.title}</h2>
             <p>${note.copy}</p>
-            <div>${note.examples.map((example) => `<code>${example}</code>`).join("")}</div>
+            <div>${(Array.isArray(note?.examples) ? note.examples : []).map((example) => `<code>${example}</code>`).join("")}</div>
           </article>`,
       )
       .join("")}
     <article class="grammar-note course-roadmap">
       <span>Kursinnhold</span>
       <h2>Videre i skrift og uttale</h2>
-      ${course.writingSections
+      ${writingSections
         .map(
           (section) => `
             <div class="roadmap-row">
@@ -1605,7 +1611,7 @@ function renderGrammar() {
         .join("")}
       <div class="practical-phrases">
         <strong>Praktiske fraser</strong>
-        ${course.practicalPhrases
+        ${practicalPhrases
           .map(
             (phrase) => `
               <button data-practical-phrase="${phrase.target}">
