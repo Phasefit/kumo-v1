@@ -1,3 +1,13 @@
+import {
+  freshState,
+  validateState as validateStateBase,
+  validUniqueItems,
+  validReviewStats,
+  validNonNegativeInteger,
+  validDueAt,
+  isDateKey as isValidDateKey,
+} from "./app/state.js";
+
 const courses = {
   ja: {
     code: "ja",
@@ -413,95 +423,12 @@ let databaseLessonStep = 0;
 let syncPending = false;
 const captchaWidgets = {};
 
-function freshState() {
-  return {
-    xp: 0,
-    streak: 0,
-    learnedSymbols: [],
-    rewardedSymbols: [],
-    knownWords: [],
-    difficultWords: [],
-    answers: 0,
-    correct: 0,
-    completed: [],
-    dailyCompletions: 0,
-    lastDailyCompletion: null,
-    bestQuizScore: 0,
-    unlockedLevel: 1,
-    reviewStats: {},
-    activityDates: [],
-    weeklyGoal: 3,
-    reducedMotion: false,
-    displayMode: "kanji",
-    dueAt: { alphabetPractice: null, quiz: null, review: null },
-    lastVisit: null,
-  };
-}
-
 function validateState(value, selectedCourse) {
-  const base = freshState();
-  if (!value || typeof value !== "object" || Array.isArray(value)) return base;
-  const allowedSymbols = selectedCourse.symbols.map((item) => item.char);
-  const allowedWords = selectedCourse.words.map((item) => item.term);
-  const learnedSymbols = validUniqueItems(value.learnedSymbols, allowedSymbols);
-  return {
-    xp: validNonNegativeInteger(value.xp),
-    streak: validNonNegativeInteger(value.streak),
-    learnedSymbols,
-    rewardedSymbols: Array.isArray(value.rewardedSymbols)
-      ? validUniqueItems(value.rewardedSymbols, allowedSymbols)
-      : [...learnedSymbols],
-    knownWords: validUniqueItems(value.knownWords, allowedWords),
-    difficultWords: validUniqueItems(value.difficultWords, allowedWords),
-    answers: validNonNegativeInteger(value.answers),
-    correct: Math.min(validNonNegativeInteger(value.correct), validNonNegativeInteger(value.answers)),
-    completed: validUniqueItems(value.completed, [
-      "alphabet",
-      "words",
-      "quiz",
-      "daily",
-      ...(selectedCourse.database?.lessons || []).map((lesson) => `lesson:${lesson.id}`),
-    ]),
-    dailyCompletions: validNonNegativeInteger(value.dailyCompletions),
-    lastDailyCompletion: isDateKey(value.lastDailyCompletion) ? value.lastDailyCompletion : null,
-    bestQuizScore: Math.min(8, validNonNegativeInteger(value.bestQuizScore)),
-    unlockedLevel: Math.min(5, Math.max(1, validNonNegativeInteger(value.unlockedLevel) || 1)),
-    reviewStats: validReviewStats(value.reviewStats, allowedWords),
-    activityDates: Array.isArray(value.activityDates)
-      ? [...new Set(value.activityDates.filter(isDateKey))].slice(-120)
-      : [],
-    weeklyGoal: [2, 3, 4, 5, 7].includes(Number(value.weeklyGoal)) ? Number(value.weeklyGoal) : 3,
-    reducedMotion: Boolean(value.reducedMotion),
-    displayMode: ["romaji", "kana", "kanji"].includes(value.displayMode) ? value.displayMode : "kanji",
-    dueAt: {
-      alphabetPractice: validDueAt(value.dueAt?.alphabetPractice),
-      quiz: validDueAt(value.dueAt?.quiz),
-      review: validDueAt(value.dueAt?.review),
-    },
-    lastVisit: isDateKey(value.lastVisit) ? value.lastVisit : null,
-  };
+  return validateStateBase(value, selectedCourse, localDateKey);
 }
 
-function validUniqueItems(value, allowedItems) {
-  if (!Array.isArray(value)) return [];
-  return [...new Set(value.filter((item) => allowedItems.includes(item)))];
-}
-
-function validReviewStats(value, allowedWords) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
-  return Object.fromEntries(
-    Object.entries(value)
-      .filter(([term]) => allowedWords.includes(term))
-      .map(([term, item]) => [
-        term,
-        {
-          intervalDays: Math.min(30, Math.max(0, Number(item?.intervalDays || 0))),
-          correct: validNonNegativeInteger(item?.correct),
-          incorrect: validNonNegativeInteger(item?.incorrect),
-          dueAt: validDueAt(item?.dueAt),
-        },
-      ]),
-  );
+function isDateKey(value) {
+  return isValidDateKey(value, localDateKey);
 }
 
 function escapeHtml(value) {
