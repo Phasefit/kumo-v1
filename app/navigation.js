@@ -24,10 +24,10 @@ function createNavigation({ $, $$, state, closeAlphabetPractice, startQuiz, rend
   return { showView };
 }
 
-function bindNavigationEvents({ $, $, showView }) {
-  $(".nav-item").forEach((button) => button.addEventListener("click", () => showView(button.dataset.view)));
-  $("[data-view-target]").forEach((button) => button.addEventListener("click", () => showView(button.dataset.viewTarget)));
-  $("[data-action]").forEach((button) => {
+function bindNavigationEvents({ $, $$, showView }) {
+  $$(".nav-item").forEach((button) => button.addEventListener("click", () => showView(button.dataset.view)));
+  $$("[data-view-target]").forEach((button) => button.addEventListener("click", () => showView(button.dataset.viewTarget)));
+  $$("[data-action]").forEach((button) => {
     button.addEventListener("click", () => {
       const routes = { "start-lesson": "daily", "open-kana": "kana", "open-words": "words", "open-quiz": "quiz" };
       showView(routes[button.dataset.action]);
