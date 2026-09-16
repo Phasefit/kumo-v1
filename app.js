@@ -478,20 +478,6 @@ function resetCaptcha(name) {
   if (widgetId !== undefined) window.turnstile?.reset(widgetId);
 }
 
-function validNonNegativeInteger(value) {
-  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
-}
-
-function validDueAt(value) {
-  return typeof value === "string" && !Number.isNaN(new Date(value).getTime()) ? value : null;
-}
-
-function isDateKey(value) {
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const [year, month, day] = value.split("-").map(Number);
-  return localDateKey(new Date(year, month - 1, day)) === value;
-}
-
 function saveState(showConfirmation = false) {
   progressStore[activeLanguage] = state;
   localStorage.setItem(progressCacheKey(activeLanguage), JSON.stringify(state));
