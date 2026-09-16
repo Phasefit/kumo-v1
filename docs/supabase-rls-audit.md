@@ -130,3 +130,26 @@ No INSERT, UPDATE or DELETE policies for the authenticated role were present in 
 The policy list strongly indicates the intended ownership model is correctly configured, but the output does not itself prove that RLS is enabled on every table. Run the RLS-status query from the audit procedure and verify `rowsecurity = true` for all user-owned tables.
 
 Also verify whether anonymous/public access is intentionally disabled for user-owned data. The policies shown are scoped to `authenticated`, which is correct, but explicit table-level RLS status should still be confirmed.
+
+
+### RLS status verification – 2026-09-16
+
+The live Supabase table-status query confirmed `rowsecurity = true` for all 11 public tables:
+
+- `courses`
+- `difficult_words`
+- `exercises`
+- `grammar_notes`
+- `lesson_progress`
+- `lessons`
+- `levels`
+- `profiles`
+- `quiz_results`
+- `user_progress`
+- `vocabulary`
+
+Combined with the supplied `pg_policies` output, RLS is enabled across the public schema tables used by Kumo and the user-owned tables have ownership policies for the authenticated role.
+
+### Audit conclusion
+
+No RLS policy change is currently indicated by the supplied live database evidence. The next hardening step is application-level regression testing rather than changing database authorization.
