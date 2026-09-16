@@ -1,17 +1,17 @@
-function createDatabaseRenderer({ $, $$, state, activeLanguage, getActiveLanguage, speak, saveState, shuffle, escapeHtml }) {
+function createDatabaseRenderer({ $, $$, state, activeLanguage, getActiveLanguage, getActiveDatabaseLesson, getDatabaseLessonStep, speak, saveState, shuffle, escapeHtml }) {
 function renderDatabaseLesson() {
-  const lesson = activeDatabaseLesson;
-  const step = databaseLessonSteps[databaseLessonStep];
+  const lesson = getActiveDatabaseLesson();
+  const { step, index: databaseLessonStep, total: databaseLessonStepCount } = getDatabaseLessonStep();
   if (!lesson || !step) return;
 
   $("#course-lesson-title").textContent = lesson.title;
   $("#course-lesson-description").textContent = lesson.description || "";
-  $("#course-lesson-step").textContent = `Steg ${databaseLessonStep + 1} av ${databaseLessonSteps.length}`;
+  $("#course-lesson-step").textContent = `Steg ${databaseLessonStep + 1} av ${databaseLessonStepCount}`;
   $("#course-lesson-time").textContent = `ca. ${lesson.estimated_minutes} minutter`;
-  $("#course-lesson-progress").style.width = `${((databaseLessonStep + 1) / databaseLessonSteps.length) * 100}%`;
+  $("#course-lesson-progress").style.width = `${((databaseLessonStep + 1) / databaseLessonStepCount) * 100}%`;
   $("#course-lesson-previous").disabled = databaseLessonStep === 0;
   $("#course-lesson-next").textContent =
-    databaseLessonStep === databaseLessonSteps.length - 1 ? "Fullfør leksjonen ✓" : "Neste →";
+    databaseLessonStep === databaseLessonStepCount - 1 ? "Fullfør leksjonen ✓" : "Neste →";
 
   if (step.kind === "vocabulary") renderDatabaseVocabulary(step.item);
   else if (step.kind === "grammar") renderDatabaseGrammar(step.item);
