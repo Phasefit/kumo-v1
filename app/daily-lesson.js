@@ -97,7 +97,7 @@ function renderListenRepeatExercise(examples) {
 }
 
 function renderSentenceBuilderExercise(sentence) {
-  dailySentenceAnswer = [];
+  setDailySentenceAnswer([]);
   const shuffledPieces = shuffle([...sentence.pieces]);
   $("#daily-card").innerHTML = `
     <span class="exercise-kicker">Bygg setningen</span>
@@ -111,7 +111,7 @@ function renderSentenceBuilderExercise(sentence) {
     <p class="feedback" id="sentence-feedback"></p>`;
   $$("[data-sentence-piece]").forEach((button) =>
     button.addEventListener("click", () => {
-      dailySentenceAnswer.push(button.dataset.sentencePiece);
+      setDailySentenceAnswer([...dailySentenceAnswerRef(), button.dataset.sentencePiece]);
       button.disabled = true;
       updateSentenceBuilder(sentence);
     }),
@@ -120,6 +120,7 @@ function renderSentenceBuilderExercise(sentence) {
 }
 
 function updateSentenceBuilder(sentence) {
+  const dailySentenceAnswer = dailySentenceAnswerRef();
   $("#sentence-answer").innerHTML = dailySentenceAnswer.map((piece) => `<strong>${piece}</strong>`).join("");
   if (dailySentenceAnswer.length !== sentence.pieces.length) return;
   const correct = dailySentenceAnswer.every((piece, index) => piece === sentence.pieces[index]);
