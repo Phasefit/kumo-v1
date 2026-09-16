@@ -951,28 +951,21 @@ async function switchLanguage(language) {
   return true;
 }
 
-function showView(name) {
-  if (name !== "kana") closeAlphabetPractice();
-  $$(".view").forEach((view) => view.classList.toggle("active", view.id === `${name}-view`));
-  $$(".nav-item").forEach((item) => {
-    const active = item.dataset.view === name;
-    item.classList.toggle("active", active);
-    if (active) item.setAttribute("aria-current", "page");
-    else item.removeAttribute("aria-current");
-  });
-  $(".sidebar").classList.remove("open");
-  window.scrollTo({ top: 0, behavior: state.reducedMotion ? "auto" : "smooth" });
-  if (name === "quiz" && !quizActive) startQuiz();
-  if (name === "daily") renderDailyLesson();
-  if (name === "grammar") renderGrammar();
-  if (name === "progress") renderProgress();
-  if (name === "course-lesson" && activeDatabaseLesson) renderDatabaseLesson();
-  const heading = $(`#${name}-view h1`);
-  if (heading) {
-    heading.tabIndex = -1;
-    heading.focus({ preventScroll: true });
-  }
-}
+const navigation = window.KumoNavigation.createNavigation({
+  $,
+  $$,
+  state,
+  closeAlphabetPractice,
+  startQuiz,
+  renderDailyLesson,
+  renderGrammar,
+  renderProgress,
+  renderDatabaseLesson,
+  getActiveDatabaseLesson: () => activeDatabaseLesson,
+  getQuizActive: () => quizActive,
+  getReducedMotion: () => state.reducedMotion,
+});
+const showView = navigation.showView;
 
 function openDatabaseLesson(lessonId) {
   const lesson = course.database?.lessons?.find((item) => item.id === lessonId);
