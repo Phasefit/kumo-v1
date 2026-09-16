@@ -24,11 +24,9 @@ test("returns overdue label for past dates", () => {
 });
 
 test("formats remaining days, hours and minutes", () => {
-  const formatRemainingTime = loadFormatter();
-  const originalNow = Date.now;
-  Date.now = () => Date.parse("2026-01-01T00:00:00Z");
+  const fixedNow = Date.parse("2026-01-01T00:00:00Z");
+  const formatRemainingTime = loadFormatter(fixedNow);
 
-  try {
     assert.equal(
       formatRemainingTime("2026-01-02T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
       "1d 2h igjen",
@@ -41,7 +39,4 @@ test("formats remaining days, hours and minutes", () => {
       formatRemainingTime("2026-01-01T00:03:00Z", { left: "igjen", overdue: "Forfalt" }),
       "3m igjen",
     );
-  } finally {
-    Date.now = originalNow;
-  }
 });
