@@ -1847,20 +1847,9 @@ async function resetProgress() {
 }
 
 $$("button:not([type])").forEach((button) => (button.type = "button"));
-$$(".nav-item").forEach((button) => button.addEventListener("click", () => showView(button.dataset.view)));
-$$("[data-view-target]").forEach((button) => button.addEventListener("click", () => showView(button.dataset.viewTarget)));
-$$("[data-action]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const routes = { "start-lesson": "daily", "open-kana": "kana", "open-words": "words", "open-quiz": "quiz" };
-    showView(routes[button.dataset.action]);
-  });
-});
+window.KumoNavigation.bindNavigationEvents({ $, $, showView });
 $("#language-select").addEventListener("change", (event) => switchLanguage(event.target.value));
 $("#mobile-language-select").addEventListener("change", (event) => switchLanguage(event.target.value));
-$("#menu-button").addEventListener("click", () => {
-  const open = $(".sidebar").classList.toggle("open");
-  $("#menu-button").setAttribute("aria-expanded", String(open));
-});
 $("#practice-kana").addEventListener("click", openAlphabetPractice);
 $("#close-kana-practice").addEventListener("click", closeAlphabetPractice);
 $("#flashcard").addEventListener("click", () => $("#flashcard").classList.toggle("flipped"));
