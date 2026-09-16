@@ -38,12 +38,12 @@ test("formats remaining days, hours and minutes", () => {
   assert.equal(
     formatRemainingTime("2026-01-02T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
     "1d 2h igjen",
-    );
-    assert.equal(
+  );
+  assert.equal(
     formatRemainingTime("2026-01-01T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
     "2h 3m igjen",
-    );
-    assert.equal(
+  );
+  assert.equal(
     formatRemainingTime("2026-01-01T00:03:00Z", { left: "igjen", overdue: "Forfalt" }),
     "3m igjen",
   );
