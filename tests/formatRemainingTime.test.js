@@ -8,9 +8,9 @@ function loadFormatter(now) {
   if (now !== undefined) {
     const RealDate = Date;
     context.Date = class extends RealDate {
-      static now() {
-        return now;
-      }
+    static now() {
+      return now;
+    }
     };
   }
   vm.runInNewContext(readFileSync("lib/formatRemainingTime.js", "utf8"), context);
@@ -36,15 +36,15 @@ test("formats remaining days, hours and minutes", () => {
   const formatRemainingTime = loadFormatter(fixedNow);
 
   assert.equal(
-      formatRemainingTime("2026-01-02T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
-      "1d 2h igjen",
+    formatRemainingTime("2026-01-02T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
+    "1d 2h igjen",
     );
     assert.equal(
-      formatRemainingTime("2026-01-01T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
-      "2h 3m igjen",
+    formatRemainingTime("2026-01-01T02:03:00Z", { left: "igjen", overdue: "Forfalt" }),
+    "2h 3m igjen",
     );
     assert.equal(
-      formatRemainingTime("2026-01-01T00:03:00Z", { left: "igjen", overdue: "Forfalt" }),
-      "3m igjen",
+    formatRemainingTime("2026-01-01T00:03:00Z", { left: "igjen", overdue: "Forfalt" }),
+    "3m igjen",
   );
 });
