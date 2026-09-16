@@ -1,4 +1,4 @@
-export function freshState() {
+function freshState() {
   return {
     xp: 0,
     streak: 0,
@@ -23,26 +23,26 @@ export function freshState() {
   };
 }
 
-export function validNonNegativeInteger(value) {
+function validNonNegativeInteger(value) {
   return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
 }
 
-export function validDueAt(value) {
+function validDueAt(value) {
   return typeof value === "string" && !Number.isNaN(new Date(value).getTime()) ? value : null;
 }
 
-export function isDateKey(value, localDateKey) {
+function isDateKey(value, localDateKey) {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const [year, month, day] = value.split("-").map(Number);
   return localDateKey(new Date(year, month - 1, day)) === value;
 }
 
-export function validUniqueItems(value, allowedItems) {
+function validUniqueItems(value, allowedItems) {
   if (!Array.isArray(value)) return [];
   return [...new Set(value.filter((item) => allowedItems.includes(item)))];
 }
 
-export function validReviewStats(value, allowedWords) {
+function validReviewStats(value, allowedWords) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return {};
   return Object.fromEntries(
     Object.entries(value)
@@ -59,7 +59,7 @@ export function validReviewStats(value, allowedWords) {
   );
 }
 
-export function validateState(value, selectedCourse, localDateKey) {
+function validateState(value, selectedCourse, localDateKey) {
   const base = freshState();
   if (!value || typeof value !== "object" || Array.isArray(value)) return base;
   const allowedSymbols = selectedCourse.symbols.map((item) => item.char);
@@ -99,3 +99,13 @@ export function validateState(value, selectedCourse, localDateKey) {
     lastVisit: isDateKey(value.lastVisit, localDateKey) ? value.lastVisit : null,
   };
 }
+
+window.KumoState = {
+  freshState,
+  validNonNegativeInteger,
+  validDueAt,
+  isDateKey,
+  validUniqueItems,
+  validReviewStats,
+  validateState,
+};
