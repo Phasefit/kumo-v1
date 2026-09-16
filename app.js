@@ -1716,90 +1716,14 @@ function finishQuiz() {
   showToast(`+${earned} XP · Quiz fullført`);
 }
 
-function speak(text, audioBase) {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-  }
-  if (!audioBase) return speakWithBrowserVoice(text);
-  currentAudio = new Audio(`audio/${audioBase}.wav`);
-  currentAudio.volume = 1;
-  currentAudio
-    .play()
-    .then(() => showToast(`Spiller ${course.name} uttale…`))
-    .catch(() => playMp3Fallback(text, audioBase));
-}
+const audioController = window.KumoAudio.createAudioController({
+  $,
+  course,
+  getCurrentAudio: () => currentAudio,
+  setCurrentAudio: (audio) => { currentAudio = audio; },
+});
+const speak = audioController.speak;
 
-function playMp3Fallback(text, audioBase) {
-  currentAudio = new Audio(`audio/${audioBase}.mp3`);
-  currentAudio
-    .play()
-    .then(() => showToast(`Spiller ${course.name} uttale…`))
-    .catch(() => speakWithBrowserVoice(text));
-}
-
-function speakWithBrowserVoice(text) {
-  if (!("speechSynthesis" in window)) return showToast("Kunne ikke spille av lyden.");
-  speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = course.speechLang;
-  utterance.rate = course.speechRate;
-  const voice = speechSynthesis.getVoices().find((item) => item.lang.toLowerCase().startsWith(course.code));
-  if (voice) utterance.voice = voice;
-  utterance.onerror = () => showToast("Kunne ikke spille av lyden.");
-  speechSynthesis.speak(utterance);
-}
-
-function normalizeSpeech(value) {
-  return String(value || "")
-    .toLocaleLowerCase(activeLanguage === "tr" ? "tr-TR" : "ja-JP")
-    .normalize("NFKC")
-    .replace(/[.,!?。、\s]/g, "");
-}
-
-function practicePronunciation() {
-  const word = getWordDeck()[currentWord];
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    $("#pronunciation-feedback").textContent =
-      "Nettleseren støtter ikke talegjenkjenning. Lytt, gjenta og merk selv om uttrykket satt.";
-    speak(word.term, word.audio);
-    return;
-  }
-  const recognition = new SpeechRecognition();
-  recognition.lang = course.speechLang;
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 3;
-  $("#practice-pronunciation").disabled = true;
-  $("#pronunciation-feedback").textContent = "Lytter … si uttrykket nå.";
-  recognition.onresult = (event) => {
-    const alternatives = [...event.results[0]].map((result) => result.transcript);
-    const expected = normalizeSpeech(word.term);
-    const correct = alternatives.some((transcript) => {
-      const heard = normalizeSpeech(transcript);
-      return heard === expected || heard.includes(expected) || expected.includes(heard);
-    });
-    recordReview(word.term, correct);
-    state.answers += 1;
-    if (correct) {
-      state.correct += 1;
-      state.xp += 5;
-      markActivity();
-    }
-    saveState();
-    $("#pronunciation-feedback").textContent = correct
-      ? `Godkjent uttale: «${alternatives[0]}». +5 XP`
-      : `Jeg hørte «${alternatives[0]}». Lytt og prøv én gang til.`;
-  };
-  recognition.onerror = () => {
-    $("#pronunciation-feedback").textContent =
-      "Mikrofonen eller talegjenkjenningen var ikke tilgjengelig. Du kan fortsatt lytte og gjenta.";
-  };
-  recognition.onend = () => {
-    $("#practice-pronunciation").disabled = false;
-  };
-  recognition.start();
-}
 
 function updateConnectivityUi() {
   const offline = !navigator.onLine;
