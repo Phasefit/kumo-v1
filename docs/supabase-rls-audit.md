@@ -91,3 +91,42 @@ The repository does not contain a Supabase migration/schema/policy directory. Th
 Before changing database policies, export or inspect the live Supabase schema and policies. Then compare the result against this document.
 
 Do not disable RLS as a workaround for application errors.
+
+## Audit result – 2026-09-16
+
+The live policy output supplied from the Supabase SQL Editor contains 26 policies.
+
+### User-owned tables
+
+The following tables have complete SELECT/INSERT/UPDATE/DELETE ownership policies for the authenticated role:
+
+- `profiles` — ownership enforced with `auth.uid() = id`.
+- `user_progress` — ownership enforced with `auth.uid() = user_id`.
+- `lesson_progress` — ownership enforced with `auth.uid() = user_id`.
+- `quiz_results` — ownership enforced with `auth.uid() = user_id`.
+- `difficult_words` — ownership enforced with `auth.uid() = user_id`.
+
+For INSERT, `WITH CHECK` requires the inserted owner to match `auth.uid()`.
+For UPDATE, both `USING` and `WITH CHECK` enforce ownership.
+For DELETE and SELECT, `USING` enforces ownership.
+
+No broad `USING (true)` policy was observed on these user-owned tables in the supplied output.
+
+### Shared course/content tables
+
+The following tables have authenticated SELECT policies using `true`:
+
+- `courses`
+- `levels`
+- `lessons`
+- `vocabulary`
+- `grammar_notes`
+- `exercises`
+
+No INSERT, UPDATE or DELETE policies for the authenticated role were present in the supplied output.
+
+### Remaining verification
+
+The policy list strongly indicates the intended ownership model is correctly configured, but the output does not itself prove that RLS is enabled on every table. Run the RLS-status query from the audit procedure and verify `rowsecurity = true` for all user-owned tables.
+
+Also verify whether anonymous/public access is intentionally disabled for user-owned data. The policies shown are scoped to `authenticated`, which is correct, but explicit table-level RLS status should still be confirmed.
