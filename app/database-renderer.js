@@ -115,6 +115,7 @@ function renderDatabaseExercise(exercise) {
   );
 }
 
+  return { renderDatabaseLesson, renderDatabaseVocabulary, renderDatabaseGrammar, renderDatabaseExercise };
 }
 
 window.KumoDatabaseRenderer = { createDatabaseRenderer };
