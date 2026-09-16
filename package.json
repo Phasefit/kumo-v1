@@ -1,0 +1,15 @@
+{
+  "name": "kumo-v1",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Kumo – interaktiv læringsapp for japansk, tyrkisk og albansk.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check:syntax": "node scripts/check-syntax.mjs",
+    "check": "npm run check:syntax && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
