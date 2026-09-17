@@ -12,6 +12,147 @@ function createDailyLessonRenderer({
   dueReviewWords,
   displayWordTerm,
 }) {
+  function updateDailyShell() {
+    const label = $("#daily-step-label");
+    const progress = $("#daily-progress");
+    const card = $("#daily-card");
+    if (!label || !progress || !card) return;
+
+    const match = label.textContent.match(/Steg (\d+) av (\d+)/);
+    if (!match) return;
+    const step = Number(match[1]);
+    const total = Number(match[2]);
+    const shell = document.querySelector(".daily-progress-shell");
+    if (!shell) return;
+
+    let track = shell.querySelector(".daily-step-track");
+    if (!track) {
+      track = document.createElement("div");
+      track.className = "daily-step-track";
+      track.setAttribute("aria-hidden", "true");
+      shell.appendChild(track);
+    }
+    track.innerHTML = Array.from({ length: total }, (_, index) => {
+      const number = index + 1;
+      const status = number < step ? "complete" : number === step ? "current" : "upcoming";
+      return `<i class="daily-step-dot ${status}"></i>`;
+    }).join("");
+
+    shell.dataset.dailyStep = String(step);
+    shell.dataset.dailyTotal = String(total);
+    card.dataset.dailyStep = String(step);
+    card.dataset.dailyFinal = String(step === total);
+
+    let context = shell.querySelector(".daily-progress-context");
+    if (!context) {
+      context = document.createElement("small");
+      context.className = "daily-progress-context";
+      context.setAttribute("aria-live", "polite");
+      shell.appendChild(context);
+    }
+    const contexts = [
+      "Start rolig — hent frem ord du allerede kjenner.",
+      "Bygg ordforrådet med fire nye byggesteiner.",
+      "Se ett grammatikkmønster i praksis.",
+      "Lytt, gjenta og få rytmen inn.",
+      "Sett kunnskapen sammen til en hel setning.",
+      "Avslutt med en rask sjekk — så er økten i mål.",
+    ];
+    context.textContent = contexts[step - 1] || "Fortsett i ditt eget tempo.";
+  }
+
+  function installDailyPolish() {
+    const styleId = "kumo-daily-polish";
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement("style");
+      style.id = styleId;
+      style.textContent = `
+        #daily-view .daily-progress-shell {
+          position: relative;
+          gap: 10px;
+          overflow: hidden;
+        }
+        #daily-view .daily-progress-shell > div:first-child {
+          min-width: 150px;
+        }
+        #daily-view .daily-progress-context {
+          display: block;
+          color: var(--muted, #7f8a85);
+          line-height: 1.45;
+        }
+        #daily-view .daily-step-track {
+          display: flex;
+          gap: 6px;
+          width: 100%;
+          order: 3;
+        }
+        #daily-view .daily-step-dot {
+          display: block;
+          height: 4px;
+          flex: 1;
+          border-radius: 999px;
+          background: color-mix(in srgb, currentColor 12%, transparent);
+          opacity: .55;
+        }
+        #daily-view .daily-step-dot.complete {
+          opacity: .9;
+        }
+        #daily-view .daily-step-dot.current {
+          opacity: 1;
+          transform: scaleY(1.35);
+        }
+        #daily-view .daily-card {
+          transition: opacity .18s ease, transform .18s ease;
+        }
+        #daily-view .daily-card[data-daily-final="true"] {
+          border-color: color-mix(in srgb, currentColor 24%, transparent);
+        }
+        #daily-view .exercise-kicker {
+          letter-spacing: .08em;
+        }
+        #daily-view .daily-actions {
+          align-items: center;
+        }
+        #daily-view #daily-next:not(:disabled) {
+          min-width: 150px;
+        }
+        @media (max-width: 720px) {
+          #daily-view .daily-progress-shell {
+            align-items: stretch;
+          }
+          #daily-view .daily-progress-shell > div:first-child {
+            min-width: 0;
+          }
+          #daily-view .daily-progress-context {
+            font-size: .82rem;
+          }
+          #daily-view .daily-actions {
+            position: sticky;
+            bottom: 12px;
+            z-index: 5;
+            padding: 10px;
+            margin-inline: -10px;
+            border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+            border-radius: 16px;
+            background: color-mix(in srgb, var(--surface, #fff) 92%, transparent);
+            backdrop-filter: blur(12px);
+          }
+          #daily-view .daily-actions button {
+            min-height: 46px;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    const label = $("#daily-step-label");
+    if (!label || label.dataset.dailyPolishBound === "true") return;
+    label.dataset.dailyPolishBound = "true";
+    const observer = new MutationObserver(updateDailyShell);
+    observer.observe(label, { childList: true, characterData: true, subtree: true });
+    updateDailyShell();
+  }
+
   function renderReviewExercise() {
     const reviewWords = dueReviewWords();
     const words = reviewWords.length
@@ -222,6 +363,8 @@ function createDailyLessonRenderer({
     dailyStep = 0;
     showView("home");
   }
+
+  installDailyPolish();
 
   return {
     renderReviewExercise,
