@@ -28,7 +28,8 @@ const courses = {
     greetings: ["おはようございます、", "こんにちは、", "こんばんは、"],
     alphabetEyebrow: "Skriftsystem · ひらがな",
     alphabetTitle: "Hiragana, ett tegn om gangen",
-    alphabetDescription: "Trykk på et kort for å høre lyden. Merk tegn du føler at du kan.",
+    alphabetDescription:
+      "Trykk på et kort for å høre lyden. Merk tegn du føler at du kan.",
     practiceQuestion: "Hvilken lyd har dette tegnet?",
     wordsEyebrow: "Ordforråd · ことば",
     quizEyebrow: "Kunnskapssjekk · テスト",
@@ -37,7 +38,8 @@ const courses = {
       symbol: "あ",
       meta: "5 min · tegn",
       title: "Hiragana: vokaler og stavelser",
-      description: "Lær de første 15 hiragana-tegnene med lyd og små huskeregler.",
+      description:
+        "Lær de første 15 hiragana-tegnene med lyd og små huskeregler.",
     },
     lessonTwo: {
       symbol: "話",
@@ -63,25 +65,121 @@ const courses = {
       ["そ", "so", "s + kort å-lignende lyd", "kana-so"],
     ].map(([char, reading, tip, audio]) => ({ char, reading, tip, audio })),
     words: [
-      ["おはようございます", "ohayō gozaimasu", "God morgen", "Høflig standardform. おはよう er uformelt og brukes med familie, venner og nære kolleger.", "word-ohayou"],
-      ["こんにちは", "konnichiwa", "Hei / god dag", "En trygg og nøytral hilsen på dagtid. は skrives «ha», men uttales «wa» her.", "word-konnichiwa"],
-      ["ありがとうございます", "arigatō gozaimasu", "Takk", "Høflig og trygg standardform. ありがとう alene er uformelt.", "word-arigatou"],
-      ["すみません", "sumimasen", "Unnskyld / beklager", "Brukes for å få oppmerksomhet, ved en lett beklagelse og noen ganger som takknemlighet.", "word-sumimasen"],
-      ["はい", "hai", "Ja", "Betyr også «jeg hører deg» eller «forstått», og er ikke alltid full enighet.", "word-hai"],
-      ["いいえ", "iie", "Nei", "Korrekt, men kan virke direkte. I hverdagen mykner man ofte avslaget.", "word-iie"],
-      ["じゃあ、また", "jā, mata", "Da sees vi", "En svært vanlig, uformell avskjed.", "word-jaamata"],
-      ["またね", "mata ne", "Vi sees", "Avslappet og vennlig. Brukes med venner og andre du kjenner godt.", "word-matane"],
-    ].map(([term, reading, norwegian, note, audio]) => ({ term, reading, norwegian, note, audio })),
+      [
+        "おはようございます",
+        "ohayō gozaimasu",
+        "God morgen",
+        "Høflig standardform. おはよう er uformelt og brukes med familie, venner og nære kolleger.",
+        "word-ohayou",
+      ],
+      [
+        "こんにちは",
+        "konnichiwa",
+        "Hei / god dag",
+        "En trygg og nøytral hilsen på dagtid. は skrives «ha», men uttales «wa» her.",
+        "word-konnichiwa",
+      ],
+      [
+        "ありがとうございます",
+        "arigatō gozaimasu",
+        "Takk",
+        "Høflig og trygg standardform. ありがとう alene er uformelt.",
+        "word-arigatou",
+      ],
+      [
+        "すみません",
+        "sumimasen",
+        "Unnskyld / beklager",
+        "Brukes for å få oppmerksomhet, ved en lett beklagelse og noen ganger som takknemlighet.",
+        "word-sumimasen",
+      ],
+      [
+        "はい",
+        "hai",
+        "Ja",
+        "Betyr også «jeg hører deg» eller «forstått», og er ikke alltid full enighet.",
+        "word-hai",
+      ],
+      [
+        "いいえ",
+        "iie",
+        "Nei",
+        "Korrekt, men kan virke direkte. I hverdagen mykner man ofte avslaget.",
+        "word-iie",
+      ],
+      [
+        "じゃあ、また",
+        "jā, mata",
+        "Da sees vi",
+        "En svært vanlig, uformell avskjed.",
+        "word-jaamata",
+      ],
+      [
+        "またね",
+        "mata ne",
+        "Vi sees",
+        "Avslappet og vennlig. Brukes med venner og andre du kjenner godt.",
+        "word-matane",
+      ],
+    ].map(([term, reading, norwegian, note, audio]) => ({
+      term,
+      reading,
+      norwegian,
+      note,
+      audio,
+    })),
     quiz: [
       ["HIRAGANA", "Hvilken lyd har tegnet?", "あ", ["a", "i", "o", "ka"], "a"],
-      ["HIRAGANA", "Hvilket tegn er «ki»?", "ki", ["か", "き", "く", "け"], "き"],
-      ["ORD", "Hva betyr dette?", "ありがとうございます", ["Unnskyld", "Takk", "God morgen", "Farvel"], "Takk"],
-      ["HIRAGANA", "Hvilken lyd har tegnet?", "し", ["sa", "shi", "su", "so"], "shi"],
-      ["ORD", "Hvordan sier du «unnskyld»?", "Velg riktig japansk ord", ["はい", "またね", "すみません", "いいえ"], "すみません"],
+      [
+        "HIRAGANA",
+        "Hvilket tegn er «ki»?",
+        "ki",
+        ["か", "き", "く", "け"],
+        "き",
+      ],
+      [
+        "ORD",
+        "Hva betyr dette?",
+        "ありがとうございます",
+        ["Unnskyld", "Takk", "God morgen", "Farvel"],
+        "Takk",
+      ],
+      [
+        "HIRAGANA",
+        "Hvilken lyd har tegnet?",
+        "し",
+        ["sa", "shi", "su", "so"],
+        "shi",
+      ],
+      [
+        "ORD",
+        "Hvordan sier du «unnskyld»?",
+        "Velg riktig japansk ord",
+        ["はい", "またね", "すみません", "いいえ"],
+        "すみません",
+      ],
       ["HIRAGANA", "Hvilket tegn er «o»?", "o", ["う", "え", "お", "こ"], "お"],
-      ["ORD", "Hva betyr «じゃあ、また»?", "じゃあ、また", ["Da sees vi", "Takk", "Ja", "God dag"], "Da sees vi"],
-      ["HIRAGANA", "Hvilken lyd har tegnet?", "く", ["ke", "ko", "ku", "ka"], "ku"],
-    ].map(([type, question, prompt, options, answer]) => ({ type, question, prompt, options, answer })),
+      [
+        "ORD",
+        "Hva betyr «じゃあ、また»?",
+        "じゃあ、また",
+        ["Da sees vi", "Takk", "Ja", "God dag"],
+        "Da sees vi",
+      ],
+      [
+        "HIRAGANA",
+        "Hvilken lyd har tegnet?",
+        "く",
+        ["ke", "ko", "ku", "ka"],
+        "ku",
+      ],
+    ].map(([type, question, prompt, options, answer]) => ({
+      type,
+      question,
+      prompt,
+      options,
+      answer,
+    })),
   },
   tr: {
     code: "tr",
@@ -118,7 +216,8 @@ const courses = {
     lessonTwo: {
       symbol: "Mer",
       title: "Hilsener og høflighet",
-      description: "Bruk naturlige høflige og uformelle uttrykk i riktig situasjon.",
+      description:
+        "Bruk naturlige høflige og uformelle uttrykk i riktig situasjon.",
     },
     lessonThreeSymbol: "?",
     symbols: [
@@ -130,9 +229,19 @@ const courses = {
       ["E e", "e", "kort e; kan være åpnere enn norsk e", "tr-letter-e"],
       ["F f", "f", "f som i «fin»", "tr-letter-f"],
       ["G g", "ge", "alltid tydelig g som i «gate»", "tr-letter-g"],
-      ["Ğ ğ", "yumuşak ge", "«myk g»: forlenger ofte vokalen foran", "tr-letter-soft-g"],
+      [
+        "Ğ ğ",
+        "yumuşak ge",
+        "«myk g»: forlenger ofte vokalen foran",
+        "tr-letter-soft-g",
+      ],
       ["H h", "he", "tydelig h, også inne i ord", "tr-letter-h"],
-      ["I ı", "ı", "bakre, urundet vokal uten norsk motstykke", "tr-letter-dotless-i"],
+      [
+        "I ı",
+        "ı",
+        "bakre, urundet vokal uten norsk motstykke",
+        "tr-letter-dotless-i",
+      ],
       ["İ i", "i", "i som i «fin»; stor bokstav har prikk", "tr-letter-i"],
       ["J j", "je", "sj-lyd som i fransk «journal»", "tr-letter-j"],
       ["K k", "ke", "k som i «katt»", "tr-letter-k"],
@@ -153,45 +262,267 @@ const courses = {
       ["Z z", "ze", "stemt z, som engelsk z", "tr-letter-z"],
     ].map(([char, reading, tip, audio]) => ({ char, reading, tip, audio })),
     words: [
-      ["Merhaba", "mer-ha-ba", "Hei", "Nøytral og svært vanlig hilsen. Passer både uformelt og høflig.", "tr-word-merhaba"],
-      ["Günaydın", "gü-nay-dın", "God morgen", "Vanlig standardhilsen om morgenen. Kan brukes til både kjente og ukjente.", "tr-word-gunaydin"],
-      ["Nasılsınız?", "na-sıl-sı-nız", "Hvordan har De/dere det?", "Høflig form til én person, eller flertall. Til venner sier man Nasılsın?", "tr-word-nasilsiniz"],
-      ["Teşekkür ederim", "te-şek-kür e-de-rim", "Takk", "Høflig og trygg standardform. Teşekkürler er kortere og vanlig i dagligtale.", "tr-word-tesekkur"],
-      ["Lütfen", "lüt-fen", "Vær så snill", "Brukes i høflige forespørsler. Tyrkisk bruker ofte også verbformer for å uttrykke høflighet.", "tr-word-lutfen"],
-      ["Affedersiniz", "af-fe-der-si-niz", "Unnskyld", "Høflig når du vil ha oppmerksomhet eller beklage lett. Afedersin er uformelt.", "tr-word-affedersiniz"],
-      ["Evet", "e-vet", "Ja", "Nøytral standardform i både formelle og uformelle samtaler.", "tr-word-evet"],
-      ["Hayır", "ha-yır", "Nei", "Nøytral standardform. Et mykere avslag forklares ofte med beklager eller en grunn.", "tr-word-hayir"],
-      ["Görüşürüz", "gö-rü-şü-rüz", "Vi sees", "Naturlig og svært vanlig avskjed, både uformelt og nøytralt.", "tr-word-gorusuruz"],
-      ["Hoşça kal", "hoş-ça kal", "Ha det bra", "Sies vanligvis av den som går, til den som blir. Svaret er ofte Güle güle.", "tr-word-hoscakal"],
-      ["Güle güle", "gü-le gü-le", "Ha det bra", "Sies vanligvis av den som blir igjen, til personen som går."],
-      ["Tamam", "ta-mam", "Greit / ok", "Et svært vanlig svar når du godtar, forstår eller bekrefter noe."],
-      ["Bilmiyorum", "bil-mi-yo-rum", "Jeg vet ikke", "Nyttig i samtaler. Endelsen -yorum viser at handlingen gjelder jeg i nåtid."],
-      ["Anlamıyorum", "an-la-mı-yo-rum", "Jeg forstår ikke", "En viktig frase når du trenger at noen gjentar eller forklarer."],
-      ["Yavaş, lütfen", "ya-vaş lüt-fen", "Saktere, takk", "Bruk denne når noen snakker for fort. Yavaş betyr sakte."],
-      ["Ne kadar?", "ne ka-dar", "Hvor mye?", "Brukes for å spørre om pris. Du kan også si Bu ne kadar? – Hvor mye koster denne?"],
-      ["Nerede?", "ne-re-de", "Hvor?", "Kombineres med stedet du leter etter: Otel nerede? – Hvor er hotellet?"],
-      ["Bir bilet", "bir bi-let", "Én billett", "Bir betyr både tallet én og den ubestemte artikkelen en/ei/et."],
-      ["Hesap, lütfen", "he-sap lüt-fen", "Regningen, takk", "En kort og naturlig frase på restaurant eller kafé."],
-      ["Çok güzel", "çok gü-zel", "Veldig fint / godt", "Güzel brukes om noe som er fint, vakkert eller smaker godt."],
-    ].map(([term, reading, norwegian, note, audio]) => ({ term, reading, norwegian, note, audio })),
+      [
+        "Merhaba",
+        "mer-ha-ba",
+        "Hei",
+        "Nøytral og svært vanlig hilsen. Passer både uformelt og høflig.",
+        "tr-word-merhaba",
+      ],
+      [
+        "Günaydın",
+        "gü-nay-dın",
+        "God morgen",
+        "Vanlig standardhilsen om morgenen. Kan brukes til både kjente og ukjente.",
+        "tr-word-gunaydin",
+      ],
+      [
+        "Nasılsınız?",
+        "na-sıl-sı-nız",
+        "Hvordan har De/dere det?",
+        "Høflig form til én person, eller flertall. Til venner sier man Nasılsın?",
+        "tr-word-nasilsiniz",
+      ],
+      [
+        "Teşekkür ederim",
+        "te-şek-kür e-de-rim",
+        "Takk",
+        "Høflig og trygg standardform. Teşekkürler er kortere og vanlig i dagligtale.",
+        "tr-word-tesekkur",
+      ],
+      [
+        "Lütfen",
+        "lüt-fen",
+        "Vær så snill",
+        "Brukes i høflige forespørsler. Tyrkisk bruker ofte også verbformer for å uttrykke høflighet.",
+        "tr-word-lutfen",
+      ],
+      [
+        "Affedersiniz",
+        "af-fe-der-si-niz",
+        "Unnskyld",
+        "Høflig når du vil ha oppmerksomhet eller beklage lett. Afedersin er uformelt.",
+        "tr-word-affedersiniz",
+      ],
+      [
+        "Evet",
+        "e-vet",
+        "Ja",
+        "Nøytral standardform i både formelle og uformelle samtaler.",
+        "tr-word-evet",
+      ],
+      [
+        "Hayır",
+        "ha-yır",
+        "Nei",
+        "Nøytral standardform. Et mykere avslag forklares ofte med beklager eller en grunn.",
+        "tr-word-hayir",
+      ],
+      [
+        "Görüşürüz",
+        "gö-rü-şü-rüz",
+        "Vi sees",
+        "Naturlig og svært vanlig avskjed, både uformelt og nøytralt.",
+        "tr-word-gorusuruz",
+      ],
+      [
+        "Hoşça kal",
+        "hoş-ça kal",
+        "Ha det bra",
+        "Sies vanligvis av den som går, til den som blir. Svaret er ofte Güle güle.",
+        "tr-word-hoscakal",
+      ],
+      [
+        "Güle güle",
+        "gü-le gü-le",
+        "Ha det bra",
+        "Sies vanligvis av den som blir igjen, til personen som går.",
+      ],
+      [
+        "Tamam",
+        "ta-mam",
+        "Greit / ok",
+        "Et svært vanlig svar når du godtar, forstår eller bekrefter noe.",
+      ],
+      [
+        "Bilmiyorum",
+        "bil-mi-yo-rum",
+        "Jeg vet ikke",
+        "Nyttig i samtaler. Endelsen -yorum viser at handlingen gjelder jeg i nåtid.",
+      ],
+      [
+        "Anlamıyorum",
+        "an-la-mı-yo-rum",
+        "Jeg forstår ikke",
+        "En viktig frase når du trenger at noen gjentar eller forklarer.",
+      ],
+      [
+        "Yavaş, lütfen",
+        "ya-vaş lüt-fen",
+        "Saktere, takk",
+        "Bruk denne når noen snakker for fort. Yavaş betyr sakte.",
+      ],
+      [
+        "Ne kadar?",
+        "ne ka-dar",
+        "Hvor mye?",
+        "Brukes for å spørre om pris. Du kan også si Bu ne kadar? – Hvor mye koster denne?",
+      ],
+      [
+        "Nerede?",
+        "ne-re-de",
+        "Hvor?",
+        "Kombineres med stedet du leter etter: Otel nerede? – Hvor er hotellet?",
+      ],
+      [
+        "Bir bilet",
+        "bir bi-let",
+        "Én billett",
+        "Bir betyr både tallet én og den ubestemte artikkelen en/ei/et.",
+      ],
+      [
+        "Hesap, lütfen",
+        "he-sap lüt-fen",
+        "Regningen, takk",
+        "En kort og naturlig frase på restaurant eller kafé.",
+      ],
+      [
+        "Çok güzel",
+        "çok gü-zel",
+        "Veldig fint / godt",
+        "Güzel brukes om noe som er fint, vakkert eller smaker godt.",
+      ],
+    ].map(([term, reading, norwegian, note, audio]) => ({
+      term,
+      reading,
+      norwegian,
+      note,
+      audio,
+    })),
     quiz: [
-      ["ALFABET", "Hvilken lyd har «Ç»?", "Ç ç", ["tsj", "sj", "djsj", "j"], "tsj"],
-      ["ALFABET", "Hvilken bokstav mangler prikk?", "Velg riktig tegn", ["I ı", "İ i", "Ö ö", "Ü ü"], "I ı"],
-      ["ORD", "Hva betyr dette?", "Teşekkür ederim", ["Unnskyld", "Takk", "God morgen", "Ha det"], "Takk"],
+      [
+        "ALFABET",
+        "Hvilken lyd har «Ç»?",
+        "Ç ç",
+        ["tsj", "sj", "djsj", "j"],
+        "tsj",
+      ],
+      [
+        "ALFABET",
+        "Hvilken bokstav mangler prikk?",
+        "Velg riktig tegn",
+        ["I ı", "İ i", "Ö ö", "Ü ü"],
+        "I ı",
+      ],
+      [
+        "ORD",
+        "Hva betyr dette?",
+        "Teşekkür ederim",
+        ["Unnskyld", "Takk", "God morgen", "Ha det"],
+        "Takk",
+      ],
       ["ALFABET", "Hvilken lyd har «Ş»?", "Ş ş", ["s", "sj", "tsj", "z"], "sj"],
-      ["ORD", "Hvilken form er høflig?", "Hvordan har De/dere det?", ["Nasılsın?", "Nasılsınız?", "Merhaba", "Görüşürüz"], "Nasılsınız?"],
-      ["ALFABET", "Hva gjør «Ğ» vanligvis?", "Ğ ğ", ["Forlenger vokalen foran", "Gir hard g", "Gir sj-lyd", "Er alltid stum"], "Forlenger vokalen foran"],
-      ["ORD", "Hva betyr «Görüşürüz»?", "Görüşürüz", ["Vi sees", "Vær så snill", "Nei", "God morgen"], "Vi sees"],
-      ["ORD", "Hvem sier vanligvis «Hoşça kal»?", "Hoşça kal", ["Den som går", "Den som blir", "Bare en lærer", "Bare et barn"], "Den som går"],
-      ["ORD", "Hvordan ber du noen snakke saktere?", "Velg riktig frase", ["Yavaş, lütfen", "Hesap, lütfen", "Güle güle", "Çok güzel"], "Yavaş, lütfen"],
-      ["ORD", "Hva betyr «Anlamıyorum»?", "Anlamıyorum", ["Jeg vet ikke", "Jeg forstår ikke", "Jeg vil ikke", "Jeg kommer ikke"], "Jeg forstår ikke"],
-      ["REISE", "Hvordan spør du om prisen?", "Hvor mye?", ["Ne kadar?", "Nerede?", "Nasılsınız?", "Tamam mı?"], "Ne kadar?"],
-      ["RESTAURANT", "Hva sier du når du vil betale?", "Regningen, takk", ["Bir bilet", "Hesap, lütfen", "Bir su", "Affedersiniz"], "Hesap, lütfen"],
-      ["GRAMMATIKK", "Hva betyr «nerede»?", "nerede", ["hvor", "når", "hvorfor", "hvem"], "hvor"],
-      ["ORD", "Hva betyr «Çok güzel»?", "Çok güzel", ["Veldig fint", "Altfor dyrt", "Litt kaldt", "Ganske langt"], "Veldig fint"],
-      ["GRAMMATIKK", "Hvilket ord betyr både «én» og «en/ei/et»?", "Velg riktig ord", ["bir", "çok", "ne", "bu"], "bir"],
-      ["ORD", "Hva betyr «Bilmiyorum»?", "Bilmiyorum", ["Jeg forstår ikke", "Jeg vet ikke", "Jeg husker ikke", "Jeg snakker ikke"], "Jeg vet ikke"],
-    ].map(([type, question, prompt, options, answer]) => ({ type, question, prompt, options, answer })),
+      [
+        "ORD",
+        "Hvilken form er høflig?",
+        "Hvordan har De/dere det?",
+        ["Nasılsın?", "Nasılsınız?", "Merhaba", "Görüşürüz"],
+        "Nasılsınız?",
+      ],
+      [
+        "ALFABET",
+        "Hva gjør «Ğ» vanligvis?",
+        "Ğ ğ",
+        [
+          "Forlenger vokalen foran",
+          "Gir hard g",
+          "Gir sj-lyd",
+          "Er alltid stum",
+        ],
+        "Forlenger vokalen foran",
+      ],
+      [
+        "ORD",
+        "Hva betyr «Görüşürüz»?",
+        "Görüşürüz",
+        ["Vi sees", "Vær så snill", "Nei", "God morgen"],
+        "Vi sees",
+      ],
+      [
+        "ORD",
+        "Hvem sier vanligvis «Hoşça kal»?",
+        "Hoşça kal",
+        ["Den som går", "Den som blir", "Bare en lærer", "Bare et barn"],
+        "Den som går",
+      ],
+      [
+        "ORD",
+        "Hvordan ber du noen snakke saktere?",
+        "Velg riktig frase",
+        ["Yavaş, lütfen", "Hesap, lütfen", "Güle güle", "Çok güzel"],
+        "Yavaş, lütfen",
+      ],
+      [
+        "ORD",
+        "Hva betyr «Anlamıyorum»?",
+        "Anlamıyorum",
+        ["Jeg vet ikke", "Jeg forstår ikke", "Jeg vil ikke", "Jeg kommer ikke"],
+        "Jeg forstår ikke",
+      ],
+      [
+        "REISE",
+        "Hvordan spør du om prisen?",
+        "Hvor mye?",
+        ["Ne kadar?", "Nerede?", "Nasılsınız?", "Tamam mı?"],
+        "Ne kadar?",
+      ],
+      [
+        "RESTAURANT",
+        "Hva sier du når du vil betale?",
+        "Regningen, takk",
+        ["Bir bilet", "Hesap, lütfen", "Bir su", "Affedersiniz"],
+        "Hesap, lütfen",
+      ],
+      [
+        "GRAMMATIKK",
+        "Hva betyr «nerede»?",
+        "nerede",
+        ["hvor", "når", "hvorfor", "hvem"],
+        "hvor",
+      ],
+      [
+        "ORD",
+        "Hva betyr «Çok güzel»?",
+        "Çok güzel",
+        ["Veldig fint", "Altfor dyrt", "Litt kaldt", "Ganske langt"],
+        "Veldig fint",
+      ],
+      [
+        "GRAMMATIKK",
+        "Hvilket ord betyr både «én» og «en/ei/et»?",
+        "Velg riktig ord",
+        ["bir", "çok", "ne", "bu"],
+        "bir",
+      ],
+      [
+        "ORD",
+        "Hva betyr «Bilmiyorum»?",
+        "Bilmiyorum",
+        [
+          "Jeg forstår ikke",
+          "Jeg vet ikke",
+          "Jeg husker ikke",
+          "Jeg snakker ikke",
+        ],
+        "Jeg vet ikke",
+      ],
+    ].map(([type, question, prompt, options, answer]) => ({
+      type,
+      question,
+      prompt,
+      options,
+      answer,
+    })),
   },
   sq: {
     code: "sq",
@@ -223,7 +554,8 @@ const courses = {
       symbol: "Ë",
       meta: "6 min · alfabet",
       title: "Albanske lyder",
-      description: "Lær ë, ç og vanlige bokstavkombinasjoner med enkle huskeregler.",
+      description:
+        "Lær ë, ç og vanlige bokstavkombinasjoner med enkle huskeregler.",
     },
     lessonTwo: {
       symbol: "Për",
@@ -246,46 +578,145 @@ const courses = {
       ["Xh xh", "xh", "djsj-lyd, som engelsk j i «jam»"],
     ].map(([char, reading, tip, audio]) => ({ char, reading, tip, audio })),
     words: [
-      ["Përshëndetje", "per-shen-DE-tje", "Hei", "Nøytral hilsen. Sh uttales som sj, og ë er en svak e-lyd."],
-      ["Mirëmëngjes", "mi-re-MEN-gjes", "God morgen", "Vanlig morgenhilsen. Gj gir en myk g/j-lyd."],
-      ["Faleminderit", "fa-le-min-DE-rit", "Takk", "Trygg og høflig takk-form."],
+      [
+        "Përshëndetje",
+        "per-shen-DE-tje",
+        "Hei",
+        "Nøytral hilsen. Sh uttales som sj, og ë er en svak e-lyd.",
+      ],
+      [
+        "Mirëmëngjes",
+        "mi-re-MEN-gjes",
+        "God morgen",
+        "Vanlig morgenhilsen. Gj gir en myk g/j-lyd.",
+      ],
+      [
+        "Faleminderit",
+        "fa-le-min-DE-rit",
+        "Takk",
+        "Trygg og høflig takk-form.",
+      ],
       ["Mirupafshim", "mi-ru-PAF-shim", "Ha det", "Høflig og vanlig avskjed."],
       ["Po", "po", "Ja", "Kort og tydelig ja."],
       ["Jo", "jo", "Nei", "Kort og tydelig nei."],
       ["Unë", "u-ne", "Jeg", "Ë på slutten er svak og kort."],
       ["Ti", "ti", "Du", "Enkel og vanlig tiltaleform."],
       ["Ujë", "u-je", "Vann", "Nyttig ord på kafé og reise."],
-      ["Kafe", "ka-FE", "Kaffe", "Ligner norsk, men trykket ligger ofte mot slutten."],
+      [
+        "Kafe",
+        "ka-FE",
+        "Kaffe",
+        "Ligner norsk, men trykket ligger ofte mot slutten.",
+      ],
       ["Shtëpi", "shte-PI", "Hus", "Sh uttales sj; ë er kort."],
       ["Ku?", "ku", "Hvor?", "Brukes i spørsmål som «Ku është hoteli?»."],
-    ].map(([term, reading, norwegian, note, audio]) => ({ term, reading, norwegian, note, audio })),
+    ].map(([term, reading, norwegian, note, audio]) => ({
+      term,
+      reading,
+      norwegian,
+      note,
+      audio,
+    })),
     quiz: [
-      ["ALFABET", "Hvilken lyd har «ç»?", "Ç ç", ["tsj", "sj", "r", "dh"], "tsj"],
-      ["ALFABET", "Hvilken kombinasjon uttales omtrent som sj?", "Velg riktig", ["sh", "dh", "gj", "rr"], "sh"],
-      ["ORD", "Hva betyr dette?", "Faleminderit", ["Takk", "Hei", "Vann", "Hvor"], "Takk"],
-      ["ORD", "Hvordan sier du «ja»?", "Velg riktig albansk ord", ["Po", "Jo", "Ku", "Ti"], "Po"],
-      ["ORD", "Hva betyr «ujë»?", "ujë", ["Vann", "Kaffe", "Hus", "Takk"], "Vann"],
-      ["ALFABET", "Hvilken bokstav er typisk svak e-lyd?", "Velg riktig tegn", ["ë", "ç", "x", "rr"], "ë"],
-      ["ORD", "Hva betyr «Mirupafshim»?", "Mirupafshim", ["Ha det", "God morgen", "Jeg", "Kaffe"], "Ha det"],
-      ["ORD", "Hva betyr «Ku?»?", "Ku?", ["Hvor?", "Hva?", "Ja", "Nei"], "Hvor?"],
-    ].map(([type, question, prompt, options, answer]) => ({ type, question, prompt, options, answer })),
+      [
+        "ALFABET",
+        "Hvilken lyd har «ç»?",
+        "Ç ç",
+        ["tsj", "sj", "r", "dh"],
+        "tsj",
+      ],
+      [
+        "ALFABET",
+        "Hvilken kombinasjon uttales omtrent som sj?",
+        "Velg riktig",
+        ["sh", "dh", "gj", "rr"],
+        "sh",
+      ],
+      [
+        "ORD",
+        "Hva betyr dette?",
+        "Faleminderit",
+        ["Takk", "Hei", "Vann", "Hvor"],
+        "Takk",
+      ],
+      [
+        "ORD",
+        "Hvordan sier du «ja»?",
+        "Velg riktig albansk ord",
+        ["Po", "Jo", "Ku", "Ti"],
+        "Po",
+      ],
+      [
+        "ORD",
+        "Hva betyr «ujë»?",
+        "ujë",
+        ["Vann", "Kaffe", "Hus", "Takk"],
+        "Vann",
+      ],
+      [
+        "ALFABET",
+        "Hvilken bokstav er typisk svak e-lyd?",
+        "Velg riktig tegn",
+        ["ë", "ç", "x", "rr"],
+        "ë",
+      ],
+      [
+        "ORD",
+        "Hva betyr «Mirupafshim»?",
+        "Mirupafshim",
+        ["Ha det", "God morgen", "Jeg", "Kaffe"],
+        "Ha det",
+      ],
+      [
+        "ORD",
+        "Hva betyr «Ku?»?",
+        "Ku?",
+        ["Hvor?", "Hva?", "Ja", "Nei"],
+        "Hvor?",
+      ],
+    ].map(([type, question, prompt, options, answer]) => ({
+      type,
+      question,
+      prompt,
+      options,
+      answer,
+    })),
     dailyLesson: {
       title: "Hei, vann og albanske lyder",
       minutes: 7,
       newWords: [
         { norwegian: "Hei", term: "Përshëndetje", reading: "per-shen-DE-tje" },
-        { norwegian: "Takk", term: "Faleminderit", reading: "fa-le-min-DE-rit" },
+        {
+          norwegian: "Takk",
+          term: "Faleminderit",
+          reading: "fa-le-min-DE-rit",
+        },
         { norwegian: "Vann", term: "Ujë", reading: "u-je" },
-        { norwegian: "Jeg heter Chris", term: "Unë quhem Chris", reading: "u-ne chu-hem Chris" },
+        {
+          norwegian: "Jeg heter Chris",
+          term: "Unë quhem Chris",
+          reading: "u-ne chu-hem Chris",
+        },
       ],
       examples: [
-        { norwegian: "Jeg vil ha vann.", target: "Dua ujë.", reading: "du-a u-je" },
-        { norwegian: "Hvor er hotellet?", target: "Ku është hoteli?", reading: "ku eshte ho-te-li" },
+        {
+          norwegian: "Jeg vil ha vann.",
+          target: "Dua ujë.",
+          reading: "du-a u-je",
+        },
+        {
+          norwegian: "Hvor er hotellet?",
+          target: "Ku është hoteli?",
+          reading: "ku eshte ho-te-li",
+        },
       ],
       grammar: {
         title: "Nuk lager negasjon",
         copy: "Albansk bruker ofte nuk foran verbet for å lage negative setninger. På A1 kan du lære frasen som et fast mønster.",
-        comparison: ["Pi kafe = Jeg drikker kaffe", "Nuk pi kafe = Jeg drikker ikke kaffe"],
+        comparison: [
+          "Pi kafe = Jeg drikker kaffe",
+          "Nuk pi kafe = Jeg drikker ikke kaffe",
+        ],
       },
       sentence: {
         norwegian: "Jeg vil ha vann.",
@@ -309,13 +740,19 @@ const courses = {
         title: "Jam og je",
         tag: "Å være",
         copy: "Jam betyr «jeg er», og je betyr «du er». Setningsrekkefølgen er ofte lett å kjenne igjen fra norsk.",
-        examples: ["Unë jam Chris = Jeg er Chris", "Ti je nga Norvegjia = Du er fra Norge"],
+        examples: [
+          "Unë jam Chris = Jeg er Chris",
+          "Ti je nga Norvegjia = Du er fra Norge",
+        ],
       },
       {
         title: "Nuk",
         tag: "Negasjon",
         copy: "Nuk står foran verbet og gjør setningen negativ.",
-        examples: ["Pi kafe = Jeg drikker kaffe", "Nuk pi kafe = Jeg drikker ikke kaffe"],
+        examples: [
+          "Pi kafe = Jeg drikker kaffe",
+          "Nuk pi kafe = Jeg drikker ikke kaffe",
+        ],
       },
     ],
   },
@@ -350,7 +787,9 @@ function setupServiceWorker() {
       return registration.update();
     })
     .catch(() => undefined);
-  navigator.serviceWorker.addEventListener("controllerchange", () => window.location.reload());
+  navigator.serviceWorker.addEventListener("controllerchange", () =>
+    window.location.reload(),
+  );
 }
 
 const CountdownTimerClass =
@@ -365,7 +804,8 @@ const CountdownTimerClass =
       this.stop();
       if (!dueAt) return this.hide();
       const render = () => {
-        const text = window.formatRemainingTime?.(dueAt, this.labels) || "Pågår";
+        const text =
+          window.formatRemainingTime?.(dueAt, this.labels) || "Pågår";
         this.element.textContent = text;
         this.element.classList.remove("hidden");
       };
@@ -387,8 +827,14 @@ const CountdownTimerClass =
   };
 
 const countdownLabels = { left: "igjen", overdue: "Forfalt" };
-const kanaPracticeCountdown = new CountdownTimerClass($("#kana-practice-countdown"), countdownLabels);
-const quizCountdown = new CountdownTimerClass($("#quiz-countdown"), countdownLabels);
+const kanaPracticeCountdown = new CountdownTimerClass(
+  $("#kana-practice-countdown"),
+  countdownLabels,
+);
+const quizCountdown = new CountdownTimerClass(
+  $("#quiz-countdown"),
+  countdownLabels,
+);
 
 let activeLanguage = "ja";
 let progressStore = { ja: freshState(), tr: freshState() };
@@ -450,9 +896,10 @@ function isStrongPassword(password) {
 
 function setupCaptchaProtection() {
   const sitekey = String(window.KUMO_CONFIG?.turnstileSiteKey || "");
-  if (!sitekey || document.querySelector('script[data-turnstile]')) return;
+  if (!sitekey || document.querySelector("script[data-turnstile]")) return;
   const script = document.createElement("script");
-  script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+  script.src =
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
   script.async = true;
   script.defer = true;
   script.dataset.turnstile = "true";
@@ -470,7 +917,9 @@ function setupCaptchaProtection() {
 
 function captchaToken(name) {
   const widgetId = captchaWidgets[name];
-  return widgetId === undefined ? undefined : window.turnstile?.getResponse(widgetId) || undefined;
+  return widgetId === undefined
+    ? undefined
+    : window.turnstile?.getResponse(widgetId) || undefined;
 }
 
 function resetCaptcha(name) {
@@ -500,12 +949,18 @@ async function persistState(showConfirmation = false) {
   const language = activeLanguage;
   const selectedCourse = course;
   const snapshot = JSON.parse(JSON.stringify(state));
-  const difficultSignature = JSON.stringify([...snapshot.difficultWords].sort());
+  const difficultSignature = JSON.stringify(
+    [...snapshot.difficultWords].sort(),
+  );
 
   persistenceChain = persistenceChain
     .catch(() => undefined)
     .then(async () => {
-      await window.KumoServices.progress.saveProgress(userId, language, snapshot);
+      await window.KumoServices.progress.saveProgress(
+        userId,
+        language,
+        snapshot,
+      );
       if (difficultSignature !== lastDifficultWordsSignature) {
         await window.KumoServices.progress.syncDifficultWords(
           userId,
@@ -521,13 +976,15 @@ async function persistState(showConfirmation = false) {
     syncPending = false;
     localStorage.removeItem(`${progressCacheKey(language)}:pending`);
     updateSaveStatus();
-    if (showConfirmation) showToast(`Progresjonen i ${selectedCourse.name} er lagret.`);
+    if (showConfirmation)
+      showToast(`Progresjonen i ${selectedCourse.name} er lagret.`);
     return true;
   } catch (error) {
     syncPending = true;
     updateConnectivityUi();
     $("#save-status").textContent = "Lagret lokalt · venter på synk";
-    if (navigator.onLine) showToast(error.message || "Kunne ikke synkronisere progresjonen.");
+    if (navigator.onLine)
+      showToast(error.message || "Kunne ikke synkronisere progresjonen.");
     return false;
   }
 }
@@ -539,7 +996,10 @@ async function flushProgress() {
 }
 
 function updateSaveStatus() {
-  const time = new Intl.DateTimeFormat("nb-NO", { hour: "2-digit", minute: "2-digit" }).format(new Date());
+  const time = new Intl.DateTimeFormat("nb-NO", {
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date());
   $("#save-status").textContent = `Lagret kl. ${time}`;
   updateConnectivityUi();
 }
@@ -569,15 +1029,28 @@ function markActivity(date = new Date()) {
 }
 
 function recordReview(term, correct) {
-  const previous = state.reviewStats[term] || { intervalDays: 0, correct: 0, incorrect: 0, dueAt: null };
+  const previous = state.reviewStats[term] || {
+    intervalDays: 0,
+    correct: 0,
+    incorrect: 0,
+    dueAt: null,
+  };
   const intervalDays = correct
-    ? Math.min(30, Math.max(1, previous.intervalDays ? Math.round(previous.intervalDays * 1.8) : 1))
+    ? Math.min(
+        30,
+        Math.max(
+          1,
+          previous.intervalDays ? Math.round(previous.intervalDays * 1.8) : 1,
+        ),
+      )
     : 0;
   state.reviewStats[term] = {
     intervalDays,
     correct: previous.correct + (correct ? 1 : 0),
     incorrect: previous.incorrect + (correct ? 0 : 1),
-    dueAt: new Date(Date.now() + (correct ? intervalDays * 86400000 : 10 * 60000)).toISOString(),
+    dueAt: new Date(
+      Date.now() + (correct ? intervalDays * 86400000 : 10 * 60000),
+    ).toISOString(),
   };
 }
 
@@ -586,20 +1059,28 @@ function dueReviewWords() {
   return course.words
     .filter((word) => {
       const review = state.reviewStats[word.term];
-      return state.difficultWords.includes(word.term) || !review?.dueAt || new Date(review.dueAt).getTime() <= now;
+      return (
+        state.difficultWords.includes(word.term) ||
+        !review?.dueAt ||
+        new Date(review.dueAt).getTime() <= now
+      );
     })
     .sort((a, b) => {
       const aReview = state.reviewStats[a.term];
       const bReview = state.reviewStats[b.term];
-      const aPriority = (aReview?.incorrect || 0) * 10 - (aReview?.correct || 0);
-      const bPriority = (bReview?.incorrect || 0) * 10 - (bReview?.correct || 0);
+      const aPriority =
+        (aReview?.incorrect || 0) * 10 - (aReview?.correct || 0);
+      const bPriority =
+        (bReview?.incorrect || 0) * 10 - (bReview?.correct || 0);
       return bPriority - aPriority;
     });
 }
 
 function requiredLessonKeysForLevel(levelNumber) {
   if (levelNumber === 1) return ["alphabet", "words", "quiz", "daily"];
-  const databaseLevel = course.database?.levels?.find((item) => item.level_number === levelNumber);
+  const databaseLevel = course.database?.levels?.find(
+    (item) => item.level_number === levelNumber,
+  );
   return databaseLevel
     ? course.database.lessons
         .filter((lesson) => lesson.level_id === databaseLevel.id)
@@ -610,13 +1091,18 @@ function requiredLessonKeysForLevel(levelNumber) {
 function calculateUnlockedLevel() {
   let unlocked = 1;
   const levelOneReady =
-    requiredLessonKeysForLevel(1).every((key) => state.completed.includes(key)) &&
-    state.bestQuizScore >= 6;
+    requiredLessonKeysForLevel(1).every((key) =>
+      state.completed.includes(key),
+    ) && state.bestQuizScore >= 6;
   if (!levelOneReady) return unlocked;
   unlocked = 2;
   for (let levelNumber = 2; levelNumber < 5; levelNumber += 1) {
     const requirements = requiredLessonKeysForLevel(levelNumber);
-    if (!requirements.length || !requirements.every((key) => state.completed.includes(key))) break;
+    if (
+      !requirements.length ||
+      !requirements.every((key) => state.completed.includes(key))
+    )
+      break;
     unlocked = levelNumber + 1;
   }
   return unlocked;
@@ -625,12 +1111,18 @@ function calculateUnlockedLevel() {
 function calendarDayDifference(fromKey, toKey) {
   const from = fromKey.split("-").map(Number);
   const to = toKey.split("-").map(Number);
-  return Math.round((Date.UTC(to[0], to[1] - 1, to[2]) - Date.UTC(from[0], from[1] - 1, from[2])) / 86400000);
+  return Math.round(
+    (Date.UTC(to[0], to[1] - 1, to[2]) -
+      Date.UTC(from[0], from[1] - 1, from[2])) /
+      86400000,
+  );
 }
 
 function ensureDueAt(sessionName, durationMinutes) {
   if (!state.dueAt[sessionName]) {
-    state.dueAt[sessionName] = new Date(Date.now() + durationMinutes * 60_000).toISOString();
+    state.dueAt[sessionName] = new Date(
+      Date.now() + durationMinutes * 60_000,
+    ).toISOString();
     saveState();
   }
   return state.dueAt[sessionName];
@@ -674,13 +1166,19 @@ function completeDatabaseLesson(lesson) {
 function updateDashboard() {
   const level = calculateUnlockedLevel();
   state.unlockedLevel = level;
-  const accuracy = state.answers ? `${Math.round((state.correct / state.answers) * 100)} %` : "–";
+  const accuracy = state.answers
+    ? `${Math.round((state.correct / state.answers) * 100)} %`
+    : "–";
   $("#level-number").textContent = level;
   $("#xp-label").textContent = `${state.xp} XP`;
   const levelRequirements = requiredLessonKeysForLevel(level);
-  const completedRequirements = levelRequirements.filter((key) => state.completed.includes(key)).length;
+  const completedRequirements = levelRequirements.filter((key) =>
+    state.completed.includes(key),
+  ).length;
   $("#level-progress").style.width = `${
-    levelRequirements.length ? (completedRequirements / levelRequirements.length) * 100 : 100
+    levelRequirements.length
+      ? (completedRequirements / levelRequirements.length) * 100
+      : 100
   }%`;
   const streakText = `${state.streak} ${state.streak === 1 ? "dag" : "dager"}`;
   $("#sidebar-streak").textContent = streakText;
@@ -689,11 +1187,16 @@ function updateDashboard() {
   $("#symbol-total").textContent = course.symbols.length;
   $("#accuracy-stat").textContent = accuracy;
   $("#completed-lessons").textContent = state.completed.length;
-  $("#kana-mastered-label").textContent = `${state.learnedSymbols.length} av ${course.symbols.length} mestret`;
-  $("#kana-progress").style.width = `${(state.learnedSymbols.length / course.symbols.length) * 100}%`;
+  $("#kana-mastered-label").textContent =
+    `${state.learnedSymbols.length} av ${course.symbols.length} mestret`;
+  $("#kana-progress").style.width =
+    `${(state.learnedSymbols.length / course.symbols.length) * 100}%`;
   $("#difficult-word-count").textContent = state.difficultWords.length;
   $("#next-review-label").textContent =
-    window.formatRemainingTime?.(state.dueAt.review, { left: "igjen", overdue: "Klar nå" }) || "Klar nå";
+    window.formatRemainingTime?.(state.dueAt.review, {
+      left: "igjen",
+      overdue: "Klar nå",
+    }) || "Klar nå";
   renderProgress();
   updateConnectivityUi();
 }
@@ -708,8 +1211,14 @@ function applyCourseUi() {
   $("#display-mode-select").value = state.displayMode;
   $("#weekly-goal-select").value = String(state.weeklyGoal);
   $("#reduced-motion-toggle").checked = state.reducedMotion;
-  document.documentElement.classList.toggle("reduce-motion", state.reducedMotion);
-  $("#display-mode-setting").classList.toggle("hidden", activeLanguage !== "ja");
+  document.documentElement.classList.toggle(
+    "reduce-motion",
+    state.reducedMotion,
+  );
+  $("#display-mode-setting").classList.toggle(
+    "hidden",
+    activeLanguage !== "ja",
+  );
   $("#brand-language").textContent = `lær ${course.name}`;
   $$(".brand-mark").forEach((mark) => (mark.textContent = course.brandMark));
   $("#alphabet-nav-icon").textContent = course.navIcon;
@@ -727,7 +1236,8 @@ function applyCourseUi() {
   $("#alphabet-description").textContent = course.alphabetDescription;
   $("#practice-question").textContent = course.practiceQuestion;
   $("#words-eyebrow").textContent = course.wordsEyebrow;
-  $("#word-language-label").textContent = course.name[0].toUpperCase() + course.name.slice(1);
+  $("#word-language-label").textContent =
+    course.name[0].toUpperCase() + course.name.slice(1);
   $("#quiz-eyebrow").textContent = course.quizEyebrow;
   $("#result-mark").textContent = course.resultMark;
   $("#lesson-one-symbol").textContent = course.lessonOne.symbol;
@@ -739,24 +1249,32 @@ function applyCourseUi() {
   $("#lesson-two-description").textContent = course.lessonTwo.description;
   $("#lesson-three-symbol").textContent = course.lessonThreeSymbol;
   $(".hero-art").classList.toggle("turkish", activeLanguage === "tr");
-  $("#daily-intro").textContent = `${course.dailyLesson.title}. Nye ord, norsk forklaring, lytting og korte oppgaver.`;
+  $("#daily-intro").textContent =
+    `${course.dailyLesson.title}. Nye ord, norsk forklaring, lytting og korte oppgaver.`;
   setGreeting();
   renderGrammar();
   renderDailyLesson();
 }
 
 function setDateLabel() {
-  const label = new Intl.DateTimeFormat("nb-NO", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
-  $("#today-label").textContent = label.charAt(0).toUpperCase() + label.slice(1);
+  const label = new Intl.DateTimeFormat("nb-NO", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  }).format(new Date());
+  $("#today-label").textContent =
+    label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 function setGreeting() {
   const hour = new Date().getHours();
-  $("#hero-greeting").textContent = course.greetings[hour < 10 ? 0 : hour < 18 ? 1 : 2];
+  $("#hero-greeting").textContent =
+    course.greetings[hour < 10 ? 0 : hour < 18 ? 1 : 2];
 }
 
 async function loadCourseAndProgress(language) {
-  if (!currentUser) throw new Error("Innloggingen har utløpt. Logg inn på nytt.");
+  if (!currentUser)
+    throw new Error("Innloggingen har utløpt. Logg inn på nytt.");
   isHydrating = true;
   try {
     let bundle;
@@ -764,19 +1282,26 @@ async function loadCourseAndProgress(language) {
     try {
       const [remoteBundle, progressRow] = await Promise.all([
         window.KumoServices.course.fetchCourseBundle(language),
-        window.KumoServices.progress.getOrCreateProgress(currentUser.id, language),
+        window.KumoServices.progress.getOrCreateProgress(
+          currentUser.id,
+          language,
+        ),
       ]);
       bundle = remoteBundle;
       restoredState = window.KumoServices.progress.stateFromRow(progressRow);
       localStorage.setItem(courseCacheKey(language), JSON.stringify(bundle));
       const cachedProgress = localStorage.getItem(progressCacheKey(language));
       const hasPendingLocalProgress =
-        localStorage.getItem(`${progressCacheKey(language)}:pending`) === "1" && cachedProgress;
+        localStorage.getItem(`${progressCacheKey(language)}:pending`) === "1" &&
+        cachedProgress;
       if (hasPendingLocalProgress) {
         restoredState = JSON.parse(cachedProgress);
         syncPending = true;
       } else {
-        localStorage.setItem(progressCacheKey(language), JSON.stringify(restoredState));
+        localStorage.setItem(
+          progressCacheKey(language),
+          JSON.stringify(restoredState),
+        );
       }
     } catch (error) {
       const cachedBundle = localStorage.getItem(courseCacheKey(language));
@@ -789,7 +1314,9 @@ async function loadCourseAndProgress(language) {
     courses[language].database = bundle;
     progressStore[language] = validateState(restoredState, courses[language]);
     state = progressStore[language];
-    lastDifficultWordsSignature = JSON.stringify([...state.difficultWords].sort());
+    lastDifficultWordsSignature = JSON.stringify(
+      [...state.difficultWords].sort(),
+    );
   } finally {
     isHydrating = false;
   }
@@ -797,7 +1324,10 @@ async function loadCourseAndProgress(language) {
 
 function updateAccountUi() {
   const displayName =
-    currentProfile?.display_name || currentUser?.user_metadata?.display_name || currentUser?.email?.split("@")[0] || "Elev";
+    currentProfile?.display_name ||
+    currentUser?.user_metadata?.display_name ||
+    currentUser?.email?.split("@")[0] ||
+    "Elev";
   const email = currentUser?.email || "";
   $("#account-name").textContent = displayName;
   $("#account-email").textContent = email;
@@ -830,9 +1360,12 @@ async function hydrateAuthenticatedApp(session) {
   currentUser = session.user;
 
   try {
-    currentProfile = await window.KumoServices.profile.getOrCreateProfile(currentUser);
+    currentProfile =
+      await window.KumoServices.profile.getOrCreateProfile(currentUser);
     activeLanguage =
-      { japanese: "ja", turkish: "tr", albanian: "sq" }[currentProfile.selected_language] || "ja";
+      { japanese: "ja", turkish: "tr", albanian: "sq" }[
+        currentProfile.selected_language
+      ] || "ja";
     course = courses[activeLanguage];
     await loadCourseAndProgress(activeLanguage);
     currentWord = 0;
@@ -849,7 +1382,8 @@ async function hydrateAuthenticatedApp(session) {
     $("#app-loading").classList.add("hidden");
     $("#auth-page").classList.add("hidden");
     $("#app-shell").classList.remove("hidden");
-    if (!currentProfile.selected_language) $("#language-gate").classList.remove("hidden");
+    if (!currentProfile.selected_language)
+      $("#language-gate").classList.remove("hidden");
   } catch (error) {
     showAuthPage(error.message || "Kunne ikke laste kontoen.");
   }
@@ -891,7 +1425,8 @@ async function bootstrapAuthentication() {
         showAuthPage();
         setAuthMode("recovery");
       }
-      if (event === "SIGNED_IN" && session && !passwordRecoveryMode) hydrateAuthenticatedApp(session);
+      if (event === "SIGNED_IN" && session && !passwordRecoveryMode)
+        hydrateAuthenticatedApp(session);
     }, 0);
   });
 
@@ -900,7 +1435,9 @@ async function bootstrapAuthentication() {
     if (session) await hydrateAuthenticatedApp(session);
     else showAuthPage();
   } catch {
-    showAuthPage("Innloggingen kunne ikke kontrolleres. Prøv å laste siden på nytt.");
+    showAuthPage(
+      "Innloggingen kunne ikke kontrolleres. Prøv å laste siden på nytt.",
+    );
   }
 }
 
@@ -908,8 +1445,12 @@ async function switchLanguage(language) {
   if (!courses[language]) return false;
   if (language === activeLanguage) {
     if (currentUser && !currentProfile?.selected_language) {
-      const databaseLanguage = window.KumoServices.course.getCourseIdentity(language).databaseLanguage;
-      currentProfile = await window.KumoServices.profile.updateSelectedLanguage(currentUser.id, databaseLanguage);
+      const databaseLanguage =
+        window.KumoServices.course.getCourseIdentity(language).databaseLanguage;
+      currentProfile = await window.KumoServices.profile.updateSelectedLanguage(
+        currentUser.id,
+        databaseLanguage,
+      );
     }
     $("#language-gate").classList.add("hidden");
     return true;
@@ -926,7 +1467,10 @@ async function switchLanguage(language) {
   try {
     await loadCourseAndProgress(activeLanguage);
     if (currentUser) {
-      const databaseLanguage = window.KumoServices.course.getCourseIdentity(activeLanguage).databaseLanguage;
+      const databaseLanguage =
+        window.KumoServices.course.getCourseIdentity(
+          activeLanguage,
+        ).databaseLanguage;
       currentProfile = await window.KumoServices.profile.updateSelectedLanguage(
         currentUser.id,
         databaseLanguage,
@@ -951,6 +1495,16 @@ async function switchLanguage(language) {
   return true;
 }
 
+const audioController = window.KumoAudio.createAudioController({
+  $,
+  course,
+  getCurrentAudio: () => currentAudio,
+  setCurrentAudio: (audio) => {
+    currentAudio = audio;
+  },
+});
+const speak = audioController.speak;
+
 const navigation = window.KumoNavigation.createNavigation({
   $,
   $$,
@@ -960,7 +1514,8 @@ const navigation = window.KumoNavigation.createNavigation({
   renderDailyLesson,
   renderGrammar,
   renderProgress,
-  renderDatabaseLesson,
+  renderDatabaseLesson: (...args) =>
+    databaseRenderer.renderDatabaseLesson(...args),
   getActiveDatabaseLesson: () => activeDatabaseLesson,
   getQuizActive: () => quizActive,
   getReducedMotion: () => state.reducedMotion,
@@ -970,7 +1525,9 @@ const showView = navigation.showView;
 function openDatabaseLesson(lessonId) {
   const lesson = course.database?.lessons?.find((item) => item.id === lessonId);
   if (!lesson) return showToast("Leksjonen kunne ikke åpnes.");
-  const databaseLevel = course.database.levels.find((item) => item.id === lesson.level_id);
+  const databaseLevel = course.database.levels.find(
+    (item) => item.id === lesson.level_id,
+  );
   const unlockedLevel = calculateUnlockedLevel();
   if (databaseLevel?.level_number > unlockedLevel) {
     return showToast("Fullfør mer av kurset for å låse opp dette nivået.");
@@ -989,7 +1546,8 @@ function openDatabaseLesson(lessonId) {
       .filter((item) => item.lesson_id === lesson.id)
       .map((item) => ({ kind: "exercise", item })),
   ];
-  if (!databaseLessonSteps.length) databaseLessonSteps.push({ kind: "introduction", item: lesson });
+  if (!databaseLessonSteps.length)
+    databaseLessonSteps.push({ kind: "introduction", item: lesson });
   showView("course-lesson");
 }
 
@@ -1015,7 +1573,6 @@ const renderDatabaseVocabulary = databaseRenderer.renderDatabaseVocabulary;
 const renderDatabaseGrammar = databaseRenderer.renderDatabaseGrammar;
 const renderDatabaseExercise = databaseRenderer.renderDatabaseExercise;
 
-
 function renderSymbols() {
   $("#kana-grid").innerHTML = course.symbols
     .map(
@@ -1029,7 +1586,9 @@ function renderSymbols() {
     .join("");
   $$(".kana-card").forEach((card) => {
     card.addEventListener("click", () => {
-      const item = course.symbols.find((entry) => entry.char === card.dataset.symbol);
+      const item = course.symbols.find(
+        (entry) => entry.char === card.dataset.symbol,
+      );
       speak(item.char, item.audio);
       toggleSymbol(item.char);
     });
@@ -1047,7 +1606,8 @@ function toggleSymbol(char) {
       showToast("+5 XP · Ny bokstav eller nytt tegn mestret");
     }
   }
-  if (state.learnedSymbols.length >= Math.min(5, course.symbols.length)) completeLesson("alphabet");
+  if (state.learnedSymbols.length >= Math.min(5, course.symbols.length))
+    completeLesson("alphabet");
   saveState();
   renderSymbols();
 }
@@ -1056,28 +1616,40 @@ function openAlphabetPractice() {
   clearTimeout(practiceTimer);
   practiceTimer = null;
   kanaPracticeCountdown.setDueAt(ensureDueAt("alphabetPractice", 5));
-  practiceSymbol = course.symbols[Math.floor(Math.random() * course.symbols.length)];
+  practiceSymbol =
+    course.symbols[Math.floor(Math.random() * course.symbols.length)];
   const alternatives = shuffle([
     practiceSymbol.reading,
-    ...shuffle(course.symbols.filter((item) => item.char !== practiceSymbol.char))
+    ...shuffle(
+      course.symbols.filter((item) => item.char !== practiceSymbol.char),
+    )
       .map((item) => item.reading)
-      .filter((reading, index, all) => reading !== practiceSymbol.reading && all.indexOf(reading) === index)
+      .filter(
+        (reading, index, all) =>
+          reading !== practiceSymbol.reading && all.indexOf(reading) === index,
+      )
       .slice(0, 3),
   ]);
   $("#practice-symbol").textContent = practiceSymbol.char;
   $("#kana-feedback").textContent = "";
   $("#kana-options").innerHTML = alternatives
-    .map((option) => `<button class="option-button" data-option="${option}">${option}</button>`)
+    .map(
+      (option) =>
+        `<button class="option-button" data-option="${option}">${option}</button>`,
+    )
     .join("");
   $("#kana-practice").classList.remove("hidden");
-  $$("#kana-options .option-button").forEach((button) => button.addEventListener("click", () => checkAlphabetPractice(button)));
+  $$("#kana-options .option-button").forEach((button) =>
+    button.addEventListener("click", () => checkAlphabetPractice(button)),
+  );
 }
 
 function checkAlphabetPractice(button) {
   const correct = button.dataset.option === practiceSymbol.reading;
   $$("#kana-options .option-button").forEach((item) => {
     item.disabled = true;
-    if (item.dataset.option === practiceSymbol.reading) item.classList.add("correct");
+    if (item.dataset.option === practiceSymbol.reading)
+      item.classList.add("correct");
   });
   if (!correct) button.classList.add("wrong");
   state.answers += 1;
@@ -1086,7 +1658,8 @@ function checkAlphabetPractice(button) {
     state.xp += 5;
     $("#kana-feedback").textContent = "Riktig! Flott jobbet.";
   } else {
-    $("#kana-feedback").textContent = `Nesten – riktig svar er «${practiceSymbol.reading}».`;
+    $("#kana-feedback").textContent =
+      `Nesten – riktig svar er «${practiceSymbol.reading}».`;
   }
   saveState();
   practiceTimer = setTimeout(openAlphabetPractice, 1200);
@@ -1143,7 +1716,9 @@ function markWord(status) {
   const word = getWordDeck()[currentWord];
   if (status === "known" && !state.knownWords.includes(word.term)) {
     state.knownWords.push(word.term);
-    state.difficultWords = state.difficultWords.filter((item) => item !== word.term);
+    state.difficultWords = state.difficultWords.filter(
+      (item) => item !== word.term,
+    );
     state.xp += 10;
     recordReview(word.term, true);
     markActivity();
@@ -1151,7 +1726,8 @@ function markWord(status) {
   }
   if (status === "learning") {
     state.knownWords = state.knownWords.filter((item) => item !== word.term);
-    if (!state.difficultWords.includes(word.term)) state.difficultWords.push(word.term);
+    if (!state.difficultWords.includes(word.term))
+      state.difficultWords.push(word.term);
     scheduleReview();
     recordReview(word.term, false);
     showToast("Lagt til i vanskelige ord");
@@ -1173,7 +1749,11 @@ function displayWordTerm(word) {
 
 function displayWordReading(word) {
   if (activeLanguage !== "ja") return word.reading;
-  return state.displayMode === "kana" ? "kana" : state.displayMode === "romaji" ? "romaji" : word.reading;
+  return state.displayMode === "kana"
+    ? "kana"
+    : state.displayMode === "romaji"
+      ? "romaji"
+      : word.reading;
 }
 
 function scheduleReview(hours = 24) {
@@ -1191,11 +1771,14 @@ function renderDailyLesson() {
     () => renderMultipleChoiceExercise(lesson.quiz),
   ];
   dailyStep = Math.max(0, Math.min(dailyStep, steps.length - 1));
-  $("#daily-step-label").textContent = `Steg ${dailyStep + 1} av ${steps.length}`;
+  $("#daily-step-label").textContent =
+    `Steg ${dailyStep + 1} av ${steps.length}`;
   $("#daily-time-label").textContent = `ca. ${lesson.minutes} minutter totalt`;
-  $("#daily-progress").style.width = `${((dailyStep + 1) / steps.length) * 100}%`;
+  $("#daily-progress").style.width =
+    `${((dailyStep + 1) / steps.length) * 100}%`;
   $("#daily-previous").disabled = dailyStep === 0;
-  $("#daily-next").textContent = dailyStep === steps.length - 1 ? "Fullfør økten ✓" : "Neste →";
+  $("#daily-next").textContent =
+    dailyStep === steps.length - 1 ? "Fullfør økten ✓" : "Neste →";
   steps[dailyStep]();
 }
 
@@ -1204,32 +1787,46 @@ const dailyLessonRenderer = window.KumoDailyLesson.createDailyLessonRenderer({
   $$,
   course,
   state,
-  get activeLanguage() { return activeLanguage; },
+  get activeLanguage() {
+    return activeLanguage;
+  },
   dailySentenceAnswerRef: () => dailySentenceAnswer,
-  setDailySentenceAnswer: (value) => { dailySentenceAnswer = value; },
+  setDailySentenceAnswer: (value) => {
+    dailySentenceAnswer = value;
+  },
   speak,
   saveState,
   shuffle,
   dueReviewWords,
   displayWordTerm,
-  dailyWordTarget,
-  dailyWordReading,
 });
 
 const renderReviewExercise = dailyLessonRenderer.renderReviewExercise;
 const renderNewWordsExercise = dailyLessonRenderer.renderNewWordsExercise;
 const renderGrammarExercise = dailyLessonRenderer.renderGrammarExercise;
-const renderListenRepeatExercise = dailyLessonRenderer.renderListenRepeatExercise;
-const renderSentenceBuilderExercise = dailyLessonRenderer.renderSentenceBuilderExercise;
+const renderListenRepeatExercise =
+  dailyLessonRenderer.renderListenRepeatExercise;
+const renderSentenceBuilderExercise =
+  dailyLessonRenderer.renderSentenceBuilderExercise;
 const updateSentenceBuilder = dailyLessonRenderer.updateSentenceBuilder;
-const renderMultipleChoiceExercise = dailyLessonRenderer.renderMultipleChoiceExercise;
-
+const renderMultipleChoiceExercise =
+  dailyLessonRenderer.renderMultipleChoiceExercise;
 
 function renderGrammar() {
-  const grammarNotes = Array.isArray(course.grammarNotes) ? course.grammarNotes : [];
-  const writingSections = Array.isArray(course.writingSections) ? course.writingSections : [];
-  const practicalPhrases = Array.isArray(course.practicalPhrases) ? course.practicalPhrases : [];
-  if (!grammarNotes.length && !writingSections.length && !practicalPhrases.length) {
+  const grammarNotes = Array.isArray(course.grammarNotes)
+    ? course.grammarNotes
+    : [];
+  const writingSections = Array.isArray(course.writingSections)
+    ? course.writingSections
+    : [];
+  const practicalPhrases = Array.isArray(course.practicalPhrases)
+    ? course.practicalPhrases
+    : [];
+  if (
+    !grammarNotes.length &&
+    !writingSections.length &&
+    !practicalPhrases.length
+  ) {
     $("#grammar-grid").innerHTML = "";
     return;
   }
@@ -1274,7 +1871,9 @@ function renderGrammar() {
       </div>
     </article>`;
   $$("[data-practical-phrase]").forEach((button) =>
-    button.addEventListener("click", () => speak(button.dataset.practicalPhrase)),
+    button.addEventListener("click", () =>
+      speak(button.dataset.practicalPhrase),
+    ),
   );
 }
 
@@ -1283,8 +1882,13 @@ function renderProgress() {
   const level = calculateUnlockedLevel();
   state.unlockedLevel = level;
   const totalActivities =
-    4 + (course.database?.lessons?.filter((lesson) => lesson.lesson_number > 4).length || 0);
-  const progressPercent = Math.min(100, Math.round((state.completed.length / totalActivities) * 100));
+    4 +
+    (course.database?.lessons?.filter((lesson) => lesson.lesson_number > 4)
+      .length || 0);
+  const progressPercent = Math.min(
+    100,
+    Math.round((state.completed.length / totalActivities) * 100),
+  );
   $("#progress-overview").innerHTML = `
     <article><small>Nivå</small><strong>${level}</strong><span>${course.levels[level - 1].title}</span></article>
     <article><small>Total XP</small><strong>${state.xp}</strong><span>${progressPercent} % av startaktivitetene</span></article>
@@ -1302,9 +1906,13 @@ function renderProgress() {
     )
     .join("");
   $$("#level-list .level-row").forEach((row, index) => {
-    const databaseLevel = course.database?.levels?.find((entry) => entry.level_number === index + 1);
+    const databaseLevel = course.database?.levels?.find(
+      (entry) => entry.level_number === index + 1,
+    );
     const lessons = databaseLevel
-      ? course.database.lessons.filter((lesson) => lesson.level_id === databaseLevel.id)
+      ? course.database.lessons.filter(
+          (lesson) => lesson.level_id === databaseLevel.id,
+        )
       : [];
     if (!lessons.length) return;
     const catalog = document.createElement("div");
@@ -1323,7 +1931,9 @@ function renderProgress() {
     row.querySelector("div").append(catalog);
   });
   $$("[data-database-lesson-id]").forEach((button) =>
-    button.addEventListener("click", () => openDatabaseLesson(button.dataset.databaseLessonId)),
+    button.addEventListener("click", () =>
+      openDatabaseLesson(button.dataset.databaseLessonId),
+    ),
   );
 }
 
@@ -1343,7 +1953,9 @@ function renderWeeklyProgress() {
     date.setDate(start.getDate() + index);
     return date;
   });
-  const activeThisWeek = days.filter((date) => state.activityDates.includes(localDateKey(date))).length;
+  const activeThisWeek = days.filter((date) =>
+    state.activityDates.includes(localDateKey(date)),
+  ).length;
   $("#weekly-goal-copy").textContent =
     activeThisWeek >= state.weeklyGoal
       ? `Målet er nådd: ${activeThisWeek} aktive dager.`
@@ -1353,7 +1965,9 @@ function renderWeeklyProgress() {
       const key = localDateKey(date);
       const active = state.activityDates.includes(key);
       const today = key === localDateKey(new Date());
-      const label = new Intl.DateTimeFormat("nb-NO", { weekday: "short" }).format(date);
+      const label = new Intl.DateTimeFormat("nb-NO", {
+        weekday: "short",
+      }).format(date);
       return `<div class="week-day ${active ? "active" : ""} ${today ? "today" : ""}">
         <span>${escapeHtml(label)}</span><strong>${date.getDate()}</strong>
       </div>`;
@@ -1377,17 +1991,24 @@ function startQuiz() {
 function renderQuizQuestion() {
   const question = quizQuestions[quizIndex];
   quizLocked = false;
-  $("#quiz-progress-label").textContent = `Spørsmål ${quizIndex + 1} av ${quizQuestions.length}`;
+  $("#quiz-progress-label").textContent =
+    `Spørsmål ${quizIndex + 1} av ${quizQuestions.length}`;
   $("#quiz-score-label").textContent = `${quizScore} riktige`;
-  $("#quiz-progress").style.width = `${(quizIndex / quizQuestions.length) * 100}%`;
+  $("#quiz-progress").style.width =
+    `${(quizIndex / quizQuestions.length) * 100}%`;
   $("#quiz-type").textContent = question.type;
   $("#quiz-question").textContent = question.question;
   $("#quiz-prompt").textContent = question.prompt;
   $("#quiz-feedback").textContent = "";
   $("#quiz-options").innerHTML = question.options
-    .map((option) => `<button class="option-button" data-option="${option}">${option}</button>`)
+    .map(
+      (option) =>
+        `<button class="option-button" data-option="${option}">${option}</button>`,
+    )
     .join("");
-  $$("#quiz-options .option-button").forEach((button) => button.addEventListener("click", () => answerQuiz(button)));
+  $$("#quiz-options .option-button").forEach((button) =>
+    button.addEventListener("click", () => answerQuiz(button)),
+  );
 }
 
 function answerQuiz(button) {
@@ -1410,7 +2031,8 @@ function answerQuiz(button) {
   if (correct) {
     quizScore += 1;
     state.correct += 1;
-    $("#quiz-feedback").textContent = activeLanguage === "ja" ? "正解！ Riktig!" : "Doğru! Riktig!";
+    $("#quiz-feedback").textContent =
+      activeLanguage === "ja" ? "正解！ Riktig!" : "Doğru! Riktig!";
   } else {
     button.classList.add("wrong");
     $("#quiz-feedback").textContent = `Riktig svar: ${question.answer}`;
@@ -1442,7 +2064,13 @@ function finishQuiz() {
   saveState();
   if (currentUser) {
     window.KumoServices.lesson
-      .saveQuizResult(currentUser.id, activeLanguage, quizScore, quizQuestions.length, quizAnswers)
+      .saveQuizResult(
+        currentUser.id,
+        activeLanguage,
+        quizScore,
+        quizQuestions.length,
+        quizAnswers,
+      )
       .catch((error) => showToast(error.message));
   }
   $("#quiz-question-area").classList.add("hidden");
@@ -1460,19 +2088,81 @@ function finishQuiz() {
   showToast(`+${earned} XP · Quiz fullført`);
 }
 
-const audioController = window.KumoAudio.createAudioController({
-  $,
-  course,
-  getCurrentAudio: () => currentAudio,
-  setCurrentAudio: (audio) => { currentAudio = audio; },
-});
-const speak = audioController.speak;
+function normalizeSpeech(value) {
+  return String(value || "")
+    .toLocaleLowerCase(activeLanguage === "tr" ? "tr-TR" : "ja-JP")
+    .normalize("NFKC")
+    .replace(/[.,!?。、\s]/g, "");
+}
 
+function practicePronunciation() {
+  const word = getWordDeck()[currentWord];
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    $("#pronunciation-feedback").textContent =
+      "Nettleseren støtter ikke talegjenkjenning. Lytt, gjenta og merk selv om uttrykket satt.";
+    speak(word.term, word.audio);
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = course.speechLang;
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 3;
+
+  $("#practice-pronunciation").disabled = true;
+  $("#pronunciation-feedback").textContent = "Lytter … si uttrykket nå.";
+
+  recognition.onresult = (event) => {
+    const alternatives = [...event.results[0]].map(
+      (result) => result.transcript,
+    );
+    const expected = normalizeSpeech(word.term);
+
+    const correct = alternatives.some((transcript) => {
+      const heard = normalizeSpeech(transcript);
+      return (
+        heard === expected ||
+        heard.includes(expected) ||
+        expected.includes(heard)
+      );
+    });
+
+    recordReview(word.term, correct);
+    state.answers += 1;
+
+    if (correct) {
+      state.correct += 1;
+      state.xp += 5;
+      markActivity();
+    }
+
+    saveState();
+
+    $("#pronunciation-feedback").textContent = correct
+      ? `Godkjent uttale: «${alternatives[0]}». +5 XP`
+      : `Jeg hørte «${alternatives[0]}». Lytt og prøv én gang til.`;
+  };
+
+  recognition.onerror = () => {
+    $("#pronunciation-feedback").textContent =
+      "Mikrofonen eller talegjenkjenningen var ikke tilgjengelig. Du kan fortsatt lytte og gjenta.";
+  };
+
+  recognition.onend = () => {
+    $("#practice-pronunciation").disabled = false;
+  };
+
+  recognition.start();
+}
 
 function updateConnectivityUi() {
   const offline = !navigator.onLine;
   $("#connection-banner").classList.toggle("hidden", !offline);
-  $("#sync-status-pill").textContent = offline || syncPending ? "Venter på synk" : "Synkronisert";
+  $("#sync-status-pill").textContent =
+    offline || syncPending ? "Venter på synk" : "Synkronisert";
   $("#sync-status-pill").classList.toggle("pending", offline || syncPending);
 }
 
@@ -1492,10 +2182,21 @@ function shuffle(items) {
 }
 
 async function resetProgress() {
-  if (!window.confirm(`Vil du nullstille progresjonen i ${course.name}? Den andre språkløypen beholdes.`)) return;
+  if (
+    !window.confirm(
+      `Vil du nullstille progresjonen i ${course.name}? Den andre språkløypen beholdes.`,
+    )
+  )
+    return;
   try {
-    const row = await window.KumoServices.progress.resetCourseProgress(currentUser.id, activeLanguage);
-    state = validateState(window.KumoServices.progress.stateFromRow(row), course);
+    const row = await window.KumoServices.progress.resetCourseProgress(
+      currentUser.id,
+      activeLanguage,
+    );
+    state = validateState(
+      window.KumoServices.progress.stateFromRow(row),
+      course,
+    );
     lastDifficultWordsSignature = "[]";
   } catch (error) {
     showToast(error.message);
@@ -1515,12 +2216,18 @@ async function resetProgress() {
 }
 
 $$("button:not([type])").forEach((button) => (button.type = "button"));
-window.KumoNavigation.bindNavigationEvents({ $, $, showView });
-$("#language-select").addEventListener("change", (event) => switchLanguage(event.target.value));
-$("#mobile-language-select").addEventListener("change", (event) => switchLanguage(event.target.value));
+window.KumoNavigation.bindNavigationEvents({ $, $$, showView });
+$("#language-select").addEventListener("change", (event) =>
+  switchLanguage(event.target.value),
+);
+$("#mobile-language-select").addEventListener("change", (event) =>
+  switchLanguage(event.target.value),
+);
 $("#practice-kana").addEventListener("click", openAlphabetPractice);
 $("#close-kana-practice").addEventListener("click", closeAlphabetPractice);
-$("#flashcard").addEventListener("click", () => $("#flashcard").classList.toggle("flipped"));
+$("#flashcard").addEventListener("click", () =>
+  $("#flashcard").classList.toggle("flipped"),
+);
 $("#previous-word").addEventListener("click", () => changeWord(-1));
 $("#next-word").addEventListener("click", () => changeWord(1));
 $("#speak-word").addEventListener("click", () => {
@@ -1528,7 +2235,9 @@ $("#speak-word").addEventListener("click", () => {
   speak(word.term, word.audio);
 });
 $("#practice-pronunciation").addEventListener("click", practicePronunciation);
-$$("[data-knowledge]").forEach((button) => button.addEventListener("click", () => markWord(button.dataset.knowledge)));
+$$("[data-knowledge]").forEach((button) =>
+  button.addEventListener("click", () => markWord(button.dataset.knowledge)),
+);
 $("#restart-quiz").addEventListener("click", startQuiz);
 $("#save-progress").addEventListener("click", () => saveState(true));
 $("#reset-progress").addEventListener("click", resetProgress);
@@ -1555,13 +2264,16 @@ $("#course-lesson-next").addEventListener("click", () => {
   renderDatabaseLesson();
 });
 $("#review-difficult").addEventListener("click", () => {
-  if (!state.difficultWords.length) return showToast("Merk et ord som vanskelig først.");
+  if (!state.difficultWords.length)
+    return showToast("Merk et ord som vanskelig først.");
   reviewOnlyDifficult = true;
   currentWord = 0;
   renderWords();
   showToast("Viser bare vanskelige ord.");
 });
-$("#settings-language-select").addEventListener("change", (event) => switchLanguage(event.target.value));
+$("#settings-language-select").addEventListener("change", (event) =>
+  switchLanguage(event.target.value),
+);
 $("#display-mode-select").addEventListener("change", (event) => {
   state.displayMode = event.target.value;
   saveState();
@@ -1576,14 +2288,21 @@ $("#weekly-goal-select").addEventListener("change", (event) => {
 });
 $("#reduced-motion-toggle").addEventListener("change", (event) => {
   state.reducedMotion = event.target.checked;
-  document.documentElement.classList.toggle("reduce-motion", state.reducedMotion);
+  document.documentElement.classList.toggle(
+    "reduce-motion",
+    state.reducedMotion,
+  );
   saveState();
 });
 $("#apply-update").addEventListener("click", () => {
   waitingServiceWorker?.postMessage({ type: "SKIP_WAITING" });
 });
-$("#dismiss-update").addEventListener("click", () => $("#update-banner").classList.add("hidden"));
-$("#choose-language-again").addEventListener("click", () => $("#language-gate").classList.remove("hidden"));
+$("#dismiss-update").addEventListener("click", () =>
+  $("#update-banner").classList.add("hidden"),
+);
+$("#choose-language-again").addEventListener("click", () =>
+  $("#language-gate").classList.remove("hidden"),
+);
 $$("[data-language-choice]").forEach((button) =>
   button.addEventListener("click", async () => {
     const changed = await switchLanguage(button.dataset.languageChoice);
@@ -1608,7 +2327,8 @@ $("#forgot-password-form").addEventListener("submit", async (event) => {
       $("#forgot-email").value.trim(),
       captchaToken("reset"),
     );
-    $("#auth-message").textContent = "Sjekk e-posten din for en lenke til å velge nytt passord.";
+    $("#auth-message").textContent =
+      "Sjekk e-posten din for en lenke til å velge nytt passord.";
     $("#auth-message").classList.add("success");
   } catch (error) {
     $("#auth-message").textContent = error.message;
@@ -1642,7 +2362,8 @@ $("#update-password-form").addEventListener("submit", async (event) => {
   const password = $("#new-password").value;
   const confirmation = $("#confirm-new-password").value;
   if (!isStrongPassword(password)) {
-    $("#auth-message").textContent = "Bruk minst 10 tegn, stor og liten bokstav, og ett tall.";
+    $("#auth-message").textContent =
+      "Bruk minst 10 tegn, stor og liten bokstav, og ett tall.";
     return;
   }
   if (password !== confirmation) {
@@ -1692,7 +2413,9 @@ $("#signup-form").addEventListener("submit", async (event) => {
   try {
     const password = $("#signup-password").value;
     if (!isStrongPassword(password)) {
-      throw new Error("Bruk minst 10 tegn, stor og liten bokstav, og ett tall.");
+      throw new Error(
+        "Bruk minst 10 tegn, stor og liten bokstav, og ett tall.",
+      );
     }
     const data = await window.KumoServices.auth.signUp({
       displayName: $("#signup-name").value.trim(),
@@ -1702,7 +2425,8 @@ $("#signup-form").addEventListener("submit", async (event) => {
     });
     if (data.session) showLoading("Laster den nye kontoen …");
     else {
-      $("#auth-message").textContent = "Kontoen er opprettet. Sjekk e-posten din for å bekrefte adressen.";
+      $("#auth-message").textContent =
+        "Kontoen er opprettet. Sjekk e-posten din for å bekrefte adressen.";
       $("#auth-message").classList.add("success");
     }
   } catch (error) {
