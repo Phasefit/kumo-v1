@@ -101,6 +101,15 @@
     };
   }
 
+  function loadDashboardPolish() {
+    if (document.querySelector('script[data-kumo-dashboard-polish="true"]')) return;
+    const script = document.createElement("script");
+    script.src = "app/dashboard-polish.js";
+    script.async = true;
+    script.dataset.kumoDashboardPolish = "true";
+    document.head.appendChild(script);
+  }
+
   window.KumoState = Object.freeze({
     freshState,
     validNonNegativeInteger,
@@ -110,4 +119,10 @@
     validReviewStats,
     validateState,
   });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadDashboardPolish, { once: true });
+  } else {
+    loadDashboardPolish();
+  }
 })();
