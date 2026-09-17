@@ -1,23 +1,10 @@
-@'
 (function () {
   function createQuizController({
     $,
     $$,
-    course,
-    state,
+    getCourse,
+    getState,
     getActiveLanguage,
-    getQuizQuestions,
-    setQuizQuestions,
-    getQuizIndex,
-    setQuizIndex,
-    getQuizScore,
-    setQuizScore,
-    getQuizAnswers,
-    setQuizAnswers,
-    getQuizLocked,
-    setQuizLocked,
-    getQuizActive,
-    setQuizActive,
     ensureDueAt,
     clearDueAt,
     quizCountdown,
@@ -29,183 +16,132 @@
     saveQuizResult,
     showToast,
   }) {
+    let quizQuestions = [];
+    let quizIndex = 0;
+    let quizScore = 0;
+    let quizAnswers = [];
+    let quizLocked = false;
+    let quizActive = false;
+
     function startQuiz() {
-      const questions = shuffle([...(course.quiz || [])]);
-
-      setQuizQuestions(questions);
-      setQuizIndex(0);
-      setQuizScore(0);
-      setQuizAnswers([]);
-      setQuizLocked(false);
-      setQuizActive(true);
-
+      const course = getCourse();
+      quizQuestions = shuffle([...(course.quiz || [])]);
+      quizIndex = 0;
+      quizScore = 0;
+      quizAnswers = [];
+      quizLocked = false;
+      quizActive = true;
       quizCountdown.setDueAt(ensureDueAt("quiz", 8));
-
       $("#quiz-result").classList.add("hidden");
       $("#quiz-question-area").classList.remove("hidden");
-
       renderQuizQuestion();
     }
 
     function renderQuizQuestion() {
-      const questions = getQuizQuestions();
-      const index = getQuizIndex();
-      const question = questions[index];
-
+      const question = quizQuestions[quizIndex];
       if (!question) {
         finishQuiz();
         return;
       }
-
-      setQuizLocked(false);
-
-      $("#quiz-progress-label").textContent =
-        `Spørsmål ${index + 1} av ${questions.length}`;
-
-      $("#quiz-score-label").textContent =
-        `${getQuizScore()} riktige`;
-
-      $("#quiz-progress").style.width =
-        `${(index / questions.length) * 100}%`;
-
+      quizLocked = false;
+      $("#quiz-progress-label").textContent = `Spørsmål ${quizIndex + 1} av ${quizQuestions.length}`;
+      $("#quiz-score-label").textContent = `${quizScore} riktige`;
+      $("#quiz-progress").style.width = `${(quizIndex / quizQuestions.length) * 100}%`;
       $("#quiz-type").textContent = question.type;
       $("#quiz-question").textContent = question.question;
       $("#quiz-prompt").textContent = question.prompt;
       $("#quiz-feedback").textContent = "";
-
       $("#quiz-options").innerHTML = question.options
-        .map(
-          (option) =>
-            `<button class="option-button" data-option="${option}">${option}</button>`,
-        )
+        .map((option) => `<button class="option-button" data-option="${option}">${option}</button>`)
         .join("");
-
-      $$("#quiz-options .option-button").forEach((button) => {
-        button.addEventListener("click", () => answerQuiz(button));
-      });
+      $$("#quiz-options .option-button").forEach((button) =>
+        button.addEventListener("click", () => answerQuiz(button)),
+      );
     }
 
     function answerQuiz(button) {
-      if (getQuizLocked()) return;
+      if (quizLocked) return;
+      const course = getCourse();
+      const state = getState();
+      const question = quizQuestions[quizIndex];
+      if (!question) return finishQuiz();
 
-      setQuizLocked(true);
-
-      const questions = getQuizQuestions();
-      const index = getQuizIndex();
-      const question = questions[index];
+      quizLocked = true;
       const selected = button.dataset.option;
       const correct = selected === question.answer;
-
-      const answers = getQuizAnswers();
-
-      answers.push({
+      quizAnswers.push({
         question: question.question,
         prompt: question.prompt,
         selected,
         correctAnswer: question.answer,
         correct,
       });
-
-      setQuizAnswers(answers);
-
       state.answers += 1;
 
       $$("#quiz-options .option-button").forEach((item) => {
         item.disabled = true;
-
-        if (item.dataset.option === question.answer) {
-          item.classList.add("correct");
-        }
+        if (item.dataset.option === question.answer) item.classList.add("correct");
       });
 
       if (correct) {
-        setQuizScore(getQuizScore() + 1);
+        quizScore += 1;
         state.correct += 1;
-
         $("#quiz-feedback").textContent =
-          getActiveLanguage() === "ja"
-            ? "正解！ Riktig!"
-            : "Doğru! Riktig!";
+          getActiveLanguage() === "ja" ? "正解！ Riktig!" : "Doğru! Riktig!";
       } else {
         button.classList.add("wrong");
-
-        $("#quiz-feedback").textContent =
-          `Riktig svar: ${question.answer}`;
+        $("#quiz-feedback").textContent = `Riktig svar: ${question.answer}`;
       }
 
-      const matchingWord = course.words.find(
+      const matchingWord = (course.words || []).find(
         (word) =>
           question.prompt.includes(word.term) ||
           question.answer === word.norwegian ||
           question.answer === word.term,
       );
-
-      if (matchingWord) {
-        recordReview(matchingWord.term, correct);
-      }
-
+      if (matchingWord) recordReview(matchingWord.term, correct);
       saveState();
 
       window.setTimeout(() => {
-        const nextIndex = getQuizIndex() + 1;
-        setQuizIndex(nextIndex);
-
-        if (nextIndex < getQuizQuestions().length) {
-          renderQuizQuestion();
-        } else {
-          finishQuiz();
-        }
+        quizIndex += 1;
+        if (quizIndex < quizQuestions.length) renderQuizQuestion();
+        else finishQuiz();
       }, 1000);
     }
 
     function finishQuiz() {
-      const score = getQuizScore();
-      const questions = getQuizQuestions();
-      const answers = getQuizAnswers();
-
-      setQuizActive(false);
-
+      const state = getState();
+      quizActive = false;
       quizCountdown.setDueAt(null);
+      if (state.dueAt.quiz) clearDueAt("quiz");
 
-      if (state.dueAt.quiz) {
-        clearDueAt("quiz");
-      }
-
-      const earned = score * 5;
-
+      const earned = quizScore * 5;
       state.xp += earned;
-      state.bestQuizScore = Math.max(
-        state.bestQuizScore,
-        score,
-      );
-
+      state.bestQuizScore = Math.max(state.bestQuizScore, quizScore);
       markActivity();
-
-      if (score >= 6) {
-        completeLesson("quiz", score);
-      }
-
+      if (quizScore >= 6) completeLesson("quiz", quizScore);
       saveState();
-
-      saveQuizResult(score, questions.length, answers);
+      saveQuizResult(quizScore, quizQuestions.length, quizAnswers);
 
       $("#quiz-question-area").classList.add("hidden");
       $("#quiz-result").classList.remove("hidden");
-
       $("#quiz-progress").style.width = "100%";
       $("#quiz-progress-label").textContent = "Fullført";
-      $("#quiz-score-label").textContent = `${score} riktige`;
-      $("#result-score").textContent =
-        `${score} / ${questions.length}`;
-
+      $("#quiz-score-label").textContent = `${quizScore} riktige`;
+      $("#result-score").textContent = `${quizScore} / ${quizQuestions.length}`;
       $("#result-copy").textContent =
-        score >= 7
+        quizScore >= 7
           ? "Strålende! Dette begynner virkelig å sitte."
-          : score >= 5
+          : quizScore >= 5
             ? "God økt. Litt repetisjon, så sitter resten også."
             : "En fin start. Gå gjerne gjennom bokstavene og uttrykkene én gang til.";
-
       showToast(`+${earned} XP · Quiz fullført`);
+    }
+
+    function stopQuiz() {
+      quizActive = false;
+      quizLocked = false;
+      quizCountdown.setDueAt(null);
     }
 
     return Object.freeze({
@@ -213,11 +149,10 @@
       renderQuizQuestion,
       answerQuiz,
       finishQuiz,
+      stopQuiz,
+      isActive: () => quizActive,
     });
   }
 
-  window.KumoQuiz = Object.freeze({
-    createQuizController,
-  });
+  window.KumoQuiz = Object.freeze({ createQuizController });
 })();
-'@ | Set-Content -Path ".\app\quiz.js" -Encoding UTF8
