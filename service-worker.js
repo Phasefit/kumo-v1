@@ -35,7 +35,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key !== CACHE_NAME)
+            .filter((key) => key.startsWith("kumo-v") && key !== CACHE_NAME)
             .map((key) => caches.delete(key)),
         ),
       ),

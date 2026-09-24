@@ -41,7 +41,7 @@
 
     const { data: created, error: createError } = await client()
       .from("user_progress")
-      .upsert(
+      .insert(
         {
           user_id: userId,
           course_id: courseId,
@@ -49,10 +49,20 @@
           progress_data: baseState(),
           settings: { displayMode: "kanji" },
         },
-        { onConflict: "user_id,course_id" },
       )
       .select()
       .single();
+    if (createError?.code === "23505") {
+      // Another tab may have created progress after the initial read.
+      const { data: existing, error: readError } = await client()
+        .from("user_progress")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("course_id", courseId)
+        .maybeSingle();
+      if (readError || !existing) throw new Error("Kunne ikke laste progresjonen.");
+      return existing;
+    }
     if (createError) throw new Error("Kunne ikke opprette progresjonen.");
     return created;
   }
@@ -65,7 +75,7 @@
       streak: Math.max(0, Number(row?.streak || 0)),
       displayMode: row?.settings?.displayMode || row?.progress_data?.displayMode || "kanji",
       weeklyGoal: Number(row?.settings?.weeklyGoal || row?.progress_data?.weeklyGoal || 3),
-      reducedMotion: Boolean(row?.settings?.reducedMotion || row?.progress_data?.reducedMotion),
+      reducedMotion: Boolean(row?.settings?.reducedMotion ?? row?.progress_data?.reducedMotion),
     };
   }
 
