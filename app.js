@@ -945,6 +945,13 @@ async function persistState(showConfirmation = false) {
   window.clearTimeout(persistenceTimer);
   persistenceTimer = null;
 
+  if (navigator.onLine === false) {
+    syncPending = true;
+    updateConnectivityUi();
+    $("#save-status").textContent = "Lagret lokalt · venter på synk";
+    return false;
+  }
+
   const userId = currentUser.id;
   const language = activeLanguage;
   const selectedCourse = course;
@@ -1280,6 +1287,8 @@ async function loadCourseAndProgress(language) {
     let bundle;
     let restoredState;
     try {
+      if (navigator.onLine === false)
+        throw new Error("Koble til nettet og åpne dette kurset én gang før du bruker det uten nett.");
       const [remoteBundle, progressRow] = await Promise.all([
         window.KumoServices.course.fetchCourseBundle(language),
         window.KumoServices.progress.getOrCreateProgress(
