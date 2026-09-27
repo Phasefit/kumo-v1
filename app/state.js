@@ -9,6 +9,7 @@
       difficultWords: [],
       answers: 0,
       correct: 0,
+      attempts: [],
       completed: [],
       dailyCompletions: 0,
       lastDailyCompletion: null,
@@ -60,6 +61,96 @@
     );
   }
 
+  function allowedExerciseKeys(selectedCourse) {
+    const keys = ["daily:sentence-builder", "daily:quiz"];
+
+    for (const exercise of selectedCourse?.database?.exercises || []) {
+      if (exercise?.id === undefined || exercise?.id === null) continue;
+      keys.push("database:" + String(exercise.id));
+    }
+
+    return keys;
+  }
+
+  function validAttempts(value, selectedCourse) {
+    if (!Array.isArray(value)) return [];
+
+    const allowed = new Set(allowedExerciseKeys(selectedCourse));
+
+    return value
+      .filter(
+        (item) =>
+          item &&
+          typeof item === "object" &&
+          !Array.isArray(item) &&
+          typeof item.exerciseKey === "string" &&
+          allowed.has(item.exerciseKey) &&
+          typeof item.correct === "boolean" &&
+          validDueAt(item.attemptedAt),
+      )
+      .map((item) => ({
+        exerciseKey: item.exerciseKey,
+        correct: item.correct,
+        attemptedAt: item.attemptedAt,
+      }))
+      .slice(-100);
+  }
+
+  function getExerciseResult(attempts, exerciseKey) {
+    const relevant = (Array.isArray(attempts) ? attempts : []).filter(
+      (attempt) => attempt?.exerciseKey === exerciseKey,
+    );
+
+    const correct = relevant.filter((attempt) => attempt.correct).length;
+    const last = relevant.length ? relevant[relevant.length - 1] : null;
+
+    return {
+      exerciseKey,
+      attempts: relevant.length,
+      correct,
+      incorrect: relevant.length - correct,
+      accuracy: relevant.length
+        ? Math.round((correct / relevant.length) * 100)
+        : null,
+      lastCorrect: last ? last.correct : null,
+      lastAttemptAt: last?.attemptedAt || null,
+    };
+  }
+
+  function recordExerciseAttempt(state, attempt) {
+    if (!state || typeof state !== "object" || Array.isArray(state)) {
+      throw new TypeError("State må være et objekt.");
+    }
+
+    if (
+      !attempt ||
+      typeof attempt.exerciseKey !== "string" ||
+      !attempt.exerciseKey
+    ) {
+      throw new TypeError("Forsøket mangler exerciseKey.");
+    }
+
+    if (typeof attempt.correct !== "boolean") {
+      throw new TypeError("Forsøket mangler korrekt resultat.");
+    }
+
+    const attemptedAt =
+      validDueAt(attempt.attemptedAt) || new Date().toISOString();
+
+    const nextAttempt = {
+      exerciseKey: attempt.exerciseKey,
+      correct: attempt.correct,
+      attemptedAt,
+    };
+
+    state.attempts = [
+      ...(Array.isArray(state.attempts) ? state.attempts : []),
+      nextAttempt,
+    ].slice(-100);
+
+    return getExerciseResult(state.attempts, attempt.exerciseKey);
+  }
+
   function validateState(value, selectedCourse, localDateKey) {
     const base = freshState();
     if (!value || typeof value !== "object" || Array.isArray(value)) return base;
@@ -77,6 +168,7 @@
       difficultWords: validUniqueItems(value.difficultWords, allowedWords),
       answers: validNonNegativeInteger(value.answers),
       correct: Math.min(validNonNegativeInteger(value.correct), validNonNegativeInteger(value.answers)),
+      attempts: validAttempts(value.attempts, selectedCourse),
       completed: validUniqueItems(value.completed, [
         "alphabet", "words", "quiz", "daily",
         ...(selectedCourse.database?.lessons || []).map((lesson) => `lesson:${lesson.id}`),
@@ -119,6 +211,9 @@
   window.KumoState = Object.freeze({
     freshState,
     replaceStateContents,
+    recordExerciseAttempt,
+    getExerciseResult,
+    validAttempts,
     validNonNegativeInteger,
     validDueAt,
     isDateKey,

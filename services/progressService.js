@@ -13,6 +13,7 @@
       difficultWords: [],
       answers: 0,
       correct: 0,
+      attempts: [],
       completed: [],
       dailyCompletions: 0,
       lastDailyCompletion: null,

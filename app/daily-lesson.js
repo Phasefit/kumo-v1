@@ -8,6 +8,7 @@ function createDailyLessonRenderer({
   setDailySentenceAnswer,
   speak,
   saveState,
+  recordExerciseAttempt,
   shuffle,
   dueReviewWords,
   displayWordTerm,
@@ -302,6 +303,10 @@ function createDailyLessonRenderer({
       state.correct += 1;
       state.xp += 5;
     }
+    recordExerciseAttempt({
+      exerciseKey: "daily:sentence-builder",
+      correct,
+    });
     saveState();
   }
 
@@ -331,6 +336,10 @@ function createDailyLessonRenderer({
           state.correct += 1;
           state.xp += 5;
         }
+        recordExerciseAttempt({
+          exerciseKey: "daily:quiz",
+          correct,
+        });
         saveState();
       }),
     );

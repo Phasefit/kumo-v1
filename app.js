@@ -1,6 +1,7 @@
 const {
   freshState,
   replaceStateContents,
+  recordExerciseAttempt: recordExerciseAttemptBase,
   validUniqueItems,
   validReviewStats,
   validNonNegativeInteger,
@@ -1260,6 +1261,8 @@ const dailyLessonRenderer = window.KumoDailyLesson.createDailyLessonRenderer({
   },
   speak,
   saveState,
+  recordExerciseAttempt: (attempt) =>
+    recordExerciseAttemptBase(state, attempt),
   shuffle,
   dueReviewWords,
   displayWordTerm,

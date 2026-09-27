@@ -1,0 +1,135 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import vm from "node:vm";
+
+function loadStateModule() {
+  const context = {
+    window: {},
+    document: {
+      readyState: "loading",
+      addEventListener() {},
+      querySelector() {
+        return null;
+      },
+    },
+  };
+
+  vm.runInNewContext(readFileSync("app/state.js", "utf8"), context);
+  return context.window.KumoState;
+}
+
+test("exercise attempts produce a derived result", () => {
+  const stateApi = loadStateModule();
+  const state = stateApi.freshState();
+
+  assert.equal(Array.isArray(state.attempts), true);
+  assert.equal(state.attempts.length, 0);
+
+  let result = stateApi.recordExerciseAttempt(state, {
+    exerciseKey: "daily:quiz",
+    correct: true,
+    attemptedAt: "2026-09-28T10:00:00.000Z",
+  });
+
+  assert.equal(state.attempts.length, 1);
+  assert.equal(result.attempts, 1);
+  assert.equal(result.correct, 1);
+  assert.equal(result.incorrect, 0);
+  assert.equal(result.accuracy, 100);
+  assert.equal(result.lastCorrect, true);
+
+  result = stateApi.recordExerciseAttempt(state, {
+    exerciseKey: "daily:quiz",
+    correct: false,
+    attemptedAt: "2026-09-28T10:01:00.000Z",
+  });
+
+  assert.equal(result.attempts, 2);
+  assert.equal(result.correct, 1);
+  assert.equal(result.incorrect, 1);
+  assert.equal(result.accuracy, 50);
+  assert.equal(result.lastCorrect, false);
+  assert.equal(result.lastAttemptAt, "2026-09-28T10:01:00.000Z");
+});
+
+test("state validation keeps only valid known exercise attempts", () => {
+  const stateApi = loadStateModule();
+
+  const course = {
+    symbols: [],
+    words: [],
+    database: {
+      lessons: [],
+      exercises: [{ id: "exercise-1" }],
+    },
+  };
+
+  const result = stateApi.validateState(
+    {
+      attempts: [
+        {
+          exerciseKey: "daily:quiz",
+          correct: true,
+          attemptedAt: "2026-09-28T10:00:00.000Z",
+        },
+        {
+          exerciseKey: "database:exercise-1",
+          correct: false,
+          attemptedAt: "2026-09-28T10:01:00.000Z",
+        },
+        {
+          exerciseKey: "database:missing",
+          correct: true,
+          attemptedAt: "2026-09-28T10:02:00.000Z",
+        },
+        {
+          exerciseKey: "daily:quiz",
+          correct: true,
+          attemptedAt: "invalid-date",
+        },
+      ],
+    },
+    course,
+    () => "2026-09-28",
+  );
+
+  assert.equal(result.attempts.length, 2);
+  assert.equal(result.attempts[0].exerciseKey, "daily:quiz");
+  assert.equal(result.attempts[1].exerciseKey, "database:exercise-1");
+});
+
+test("attempt history is bounded to the latest 100 attempts", () => {
+  const stateApi = loadStateModule();
+  const state = stateApi.freshState();
+
+  for (let index = 0; index < 105; index += 1) {
+    stateApi.recordExerciseAttempt(state, {
+      exerciseKey: "daily:quiz",
+      correct: index % 2 === 0,
+      attemptedAt: new Date(Date.UTC(2026, 8, 28, 10, index)).toISOString(),
+    });
+  }
+
+  assert.equal(state.attempts.length, 100);
+});
+
+test("daily assessed exercises record attempts", () => {
+  const daily = readFileSync("app/daily-lesson.js", "utf8");
+  const app = readFileSync("app.js", "utf8");
+
+  assert.match(
+    daily,
+    /exerciseKey:\s*"daily:sentence-builder"/,
+  );
+
+  assert.match(
+    daily,
+    /exerciseKey:\s*"daily:quiz"/,
+  );
+
+  assert.match(
+    app,
+    /recordExerciseAttempt:\s*\(attempt\)\s*=>\s*recordExerciseAttemptBase\(state,\s*attempt\)/,
+  );
+});
