@@ -1460,10 +1460,7 @@ async function hydrateAuthenticatedApp(session) {
   try {
     currentProfile =
       await window.KumoServices.profile.getOrCreateProfile(currentUser);
-    activeLanguage =
-      { japanese: "ja", turkish: "tr", albanian: "sq" }[
-        currentProfile.selected_language
-      ] || "ja";
+    activeLanguage = "ja";
     course = courses[activeLanguage];
     await loadCourseAndProgress(activeLanguage);
     currentWord = 0;
@@ -1480,8 +1477,6 @@ async function hydrateAuthenticatedApp(session) {
     $("#app-loading").classList.add("hidden");
     $("#auth-page").classList.add("hidden");
     $("#app-shell").classList.remove("hidden");
-    if (!currentProfile.selected_language)
-      $("#language-gate").classList.remove("hidden");
   } catch (error) {
     showAuthPage(error.message || "Kunne ikke laste kontoen.");
   }

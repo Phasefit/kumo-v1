@@ -2523,3 +2523,13 @@ html.reduce-motion *::after {
     padding-inline: 14px;
   }
 }
+
+/* Japanese-only product scope */
+.language-gate,
+.language-switcher,
+#mobile-language-select,
+label[for="mobile-language-select"],
+#choose-language-again,
+#settings-view .setting-row:has(#settings-language-select) {
+  display: none !important;
+}
