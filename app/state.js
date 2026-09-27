@@ -64,6 +64,11 @@
   function allowedExerciseKeys(selectedCourse) {
     const keys = ["daily:sentence-builder", "daily:quiz", "quiz:main"];
 
+    for (const symbol of selectedCourse?.symbols || []) {
+      if (typeof symbol?.char !== "string" || !symbol.char) continue;
+      keys.push("alphabet:" + symbol.char);
+    }
+
     for (const exercise of selectedCourse?.database?.exercises || []) {
       if (exercise?.id === undefined || exercise?.id === null) continue;
       keys.push("database:" + String(exercise.id));

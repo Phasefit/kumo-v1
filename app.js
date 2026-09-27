@@ -1126,6 +1126,10 @@ function checkAlphabetPractice(button) {
     $("#kana-feedback").textContent =
       `Nesten – riktig svar er «${practiceSymbol.reading}».`;
   }
+  recordExerciseAttemptBase(state, {
+    exerciseKey: "alphabet:" + practiceSymbol.char,
+    correct,
+  });
   saveState();
   practiceTimer = setTimeout(openAlphabetPractice, 1200);
 }

@@ -188,3 +188,47 @@ test("main quiz records activity-level attempts", () => {
     /recordExerciseAttemptBase\(state,\s*\{\s*exerciseKey:\s*"quiz:main",\s*correct,\s*\}\);/,
   );
 });
+test("alphabet practice records attempts by symbol", () => {
+  const stateApi = loadStateModule();
+
+  const course = {
+    symbols: [
+      { char: "あ" },
+      { char: "い" },
+    ],
+    words: [],
+    database: {
+      lessons: [],
+      exercises: [],
+    },
+  };
+
+  const validated = stateApi.validateState(
+    {
+      attempts: [
+        {
+          exerciseKey: "alphabet:あ",
+          correct: true,
+          attemptedAt: "2026-09-28T13:00:00.000Z",
+        },
+        {
+          exerciseKey: "alphabet:missing",
+          correct: false,
+          attemptedAt: "2026-09-28T13:01:00.000Z",
+        },
+      ],
+    },
+    course,
+    () => "2026-09-28",
+  );
+
+  assert.equal(validated.attempts.length, 1);
+  assert.equal(validated.attempts[0].exerciseKey, "alphabet:あ");
+
+  const app = readFileSync("app.js", "utf8");
+
+  assert.match(
+    app,
+    /exerciseKey:\s*"alphabet:"\s*\+\s*practiceSymbol\.char/,
+  );
+});
