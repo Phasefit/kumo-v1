@@ -1,5 +1,6 @@
 const {
   freshState,
+  replaceStateContents,
   validUniqueItems,
   validReviewStats,
   validNonNegativeInteger,
@@ -831,8 +832,11 @@ async function loadCourseAndProgress(language) {
       syncPending = true;
     }
     courses[language].database = bundle;
-    progressStore[language] = validateState(restoredState, courses[language]);
-    state = progressStore[language];
+    replaceStateContents(
+      state,
+      validateState(restoredState, courses[language]),
+    );
+    progressStore[language] = state;
     lastDifficultWordsSignature = JSON.stringify(
       [...state.difficultWords].sort(),
     );
@@ -1652,9 +1656,9 @@ async function resetProgress() {
       currentUser.id,
       activeLanguage,
     );
-    state = validateState(
-      window.KumoServices.progress.stateFromRow(row),
-      course,
+    replaceStateContents(
+      state,
+      validateState(window.KumoServices.progress.stateFromRow(row), course),
     );
     lastDifficultWordsSignature = "[]";
   } catch (error) {

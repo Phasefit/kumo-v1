@@ -103,10 +103,15 @@ function loadCourseContext(cached = true) {
   const context = {
     currentUser: { id: "user-1" }, navigator: { onLine: false }, localStorage,
     isHydrating: false, syncPending: false, courses: { ja: {} }, progressStore: {},
-    state: null, lastDifficultWordsSignature: "",
+    state: {}, lastDifficultWordsSignature: "",
     courseCacheKey: (language) => `course:${language}`,
     progressCacheKey: (language) => `progress:user-1:${language}`,
     validateState: (state) => state,
+    replaceStateContents(target, nextState) {
+      for (const key of Object.keys(target)) delete target[key];
+      Object.assign(target, nextState);
+      return target;
+    },
     window: { KumoServices: {
       course: { fetchCourseBundle: async () => { requests++; throw new Error("network request"); } },
       progress: { getOrCreateProgress: async () => { requests++; throw new Error("network request"); } },

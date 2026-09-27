@@ -101,6 +101,12 @@
     };
   }
 
+  function replaceStateContents(target, nextState) {
+    for (const key of Object.keys(target)) delete target[key];
+    Object.assign(target, nextState);
+    return target;
+  }
+
   function loadDashboardPolish() {
     if (document.querySelector('script[data-kumo-dashboard-polish="true"]')) return;
     const script = document.createElement("script");
@@ -112,6 +118,7 @@
 
   window.KumoState = Object.freeze({
     freshState,
+    replaceStateContents,
     validNonNegativeInteger,
     validDueAt,
     isDateKey,
