@@ -1193,7 +1193,9 @@ function updateDashboard() {
   $("#learned-count").textContent = state.learnedSymbols.length;
   $("#symbol-total").textContent = course.symbols.length;
   $("#accuracy-stat").textContent = accuracy;
-  $("#completed-lessons").textContent = state.completed.length;
+  const completedLessons = $("#completed-lessons");
+  completedLessons.textContent = state.completed.length;
+  completedLessons.dataset.completedKeys = JSON.stringify(state.completed);
   $("#kana-mastered-label").textContent =
     `${state.learnedSymbols.length} av ${course.symbols.length} mestret`;
   $("#kana-progress").style.width =

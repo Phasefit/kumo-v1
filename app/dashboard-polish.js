@@ -177,10 +177,39 @@
     const cards = [...home.querySelectorAll(".lesson-card")];
     if (!cards.length) return;
 
-    const completed = Number(document.getElementById("completed-lessons")?.textContent || 0);
+    const progress = document.getElementById("completed-lessons");
+    let completedKeys = [];
+
+    try {
+      const parsed = JSON.parse(progress?.dataset.completedKeys || "[]");
+      completedKeys = Array.isArray(parsed) ? parsed : [];
+    } catch {
+      completedKeys = [];
+    }
+
+    const completionKeyByAction = {
+      "open-kana": "alphabet",
+      "open-words": "words",
+      "open-quiz": "quiz",
+    };
+
+    const firstIncompleteIndex = cards.findIndex((card) => {
+      const completionKey = completionKeyByAction[card.dataset.action];
+      return completionKey && !completedKeys.includes(completionKey);
+    });
 
     cards.forEach((card, index) => {
-      const status = index < completed ? "completed" : index === completed ? "active" : "next";
+      const completionKey = completionKeyByAction[card.dataset.action];
+      const isCompleted = completionKey
+        ? completedKeys.includes(completionKey)
+        : false;
+
+      const status = isCompleted
+        ? "completed"
+        : index === firstIncompleteIndex
+          ? "active"
+          : "next";
+
       card.dataset.dashboardStatus = status;
 
       let badge = card.querySelector(".dashboard-status");
@@ -204,6 +233,8 @@
       childList: true,
       characterData: true,
       subtree: true,
+      attributes: true,
+      attributeFilter: ["data-completed-keys"],
     });
   }
 
