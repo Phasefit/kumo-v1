@@ -339,43 +339,10 @@ button {
   margin-top: 28px;
 }
 
-.language-switcher {
-  display: grid;
-  gap: 7px;
-  margin-top: 38px;
-}
-
-.language-switcher label {
-  color: #82958e;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.language-switcher select,
-#mobile-language-select {
-  width: 100%;
-  padding: 9px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 9px;
-  background: #29443f;
-  color: white;
-  cursor: pointer;
-  font: inherit;
-  font-size: 12px;
-}
-
 .mobile-actions {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-#mobile-language-select {
-  width: auto;
-  max-width: 112px;
-  padding: 7px 8px;
 }
 
 .nav-item {
@@ -687,35 +654,6 @@ main {
   position: absolute;
   inset: 0 0 0 45%;
   overflow: hidden;
-}
-
-.hero-art.turkish .torii,
-.hero-art.turkish .cloud {
-  display: none;
-}
-
-.hero-art.turkish::after {
-  position: absolute;
-  top: 60px;
-  right: 90px;
-  color: rgba(255, 255, 255, 0.88);
-  content: "☾ ★";
-  font-size: 72px;
-  letter-spacing: -20px;
-  text-shadow: 0 8px 20px rgba(20, 49, 43, 0.18);
-}
-
-body[data-course="tr"] .kana-character,
-body[data-course="tr"] .flashcard-face strong,
-body[data-course="tr"] .phrase-row strong,
-body[data-course="tr"] #quiz-prompt {
-  font-family: var(--sans);
-}
-
-body[data-course="tr"] .lesson-symbol {
-  font-family: var(--sans);
-  font-size: 34px;
-  font-weight: 700;
 }
 
 .sun {
@@ -1511,86 +1449,6 @@ body[data-course="tr"] .lesson-symbol {
   display: none !important;
 }
 
-.language-gate {
-  position: fixed;
-  z-index: 200;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 22px;
-  background: rgba(19, 43, 38, 0.9);
-  backdrop-filter: blur(12px);
-}
-
-.language-gate-card {
-  width: min(720px, 100%);
-  padding: 42px;
-  border-radius: 26px;
-  background: var(--paper);
-  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
-
-.language-gate-card > .brand-mark {
-  margin: 0 auto 20px;
-}
-
-.language-gate-card h1 {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: clamp(38px, 7vw, 62px);
-}
-
-.language-gate-card > p {
-  margin: 14px auto 28px;
-  color: var(--muted);
-}
-
-.language-choice-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-
-.language-choice {
-  display: flex;
-  min-height: 210px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: white;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.language-choice:hover {
-  border-color: var(--green);
-  box-shadow: var(--shadow);
-  transform: translateY(-4px);
-}
-
-.language-choice > span {
-  color: var(--coral);
-  font-family: var(--jp);
-  font-size: 32px;
-}
-
-.language-choice strong {
-  margin-top: 10px;
-  font-family: var(--serif);
-  font-size: 25px;
-}
-
-.language-choice small {
-  max-width: 230px;
-  margin-top: 8px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
 .daily-progress-shell {
   display: flex;
   align-items: center;
@@ -2361,19 +2219,10 @@ html.reduce-motion *::after {
     grid-template-columns: 1fr;
   }
 
-  .language-gate-card {
-    padding: 30px 20px;
-  }
-
-  .language-choice-grid,
   .mini-flashcard-grid,
   .grammar-grid,
   .progress-overview {
     grid-template-columns: 1fr;
-  }
-
-  .language-choice {
-    min-height: 150px;
   }
 
   .daily-progress-shell,
@@ -2522,14 +2371,4 @@ html.reduce-motion *::after {
   .daily-actions button {
     padding-inline: 14px;
   }
-}
-
-/* Japanese-only product scope */
-.language-gate,
-.language-switcher,
-#mobile-language-select,
-label[for="mobile-language-select"],
-#choose-language-again,
-#settings-view .setting-row:has(#settings-language-select) {
-  display: none !important;
 }

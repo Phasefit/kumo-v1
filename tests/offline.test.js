@@ -15,7 +15,7 @@ function profileService() {
   const localStorage = storage();
   const navigator = { onLine: true };
   let requests = 0;
-  const profile = { id: "user-1", display_name: "Elev", selected_language: "turkish" };
+  const profile = { id: "user-1", display_name: "Elev", selected_language: "japanese" };
   const query = {
     select() { return this; },
     eq() { return this; },
@@ -31,7 +31,7 @@ test("offline profile uses the signed-in user's cached profile without a request
   await setup.service.getOrCreateProfile({ id: "user-1" });
   setup.navigator.onLine = false;
   const result = await setup.service.getOrCreateProfile({ id: "user-1" });
-  assert.equal(result.selected_language, "turkish");
+  assert.equal(result.selected_language, "japanese");
   assert.equal(setup.requests(), 1);
 });
 
@@ -44,7 +44,7 @@ test("offline profile cannot use another user's cache", async () => {
 });
 
 test("invalid or mismatched cached profiles report an offline error", async () => {
-  for (const cached of ["broken json", JSON.stringify({ id: "other-user", selected_language: "turkish" })]) {
+  for (const cached of ["broken json", JSON.stringify({ id: "other-user", selected_language: "japanese" })]) {
     const setup = profileService();
     setup.localStorage.setItem("kumo-profile:user-1", cached);
     setup.navigator.onLine = false;
@@ -61,19 +61,19 @@ test("unavailable cache storage does not prevent online profile loading", async 
 
 test("offline saves remain pending and can sync after reconnection", async () => {
   const localStorage = storage();
-  localStorage.setItem("progress:tr:pending", "1");
+  localStorage.setItem("progress:ja:pending", "1");
   let writes = 0;
   const context = {
     currentUser: { id: "user-1" }, navigator: { onLine: false }, localStorage,
     persistenceTimer: null, persistenceChain: Promise.resolve(), syncPending: false,
-    activeLanguage: "tr", course: { name: "tyrkisk" }, state: { xp: 42, difficultWords: [] },
+    activeLanguage: "ja", course: { name: "japansk" }, state: { xp: 42, difficultWords: [] },
     lastDifficultWordsSignature: "[]", progressCacheKey: (language) => `progress:${language}`,
     updateConnectivityUi() {}, updateSaveStatus() {}, $: () => ({}),
     window: { clearTimeout() {}, KumoServices: { progress: {
       async saveProgress(userId, language, snapshot) {
         writes++;
         assert.equal(userId, "user-1");
-        assert.equal(language, "tr");
+        assert.equal(language, "ja");
         assert.equal(snapshot.xp, 42);
       },
     } } },
@@ -83,26 +83,26 @@ test("offline saves remain pending and can sync after reconnection", async () =>
   assert.equal(await context.persistState(), false);
   assert.equal(writes, 0);
   assert.equal(context.syncPending, true);
-  assert.equal(localStorage.getItem("progress:tr:pending"), "1");
+  assert.equal(localStorage.getItem("progress:ja:pending"), "1");
   localStorage.removeItem = (key) => localStorage.setItem(key, null);
   context.navigator.onLine = true;
   assert.equal(await context.persistState(), true);
   assert.equal(writes, 1);
   assert.equal(context.syncPending, false);
-  assert.equal(localStorage.getItem("progress:tr:pending"), null);
+  assert.equal(localStorage.getItem("progress:ja:pending"), null);
 });
 
 // Evaluate the existing orchestration function with controlled dependencies.
 function loadCourseContext(cached = true) {
   const localStorage = storage();
   if (cached) {
-    localStorage.setItem("course:tr", JSON.stringify({ lessons: ["lesson-1"] }));
-    localStorage.setItem("progress:user-1:tr", JSON.stringify({ xp: 42, difficultWords: [] }));
+    localStorage.setItem("course:ja", JSON.stringify({ lessons: ["lesson-1"] }));
+    localStorage.setItem("progress:user-1:ja", JSON.stringify({ xp: 42, difficultWords: [] }));
   }
   let requests = 0;
   const context = {
     currentUser: { id: "user-1" }, navigator: { onLine: false }, localStorage,
-    isHydrating: false, syncPending: false, courses: { tr: {} }, progressStore: {},
+    isHydrating: false, syncPending: false, courses: { ja: {} }, progressStore: {},
     state: null, lastDifficultWordsSignature: "",
     courseCacheKey: (language) => `course:${language}`,
     progressCacheKey: (language) => `progress:user-1:${language}`,
@@ -119,7 +119,7 @@ function loadCourseContext(cached = true) {
 
 test("offline course loading restores local progress without remote reads", async () => {
   const setup = loadCourseContext();
-  await setup.context.loadCourseAndProgress("tr");
+  await setup.context.loadCourseAndProgress("ja");
   assert.equal(setup.requests(), 0);
   assert.equal(setup.context.state.xp, 42);
   assert.equal(setup.context.syncPending, true);
@@ -128,7 +128,7 @@ test("offline course loading restores local progress without remote reads", asyn
 
 test("offline course without cache reports a useful error and exits hydration", async () => {
   const setup = loadCourseContext(false);
-  await assert.rejects(setup.context.loadCourseAndProgress("tr"), /Koble til nettet/);
+  await assert.rejects(setup.context.loadCourseAndProgress("ja"), /Koble til nettet/);
   assert.equal(setup.context.isHydrating, false);
 });
 

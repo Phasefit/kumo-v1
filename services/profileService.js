@@ -20,8 +20,7 @@
     if (navigator.onLine === false) {
       try {
         const cached = JSON.parse(localStorage.getItem(`kumo-profile:${user.id}`));
-        if (cached?.id === user.id &&
-            ["japanese", "turkish", "albanian"].includes(cached.selected_language)) return cached;
+        if (cached?.id === user.id) return cached;
       } catch {
         // Missing or invalid cache requires an online load.
       }
@@ -55,14 +54,9 @@
     return cacheProfile(data);
   }
 
-  async function updateSelectedLanguage(userId, language) {
-    return updateProfile(userId, { selected_language: language });
-  }
-
-  window.KumoServices = window.KumoServices || {};
+    window.KumoServices = window.KumoServices || {};
   window.KumoServices.profile = Object.freeze({
     getOrCreateProfile,
     updateProfile,
-    updateSelectedLanguage,
   });
 })();
