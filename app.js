@@ -1094,6 +1094,86 @@ function requiredLessonKeysForLevel(levelNumber) {
     : [];
 }
 
+function determineNextAction({
+  levelRequirements = [],
+  completed = [],
+  dueReviewCount = 0,
+}) {
+  if (dueReviewCount > 0) {
+    return { type: "review" };
+  }
+
+  const nextRequirement = levelRequirements.find(
+    (key) => !completed.includes(key),
+  );
+
+  if (!nextRequirement) {
+    return { type: "view", view: "daily" };
+  }
+
+  const viewByRequirement = {
+    alphabet: "kana",
+    words: "words",
+    quiz: "quiz",
+    daily: "daily",
+  };
+
+  if (viewByRequirement[nextRequirement]) {
+    return {
+      type: "view",
+      view: viewByRequirement[nextRequirement],
+    };
+  }
+
+  if (nextRequirement.startsWith("lesson:")) {
+    return {
+      type: "database-lesson",
+      lessonId: nextRequirement.slice("lesson:".length),
+    };
+  }
+
+  return { type: "view", view: "daily" };
+}
+
+function nextActionLabel(action) {
+  if (action.type === "review") return "Start repetisjon";
+  if (action.type === "database-lesson") return "Fortsett kurset";
+
+  const labelByView = {
+    kana: "Lær neste tegn",
+    words: "Øv på ord",
+    quiz: "Ta neste quiz",
+    daily: "Start dagens økt",
+  };
+
+  return labelByView[action.view] || "Fortsett læringen";
+}
+
+function currentNextAction(level = calculateUnlockedLevel()) {
+  return determineNextAction({
+    levelRequirements: requiredLessonKeysForLevel(level),
+    completed: state.completed,
+    dueReviewCount: dueReviewWords().length,
+  });
+}
+
+function executeNextAction(action) {
+  if (action.type === "review") {
+    dailyStep = 0;
+    return showView("daily");
+  }
+
+  if (action.type === "database-lesson") {
+    return openDatabaseLesson(action.lessonId);
+  }
+
+  if (action.type === "view") {
+    return showView(action.view);
+  }
+
+  return showView("daily");
+}
+
 function calculateUnlockedLevel() {
   let unlocked = 1;
   const levelOneReady =
@@ -1171,6 +1251,14 @@ function completeDatabaseLesson(lesson) {
 
 function updateDashboard() {
   const level = calculateUnlockedLevel();
+  const nextAction = currentNextAction(level);
+  const nextActionButton = $("#next-action-button");
+
+  if (nextActionButton) {
+    nextActionButton.innerHTML =
+      `${nextActionLabel(nextAction)} <span>→</span>`;
+  }
+
   state.unlockedLevel = level;
   const accuracy = state.answers
     ? `${Math.round((state.correct / state.answers) * 100)} %`
@@ -2229,6 +2317,9 @@ async function resetProgress() {
 
 $$("button:not([type])").forEach((button) => (button.type = "button"));
 window.KumoNavigation.bindNavigationEvents({ $, $$, showView });
+$("#next-action-button").addEventListener("click", () =>
+  executeNextAction(currentNextAction()),
+);
 $("#language-select").addEventListener("change", (event) =>
   switchLanguage(event.target.value),
 );
