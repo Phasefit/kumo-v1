@@ -2,7 +2,7 @@
   "name": "kumo-v1",
   "version": "1.1.0",
   "private": true,
-  "description": "Kumo – interaktiv læringsapp for japansk, tyrkisk og albansk.",
+  "description": "Kumo – interaktiv læringsapp for japansk.",
   "type": "module",
   "scripts": {
     "test": "node --test",

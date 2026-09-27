@@ -1,8 +1,6 @@
 (function () {
   const languageMap = Object.freeze({
     ja: { databaseLanguage: "japanese", courseId: "japanese-a1" },
-    tr: { databaseLanguage: "turkish", courseId: "turkish-a1" },
-    sq: { databaseLanguage: "albanian", courseId: "albanian-a1" },
   });
 
   function client() {

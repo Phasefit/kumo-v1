@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="Kumo" />
     <meta
       name="description"
-      content="Kumo – en interaktiv læringsapp for japansk, tyrkisk og albansk."
+      content="Kumo – en interaktiv læringsapp for japansk."
     />
-    <title>Kumo – lær japansk, tyrkisk og albansk</title>
+    <title>Kumo – lær japansk</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icons/favicon.ico?v=2" sizes="any" />
     <link rel="icon" href="icons/kumo-192.png?v=2" type="image/png" />
@@ -99,32 +99,6 @@
       </div>
     </section>
 
-    <section class="language-gate hidden" id="language-gate" aria-labelledby="language-gate-title">
-      <div class="language-gate-card">
-        <span class="brand-mark">雲</span>
-        <span class="eyebrow">Velkommen til Kumo</span>
-        <h1 id="language-gate-title">Hva vil du lære?</h1>
-        <p>Velg språk nå. Du kan bytte senere, og fremgangen lagres separat.</p>
-        <div class="language-choice-grid">
-          <button class="language-choice" data-language-choice="ja">
-            <span>日本語</span>
-            <strong>Japansk</strong>
-            <small>Kana, nyttige fraser og enkel grammatikk</small>
-          </button>
-          <button class="language-choice" data-language-choice="tr">
-            <span>Türkçe</span>
-            <strong>Tyrkisk</strong>
-            <small>Uttale, praktiske fraser og endelser</small>
-          </button>
-          <button class="language-choice" data-language-choice="sq">
-            <span>Shqip</span>
-            <strong>Albansk</strong>
-            <small>Uttale, hilsener og enkel grammatikk</small>
-          </button>
-        </div>
-      </div>
-    </section>
-
     <div class="app-shell hidden" id="app-shell">
       <aside class="sidebar" aria-label="Hovedmeny">
         <a class="brand" href="#" aria-label="Kumo startside">
@@ -134,15 +108,6 @@
             <small id="brand-language">lær japansk</small>
           </span>
         </a>
-
-        <div class="language-switcher">
-          <label for="language-select">Språk</label>
-          <select id="language-select" aria-label="Velg språk">
-            <option value="ja">日本語 · Japansk</option>
-            <option value="tr">Türkçe · Tyrkisk</option>
-            <option value="sq">Shqip · Albansk</option>
-          </select>
-        </div>
 
         <nav class="nav-list">
           <button class="nav-item active" data-view="home">
@@ -200,11 +165,6 @@
             <strong>Kumo</strong>
           </a>
           <div class="mobile-actions">
-            <select id="mobile-language-select" aria-label="Velg språk">
-              <option value="ja">日本語</option>
-              <option value="tr">Türkçe</option>
-              <option value="sq">Shqip</option>
-            </select>
             <button class="menu-button" id="menu-button" aria-label="Åpne meny" aria-expanded="false">☰</button>
           </div>
         </header>
@@ -517,17 +477,6 @@
               </div>
               <button class="secondary-button compact" id="settings-logout-button" type="button">Logg ut</button>
             </div>
-            <div class="setting-row">
-              <div>
-                <strong>Språk</strong>
-                <small>Fremgangen lagres separat for hvert språk.</small>
-              </div>
-              <select id="settings-language-select" aria-label="Velg kursspråk">
-                <option value="ja">Japansk</option>
-                <option value="tr">Tyrkisk</option>
-                <option value="sq">Albansk</option>
-              </select>
-            </div>
             <div class="setting-row" id="display-mode-setting">
               <div>
                 <strong>Japansk visning</strong>
@@ -569,7 +518,6 @@
               </div>
               <span class="status-pill" id="sync-status-pill">Synkronisert</span>
             </div>
-            <button class="secondary-button" id="choose-language-again">Vis språkvelger</button>
           </section>
         </section>
       </main>

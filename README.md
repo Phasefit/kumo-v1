@@ -1,6 +1,6 @@
 # Kumo v1
 
-Kumo is an interactive learning app for Norwegian beginners learning Japanese, Turkish and Albanian.
+Kumo is an interactive learning app for Norwegian beginners learning Japanese.
 
 ## Current architecture
 

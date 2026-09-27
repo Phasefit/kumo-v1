@@ -31,7 +31,7 @@ test("runtime config contains no Supabase service-role secret", () => {
 
 test("PWA manifest declares required icons", () => {
   const manifest = JSON.parse(readFileSync("manifest.webmanifest", "utf8"));
-  assert.equal(manifest.name, "Kumo – lær japansk, tyrkisk og albansk");
+  assert.equal(manifest.name, "Kumo – lær japansk");
   assert.ok(Array.isArray(manifest.icons));
   assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192"));
   assert.ok(manifest.icons.some((icon) => icon.sizes === "512x512"));

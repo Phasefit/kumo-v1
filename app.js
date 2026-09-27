@@ -1301,9 +1301,6 @@ function applyCourseUi() {
   document.documentElement.lang = "no";
   document.body.dataset.course = activeLanguage;
   document.title = `Kumo – lær ${course.name}`;
-  $("#language-select").value = activeLanguage;
-  $("#mobile-language-select").value = activeLanguage;
-  $("#settings-language-select").value = activeLanguage;
   $("#display-mode-select").value = state.displayMode;
   $("#weekly-goal-select").value = String(state.weeklyGoal);
   $("#reduced-motion-toggle").checked = state.reducedMotion;
@@ -1438,7 +1435,6 @@ function showLoading(message = "Laster kontoen din …") {
   $("#app-loading").classList.remove("hidden");
   $("#auth-page").classList.add("hidden");
   $("#app-shell").classList.add("hidden");
-  $("#language-gate").classList.add("hidden");
 }
 
 function showAuthPage(message = "", success = false) {
@@ -1446,7 +1442,6 @@ function showAuthPage(message = "", success = false) {
   currentProfile = null;
   $("#app-loading").classList.add("hidden");
   $("#app-shell").classList.add("hidden");
-  $("#language-gate").classList.add("hidden");
   $("#auth-page").classList.remove("hidden");
   $("#auth-message").textContent = message;
   $("#auth-message").classList.toggle("success", success);
@@ -1545,8 +1540,7 @@ async function switchLanguage(language) {
         databaseLanguage,
       );
     }
-    $("#language-gate").classList.add("hidden");
-    return true;
+      return true;
   }
   const previousLanguage = activeLanguage;
   const previousCourse = course;
@@ -2315,12 +2309,6 @@ window.KumoNavigation.bindNavigationEvents({ $, $$, showView });
 $("#next-action-button").addEventListener("click", () =>
   executeNextAction(currentNextAction()),
 );
-$("#language-select").addEventListener("change", (event) =>
-  switchLanguage(event.target.value),
-);
-$("#mobile-language-select").addEventListener("change", (event) =>
-  switchLanguage(event.target.value),
-);
 $("#practice-kana").addEventListener("click", openAlphabetPractice);
 $("#close-kana-practice").addEventListener("click", closeAlphabetPractice);
 $("#flashcard").addEventListener("click", () =>
@@ -2369,9 +2357,6 @@ $("#review-difficult").addEventListener("click", () => {
   renderWords();
   showToast("Viser bare vanskelige ord.");
 });
-$("#settings-language-select").addEventListener("change", (event) =>
-  switchLanguage(event.target.value),
-);
 $("#display-mode-select").addEventListener("change", (event) => {
   state.displayMode = event.target.value;
   saveState();
@@ -2397,15 +2382,6 @@ $("#apply-update").addEventListener("click", () => {
 });
 $("#dismiss-update").addEventListener("click", () =>
   $("#update-banner").classList.add("hidden"),
-);
-$("#choose-language-again").addEventListener("click", () =>
-  $("#language-gate").classList.remove("hidden"),
-);
-$$("[data-language-choice]").forEach((button) =>
-  button.addEventListener("click", async () => {
-    const changed = await switchLanguage(button.dataset.languageChoice);
-    if (changed) $("#language-gate").classList.add("hidden");
-  }),
 );
 $("#show-login").addEventListener("click", () => setAuthMode("login"));
 $("#show-signup").addEventListener("click", () => setAuthMode("signup"));

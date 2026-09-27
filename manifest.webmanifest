@@ -1,8 +1,8 @@
 {
-  "name": "Kumo – lær japansk, tyrkisk og albansk",
+  "name": "Kumo – lær japansk",
   "short_name": "Kumo",
   "id": "./",
-  "description": "En interaktiv læringsapp for japansk, tyrkisk og albansk for norske nybegynnere.",
+  "description": "En interaktiv læringsapp for japansk for norske nybegynnere.",
   "lang": "nb-NO",
   "start_url": "./",
   "scope": "./",
