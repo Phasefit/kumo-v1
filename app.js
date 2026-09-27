@@ -1027,6 +1027,8 @@ const databaseRenderer = window.KumoDatabaseRenderer.createDatabaseRenderer({
   }),
   speak,
   saveState,
+  recordExerciseAttempt: (attempt) =>
+    recordExerciseAttemptBase(state, attempt),
   shuffle,
   escapeHtml,
 });

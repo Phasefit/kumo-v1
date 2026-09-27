@@ -133,3 +133,22 @@ test("daily assessed exercises record attempts", () => {
     /recordExerciseAttempt:\s*\(attempt\)\s*=>\s*recordExerciseAttemptBase\(state,\s*attempt\)/,
   );
 });
+test("database assessed exercises record attempts by exercise id", () => {
+  const renderer = readFileSync("app/database-renderer.js", "utf8");
+  const app = readFileSync("app.js", "utf8");
+
+  assert.match(
+    renderer,
+    /exerciseKey:\s*"database:"\s*\+\s*String\(exercise\.id\)/,
+  );
+
+  const attemptCalls =
+    renderer.match(/recordDatabaseAttempt\(exercise,\s*correct\);/g) || [];
+
+  assert.equal(attemptCalls.length, 2);
+
+  assert.match(
+    app,
+    /getDatabaseLessonStep:[\s\S]*?saveState,\s*recordExerciseAttempt:\s*\(attempt\)\s*=>\s*recordExerciseAttemptBase\(state,\s*attempt\),\s*shuffle,\s*escapeHtml,\s*\}\);/,
+  );
+});

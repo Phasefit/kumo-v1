@@ -1,4 +1,26 @@
-function createDatabaseRenderer({ $, $$, state, activeLanguage, getActiveLanguage, getActiveDatabaseLesson, getDatabaseLessonStep, speak, saveState, shuffle, escapeHtml }) {
+function createDatabaseRenderer({
+  $,
+  $$,
+  state,
+  activeLanguage,
+  getActiveLanguage,
+  getActiveDatabaseLesson,
+  getDatabaseLessonStep,
+  speak,
+  saveState,
+  recordExerciseAttempt,
+  shuffle,
+  escapeHtml,
+}) {
+function recordDatabaseAttempt(exercise, correct) {
+  if (exercise?.id === undefined || exercise?.id === null) return;
+
+  recordExerciseAttempt({
+    exerciseKey: "database:" + String(exercise.id),
+    correct,
+  });
+}
+
 function renderDatabaseLesson() {
   const lesson = getActiveDatabaseLesson();
   const { step, index: databaseLessonStep, total: databaseLessonStepCount } = getDatabaseLessonStep();
@@ -82,6 +104,7 @@ function renderDatabaseExercise(exercise) {
         $("#database-exercise-feedback").classList.toggle("success", correct);
         state.answers += 1;
         if (correct) state.correct += 1;
+        recordDatabaseAttempt(exercise, correct);
         saveState();
       }),
     );
@@ -110,6 +133,7 @@ function renderDatabaseExercise(exercise) {
         : `Riktig svar er «${data.answer}».`;
       state.answers += 1;
       if (correct) state.correct += 1;
+      recordDatabaseAttempt(exercise, correct);
       saveState();
     }),
   );
