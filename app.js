@@ -1068,8 +1068,7 @@ function dueReviewWords() {
       const review = state.reviewStats[word.term];
       return (
         state.difficultWords.includes(word.term) ||
-        !review?.dueAt ||
-        new Date(review.dueAt).getTime() <= now
+        (review?.dueAt && new Date(review.dueAt).getTime() <= now)
       );
     })
     .sort((a, b) => {
@@ -1750,7 +1749,9 @@ function markWord(status) {
 
 function getWordDeck() {
   if (!reviewOnlyDifficult) return course.words;
-  return dueReviewWords();
+  return course.words.filter((word) =>
+    state.difficultWords.includes(word.term),
+  );
 }
 
 function displayWordTerm(word) {
