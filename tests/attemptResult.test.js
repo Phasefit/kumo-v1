@@ -232,3 +232,50 @@ test("alphabet practice records attempts by symbol", () => {
     /exerciseKey:\s*"alphabet:"\s*\+\s*practiceSymbol\.char/,
   );
 });
+test("pronunciation practice records attempts by word", () => {
+  const stateApi = loadStateModule();
+
+  const course = {
+    symbols: [],
+    words: [
+      { term: "こんにちは" },
+      { term: "すみません" },
+    ],
+    database: {
+      lessons: [],
+      exercises: [],
+    },
+  };
+
+  const validated = stateApi.validateState(
+    {
+      attempts: [
+        {
+          exerciseKey: "pronunciation:こんにちは",
+          correct: true,
+          attemptedAt: "2026-09-28T14:00:00.000Z",
+        },
+        {
+          exerciseKey: "pronunciation:missing",
+          correct: false,
+          attemptedAt: "2026-09-28T14:01:00.000Z",
+        },
+      ],
+    },
+    course,
+    () => "2026-09-28",
+  );
+
+  assert.equal(validated.attempts.length, 1);
+  assert.equal(
+    validated.attempts[0].exerciseKey,
+    "pronunciation:こんにちは",
+  );
+
+  const app = readFileSync("app.js", "utf8");
+
+  assert.match(
+    app,
+    /exerciseKey:\s*"pronunciation:"\s*\+\s*word\.term/,
+  );
+});

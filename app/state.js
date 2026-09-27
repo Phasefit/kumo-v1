@@ -69,6 +69,11 @@
       keys.push("alphabet:" + symbol.char);
     }
 
+    for (const word of selectedCourse?.words || []) {
+      if (typeof word?.term !== "string" || !word.term) continue;
+      keys.push("pronunciation:" + word.term);
+    }
+
     for (const exercise of selectedCourse?.database?.exercises || []) {
       if (exercise?.id === undefined || exercise?.id === null) continue;
       keys.push("database:" + String(exercise.id));

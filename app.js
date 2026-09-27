@@ -1615,6 +1615,10 @@ function practicePronunciation() {
       markActivity();
     }
 
+    recordExerciseAttemptBase(state, {
+      exerciseKey: "pronunciation:" + word.term,
+      correct,
+    });
     saveState();
 
     $("#pronunciation-feedback").textContent = correct
