@@ -152,3 +152,39 @@ test("database assessed exercises record attempts by exercise id", () => {
     /getDatabaseLessonStep:[\s\S]*?saveState,\s*recordExerciseAttempt:\s*\(attempt\)\s*=>\s*recordExerciseAttemptBase\(state,\s*attempt\),\s*shuffle,\s*escapeHtml,\s*\}\);/,
   );
 });
+test("main quiz records activity-level attempts", () => {
+  const stateApi = loadStateModule();
+
+  const course = {
+    symbols: [],
+    words: [],
+    database: {
+      lessons: [],
+      exercises: [],
+    },
+  };
+
+  const validated = stateApi.validateState(
+    {
+      attempts: [
+        {
+          exerciseKey: "quiz:main",
+          correct: true,
+          attemptedAt: "2026-09-28T12:00:00.000Z",
+        },
+      ],
+    },
+    course,
+    () => "2026-09-28",
+  );
+
+  assert.equal(validated.attempts.length, 1);
+  assert.equal(validated.attempts[0].exerciseKey, "quiz:main");
+
+  const app = readFileSync("app.js", "utf8");
+
+  assert.match(
+    app,
+    /recordExerciseAttemptBase\(state,\s*\{\s*exerciseKey:\s*"quiz:main",\s*correct,\s*\}\);/,
+  );
+});

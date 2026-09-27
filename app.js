@@ -1512,6 +1512,10 @@ function answerQuiz(button) {
       question.answer === word.term,
   );
   if (matchingWord) recordReview(matchingWord.term, correct);
+  recordExerciseAttemptBase(state, {
+    exerciseKey: "quiz:main",
+    correct,
+  });
   saveState();
   setTimeout(() => {
     quizIndex += 1;

@@ -62,7 +62,7 @@
   }
 
   function allowedExerciseKeys(selectedCourse) {
-    const keys = ["daily:sentence-builder", "daily:quiz"];
+    const keys = ["daily:sentence-builder", "daily:quiz", "quiz:main"];
 
     for (const exercise of selectedCourse?.database?.exercises || []) {
       if (exercise?.id === undefined || exercise?.id === null) continue;
