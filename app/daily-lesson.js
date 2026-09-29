@@ -9,6 +9,7 @@ function createDailyLessonRenderer({
   speak,
   saveState,
   recordExerciseAttempt,
+  recordReview,
   shuffle,
   dueReviewWords,
   displayWordTerm,
@@ -163,24 +164,42 @@ function createDailyLessonRenderer({
     <span class="exercise-kicker">Repetisjon</span>
     <h2>Varm opp med ord du har sett før</h2>
     <p class="exercise-help">${reviewWords.length ? "Vanskelige og kjente ord prioriteres." : "Første økt? Vi bruker tre nyttige startord."}</p>
-    <div class="mini-flashcard-grid">
+    <div class="mini-flashcard-grid review-card-grid">
       ${words
         .map(
           (word) => `
-            <button class="mini-flashcard" data-review-term="${word.term}">
-              <strong>${displayWordTerm(word)}</strong>
-              <span>${word.norwegian}</span>
-            </button>`,
+            <article class="review-card">
+              <button class="mini-flashcard" data-review-reveal data-review-term="${word.term}">
+                <strong>${displayWordTerm(word)}</strong>
+                <span>${word.norwegian}</span>
+              </button>
+              <div class="review-card-actions" aria-label="Vurder hvor godt du husket ordet">
+                <button type="button" data-review-result="remembered" data-review-term="${word.term}">Husket</button>
+                <button type="button" data-review-result="again" data-review-term="${word.term}">Må øves</button>
+              </div>
+            </article>`,
         )
         .join("")}
     </div>`;
-    $$("[data-review-term]").forEach((button) =>
+    $$('[data-review-reveal]').forEach((button) =>
       button.addEventListener("click", () => {
         const word = course.words.find(
           (item) => item.term === button.dataset.reviewTerm,
         );
         button.classList.toggle("revealed");
         speak(word.term, word.audio);
+      }),
+    );
+    $$('[data-review-result]').forEach((button) =>
+      button.addEventListener("click", () => {
+        const correct = button.dataset.reviewResult === "remembered";
+        const term = button.dataset.reviewTerm;
+        recordReview(term, correct);
+        recordExerciseAttempt({ exerciseKey: `review:${term}`, correct });
+        $$('[data-review-result]')
+          .filter((item) => item.dataset.reviewTerm === term)
+          .forEach((item) => (item.disabled = true));
+        saveState();
       }),
     );
   }

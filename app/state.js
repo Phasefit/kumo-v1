@@ -73,6 +73,7 @@
     for (const word of selectedCourse?.words || []) {
       if (typeof word?.term !== "string" || !word.term) continue;
       keys.push("pronunciation:" + word.term);
+      keys.push("review:" + word.term);
     }
 
     for (const exercise of selectedCourse?.database?.exercises || []) {

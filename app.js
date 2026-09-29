@@ -500,10 +500,8 @@ function dueReviewWords() {
   return course.words
     .filter((word) => {
       const review = state.reviewStats[word.term];
-      return (
-        state.difficultWords.includes(word.term) ||
-        (review?.dueAt && new Date(review.dueAt).getTime() <= now)
-      );
+      if (review?.dueAt) return new Date(review.dueAt).getTime() <= now;
+      return state.difficultWords.includes(word.term);
     })
     .sort((a, b) => {
       const aReview = state.reviewStats[a.term];
@@ -1310,6 +1308,7 @@ const dailyLessonRenderer = window.KumoDailyLesson.createDailyLessonRenderer({
   saveState,
   recordExerciseAttempt: (attempt) =>
     recordExerciseAttemptBase(state, attempt),
+  recordReview,
   shuffle,
   dueReviewWords,
   displayWordTerm,

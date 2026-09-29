@@ -58,7 +58,7 @@ test("state validation keeps only valid known exercise attempts", () => {
 
   const course = {
     symbols: [],
-    words: [],
+    words: [{ term: "ねこ" }],
     database: {
       lessons: [],
       exercises: [{ id: "exercise-1" }],
@@ -79,9 +79,14 @@ test("state validation keeps only valid known exercise attempts", () => {
           attemptedAt: "2026-09-28T10:01:00.000Z",
         },
         {
-          exerciseKey: "database:missing",
+          exerciseKey: "review:ねこ",
           correct: true,
           attemptedAt: "2026-09-28T10:02:00.000Z",
+        },
+        {
+          exerciseKey: "database:missing",
+          correct: true,
+          attemptedAt: "2026-09-28T10:03:00.000Z",
         },
         {
           exerciseKey: "daily:quiz",
@@ -94,9 +99,10 @@ test("state validation keeps only valid known exercise attempts", () => {
     () => "2026-09-28",
   );
 
-  assert.equal(result.attempts.length, 2);
+  assert.equal(result.attempts.length, 3);
   assert.equal(result.attempts[0].exerciseKey, "daily:quiz");
   assert.equal(result.attempts[1].exerciseKey, "database:exercise-1");
+  assert.equal(result.attempts[2].exerciseKey, "review:ねこ");
 });
 
 test("state validation keeps retry requests only for known database exercises", () => {

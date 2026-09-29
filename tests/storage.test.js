@@ -125,7 +125,7 @@ test("browser loads progress storage before app composition and avoids duplicate
   const appSource = readFileSync("app.js", "utf8");
 
   assert.ok(
-    html.indexOf('src="app/storage.js?v=2"') < html.indexOf('src="app.js?v=26"'),
+    html.indexOf('src="app/storage.js?v=2"') < html.indexOf('src="app.js?v=27"'),
   );
   assert.match(appSource, /window\.KumoStorage\.createProgressStorage/);
   assert.doesNotMatch(appSource, /function saveState\(/);
