@@ -99,6 +99,69 @@ test("state validation keeps only valid known exercise attempts", () => {
   assert.equal(result.attempts[1].exerciseKey, "database:exercise-1");
 });
 
+test("state validation keeps retry requests only for known database exercises", () => {
+  const stateApi = loadStateModule();
+  const course = {
+    symbols: [],
+    words: [],
+    database: {
+      lessons: [],
+      exercises: [{ id: "exercise-1" }],
+    },
+  };
+
+  assert.equal(
+    stateApi.validateState(
+      { retryExerciseKey: "database:exercise-1" },
+      course,
+      () => "2026-09-28",
+    ).retryExerciseKey,
+    "database:exercise-1",
+  );
+  assert.equal(
+    stateApi.validateState(
+      { retryExerciseKey: "database:missing" },
+      course,
+      () => "2026-09-28",
+    ).retryExerciseKey,
+    null,
+  );
+  assert.equal(
+    stateApi.validateState(
+      { retryExerciseKey: "quiz:main" },
+      course,
+      () => "2026-09-28",
+    ).retryExerciseKey,
+    null,
+  );
+});
+
+test("failed database attempts request a retry and correct attempts clear it", () => {
+  const stateApi = loadStateModule();
+  const context = {
+    state: stateApi.freshState(),
+    recordExerciseAttemptBase: stateApi.recordExerciseAttempt,
+  };
+  const app = readFileSync("app.js", "utf8");
+  const start = app.indexOf("function recordExerciseAttempt(attempt)");
+  const end = app.indexOf("async function persistState", start);
+
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+  vm.runInNewContext(app.slice(start, end), context);
+  vm.runInNewContext(
+    `recordExerciseAttempt({exerciseKey:"database:exercise-1",correct:false,attemptedAt:"2026-09-28T10:00:00.000Z"});`,
+    context,
+  );
+  assert.equal(context.state.retryExerciseKey, "database:exercise-1");
+
+  vm.runInNewContext(
+    `recordExerciseAttempt({exerciseKey:"database:exercise-1",correct:true,attemptedAt:"2026-09-28T10:01:00.000Z"});`,
+    context,
+  );
+  assert.equal(context.state.retryExerciseKey, null);
+});
+
 test("attempt result survives state validation and reload", () => {
   const stateApi = loadStateModule();
   const course = {
@@ -193,7 +256,7 @@ test("database assessed exercises record attempts by exercise id", () => {
 
   assert.match(
     app,
-    /getDatabaseLessonStep:[\s\S]*?saveState,\s*recordExerciseAttempt:\s*\(attempt\)\s*=>\s*recordExerciseAttemptBase\(state,\s*attempt\),\s*shuffle,\s*escapeHtml,\s*\}\);/,
+    /getDatabaseLessonStep:[\s\S]*?saveState,\s*recordExerciseAttempt:\s*\(attempt\)\s*=>\s*recordExerciseAttempt\(attempt\),\s*shuffle,\s*escapeHtml,\s*\}\);/,
   );
 });
 test("main quiz records activity-level attempts", () => {

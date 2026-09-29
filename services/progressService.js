@@ -14,6 +14,7 @@
       answers: 0,
       correct: 0,
       attempts: [],
+      retryExerciseKey: null,
       completed: [],
       dailyCompletions: 0,
       lastDailyCompletion: null,

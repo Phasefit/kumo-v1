@@ -46,6 +46,30 @@ test("due review takes priority over new learning", () => {
   );
 });
 
+test("due review takes priority over a failed database exercise retry", () => {
+  assert.deepEqual(
+    determine({
+      levelRequirements: ["lesson:lesson-5"],
+      completed: ["lesson:lesson-5"],
+      dueReviewCount: 1,
+      retryExerciseKey: "database:exercise-5",
+    }),
+    { type: "review" },
+  );
+});
+
+test("failed database exercise becomes the next action", () => {
+  assert.deepEqual(
+    determine({
+      levelRequirements: ["lesson:lesson-5"],
+      completed: ["lesson:lesson-5"],
+      dueReviewCount: 0,
+      retryExerciseKey: "database:exercise-5",
+    }),
+    { type: "database-exercise-retry", exerciseKey: "database:exercise-5" },
+  );
+});
+
 test("first incomplete level-one requirement becomes next action", () => {
   assert.deepEqual(
     determine({
@@ -144,4 +168,42 @@ test("next action label matches selected learning activity", () => {
   );
 
   assert.equal(context.result, "Øv på ord");
+});
+
+test("database exercise retry label is clear", () => {
+  const context = {
+    action: {
+      type: "database-exercise-retry",
+      exerciseKey: "database:exercise-5",
+    },
+  };
+
+  vm.runInNewContext(
+    `${nextActionSource}
+     result = nextActionLabel(action);`,
+    context,
+  );
+
+  assert.equal(context.result, "Prøv øvelsen igjen");
+});
+
+test("database exercise retry delegates to its focused opener", () => {
+  const context = {
+    action: {
+      type: "database-exercise-retry",
+      exerciseKey: "database:exercise-5",
+    },
+    calls: [],
+  };
+
+  context.openDatabaseExerciseRetry = (exerciseKey) =>
+    context.calls.push(exerciseKey);
+
+  vm.runInNewContext(
+    `${nextActionSource}
+     executeNextAction(action);`,
+    context,
+  );
+
+  assert.deepEqual(context.calls, ["database:exercise-5"]);
 });

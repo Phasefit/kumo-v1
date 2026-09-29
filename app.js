@@ -367,6 +367,18 @@ function saveState(showConfirmation = false) {
   return true;
 }
 
+function recordExerciseAttempt(attempt) {
+  const result = recordExerciseAttemptBase(state, attempt);
+  if (attempt.exerciseKey.startsWith("database:")) {
+    if (result.lastCorrect === false) {
+      state.retryExerciseKey = attempt.exerciseKey;
+    } else if (state.retryExerciseKey === attempt.exerciseKey) {
+      state.retryExerciseKey = null;
+    }
+  }
+  return result;
+}
+
 async function persistState(showConfirmation = false) {
   if (!currentUser) return false;
   window.clearTimeout(persistenceTimer);
@@ -525,9 +537,17 @@ function determineNextAction({
   levelRequirements = [],
   completed = [],
   dueReviewCount = 0,
+  retryExerciseKey = null,
 }) {
   if (dueReviewCount > 0) {
     return { type: "review" };
+  }
+
+  if (retryExerciseKey?.startsWith("database:")) {
+    return {
+      type: "database-exercise-retry",
+      exerciseKey: retryExerciseKey,
+    };
   }
 
   const nextRequirement = levelRequirements.find(
@@ -565,6 +585,7 @@ function determineNextAction({
 function nextActionLabel(action) {
   if (action.type === "review") return "Start repetisjon";
   if (action.type === "database-lesson") return "Fortsett kurset";
+  if (action.type === "database-exercise-retry") return "Prøv øvelsen igjen";
 
   const labelByView = {
     kana: "Lær neste tegn",
@@ -581,6 +602,7 @@ function currentNextAction(level = calculateUnlockedLevel()) {
     levelRequirements: requiredLessonKeysForLevel(level),
     completed: state.completed,
     dueReviewCount: dueReviewWords().length,
+    retryExerciseKey: state.retryExerciseKey,
   });
 }
 
@@ -592,6 +614,10 @@ function executeNextAction(action) {
 
   if (action.type === "database-lesson") {
     return openDatabaseLesson(action.lessonId);
+  }
+
+  if (action.type === "database-exercise-retry") {
+    return openDatabaseExerciseRetry(action.exerciseKey);
   }
 
   if (action.type === "view") {
@@ -985,7 +1011,7 @@ const navigation = window.KumoNavigation.createNavigation({
 });
 const showView = navigation.showView;
 
-function openDatabaseLesson(lessonId) {
+function openDatabaseLesson(lessonId, exerciseId = null) {
   const lesson = course.database?.lessons?.find((item) => item.id === lessonId);
   if (!lesson) return showToast("Leksjonen kunne ikke åpnes.");
   const databaseLevel = course.database.levels.find(
@@ -1009,9 +1035,30 @@ function openDatabaseLesson(lessonId) {
       .filter((item) => item.lesson_id === lesson.id)
       .map((item) => ({ kind: "exercise", item })),
   ];
+  if (exerciseId !== null && exerciseId !== undefined) {
+    const retryStep = databaseLessonSteps.findIndex(
+      (step) =>
+        step.kind === "exercise" &&
+        String(step.item.id) === String(exerciseId),
+    );
+    if (retryStep >= 0) databaseLessonStep = retryStep;
+  }
   if (!databaseLessonSteps.length)
     databaseLessonSteps.push({ kind: "introduction", item: lesson });
   showView("course-lesson");
+}
+
+function openDatabaseExerciseRetry(exerciseKey) {
+  const exerciseId = exerciseKey.slice("database:".length);
+  const exercise = course.database?.exercises?.find(
+    (item) => String(item.id) === exerciseId,
+  );
+  if (!exercise) {
+    state.retryExerciseKey = null;
+    saveState();
+    return showView("progress");
+  }
+  return openDatabaseLesson(exercise.lesson_id, exercise.id);
 }
 
 const databaseRenderer = window.KumoDatabaseRenderer.createDatabaseRenderer({
@@ -1027,8 +1074,7 @@ const databaseRenderer = window.KumoDatabaseRenderer.createDatabaseRenderer({
   }),
   speak,
   saveState,
-  recordExerciseAttempt: (attempt) =>
-    recordExerciseAttemptBase(state, attempt),
+  recordExerciseAttempt: (attempt) => recordExerciseAttempt(attempt),
   shuffle,
   escapeHtml,
 });

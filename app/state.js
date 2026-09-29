@@ -10,6 +10,7 @@
       answers: 0,
       correct: 0,
       attempts: [],
+      retryExerciseKey: null,
       completed: [],
       dailyCompletions: 0,
       lastDailyCompletion: null,
@@ -179,6 +180,12 @@
       answers: validNonNegativeInteger(value.answers),
       correct: Math.min(validNonNegativeInteger(value.correct), validNonNegativeInteger(value.answers)),
       attempts: validAttempts(value.attempts, selectedCourse),
+      retryExerciseKey:
+        typeof value.retryExerciseKey === "string" &&
+        value.retryExerciseKey.startsWith("database:") &&
+        allowedExerciseKeys(selectedCourse).includes(value.retryExerciseKey)
+          ? value.retryExerciseKey
+          : null,
       completed: validUniqueItems(value.completed, [
         "alphabet", "words", "quiz", "daily",
         ...(selectedCourse.database?.lessons || []).map((lesson) => `lesson:${lesson.id}`),
