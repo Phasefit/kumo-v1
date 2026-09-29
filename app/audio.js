@@ -21,9 +21,15 @@ function createAudioController({ $, course, getCurrentAudio, setCurrentAudio }) 
     utterance.lang = course.speechLang;
     utterance.rate = course.speechRate;
 
-    const voice = window.speechSynthesis
-      .getVoices()
-      .find((item) => item.lang.toLowerCase().startsWith(course.code));
+    const voices = window.speechSynthesis.getVoices();
+    const matchingVoices = voices.filter((item) =>
+      item.lang.toLowerCase().startsWith(course.code.toLowerCase()),
+    );
+    const exactLocaleVoices = matchingVoices.filter(
+      (item) => item.lang.toLowerCase() === course.speechLang.toLowerCase(),
+    );
+    const voicePool = exactLocaleVoices.length ? exactLocaleVoices : matchingVoices;
+    const voice = voicePool.find((item) => item.default) || voicePool[0];
 
     if (voice) {
       utterance.voice = voice;
