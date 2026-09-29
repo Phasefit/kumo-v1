@@ -1,16 +1,17 @@
-const CACHE_NAME = "kumo-v23";
+const CACHE_NAME = "kumo-v24";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js?v=23",
+  "./app.js?v=24",
   "./app/state.js?v=2",
   "./app/navigation.js?v=1",
-  "./app/audio.js?v=2",
+  "./app/audio.js?v=3",
   "./app/database-renderer.js?v=2",
   "./app/daily-lesson.js?v=2",
   "./lib/supabase-v2.js?v=2.108.2",
-  "./data/courseContent.js?v=2",
+  "./data/courseContent.js?v=3",
+  "./audio/ja/konnichiwa.wav",
   "./config/runtime-config.js?v=1",
   "./lib/supabaseClient.js?v=1",
   "./services/authService.js?v=5",

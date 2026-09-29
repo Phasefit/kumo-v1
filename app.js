@@ -79,7 +79,7 @@ const courses = {
         "konnichiwa",
         "Hei / god dag",
         "En trygg og nøytral hilsen på dagtid. は skrives «ha», men uttales «wa» her.",
-        "word-konnichiwa",
+        "./audio/ja/konnichiwa.wav",
       ],
       [
         "ありがとうございます",

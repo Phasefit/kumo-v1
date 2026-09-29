@@ -151,4 +151,5 @@ test("service-worker installation caches every local script loaded by the page",
   for (const [, src] of html.matchAll(/<script src="([^"]+)"/g)) {
     if (!src.startsWith("http")) assert.ok(assets.includes(`./${src}`), `Not precached: ${src}`);
   }
+  assert.ok(assets.includes("./audio/ja/konnichiwa.wav"), "Japanese sample audio is not precached");
 });

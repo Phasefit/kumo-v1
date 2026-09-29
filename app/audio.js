@@ -7,7 +7,45 @@ function createAudioController({ $, course, getCurrentAudio, setCurrentAudio }) 
       currentAudio.currentTime = 0;
     }
 
+    if (audioBase && audioBase.startsWith("./audio/")) {
+      return speakWithAudioFile(text, audioBase);
+    }
+
     return speakWithBrowserVoice(text);
+  }
+
+  function speakWithAudioFile(text, audioPath) {
+    let audio;
+    try {
+      audio = new window.Audio(audioPath);
+    } catch {
+      return speakWithBrowserVoice(text);
+    }
+
+    setCurrentAudio(audio);
+    let fallbackStarted = false;
+    const fallbackToBrowserVoice = () => {
+      if (fallbackStarted || getCurrentAudio() !== audio) return;
+      fallbackStarted = true;
+      setCurrentAudio(null);
+      speakWithBrowserVoice(text);
+    };
+
+    audio.onended = () => {
+      if (getCurrentAudio() === audio) setCurrentAudio(null);
+    };
+    audio.onerror = fallbackToBrowserVoice;
+
+    try {
+      const playback = audio.play();
+      if (playback && typeof playback.catch === "function") {
+        playback.catch(fallbackToBrowserVoice);
+      }
+    } catch {
+      fallbackToBrowserVoice();
+    }
+
+    return audio;
   }
 
   function speakWithBrowserVoice(text) {

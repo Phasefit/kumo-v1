@@ -25,7 +25,7 @@
         title: "Hei, vann og japansk ordstilling",
         minutes: 8,
         newWords: [
-          { norwegian: "Hei", kana: "こんにちは", kanji: "", romaji: "konnichiwa", audio: "word-konnichiwa" },
+          { norwegian: "Hei", kana: "こんにちは", kanji: "", romaji: "konnichiwa", audio: "./audio/ja/konnichiwa.wav" },
           { norwegian: "Takk", kana: "ありがとう", kanji: "", romaji: "arigatou", audio: "word-arigatou" },
           { norwegian: "Vann", kana: "みず", kanji: "水", romaji: "mizu" },
           { norwegian: "Jeg er norsk", kana: "わたしはノルウェーじんです", kanji: "私はノルウェー人です", romaji: "watashi wa noruwee-jin desu" },
