@@ -17,22 +17,22 @@
         { title: "Grunnleggende kanji", status: "Kommer", copy: "En rolig introduksjon til vanlige tegn som 水 (vann)." },
       ],
       practicalPhrases: [
-        { norwegian: "Hvor er toalettet?", target: "トイレはどこですか？", reading: "toire wa doko desu ka?" },
-        { norwegian: "Jeg forstår ikke.", target: "わかりません。", reading: "wakarimasen" },
-        { norwegian: "Én vann, takk.", target: "水を一つお願いします。", reading: "mizu o hitotsu onegaishimasu" },
+        { norwegian: "Hvor er toalettet?", target: "トイレはどこですか？", reading: "toire wa doko desu ka?", audio: "./audio/ja/practical-toire.wav" },
+        { norwegian: "Jeg forstår ikke.", target: "わかりません。", reading: "wakarimasen", audio: "./audio/ja/practical-wakarimasen.wav" },
+        { norwegian: "Én vann, takk.", target: "水を一つお願いします。", reading: "mizu o hitotsu onegaishimasu", audio: "./audio/ja/practical-mizu-onegaishimasu.wav" },
       ],
       dailyLesson: {
         title: "Hei, vann og japansk ordstilling",
         minutes: 8,
         newWords: [
-          { norwegian: "Hei", kana: "こんにちは", kanji: "", romaji: "konnichiwa", audio: "./audio/ja/konnichiwa.wav" },
-          { norwegian: "Takk", kana: "ありがとう", kanji: "", romaji: "arigatou", audio: "word-arigatou" },
-          { norwegian: "Vann", kana: "みず", kanji: "水", romaji: "mizu" },
-          { norwegian: "Jeg er norsk", kana: "わたしはノルウェーじんです", kanji: "私はノルウェー人です", romaji: "watashi wa noruwee-jin desu" },
+          { norwegian: "Hei", kana: "こんにちは", kanji: "", romaji: "konnichiwa", audio: "./audio/ja/word-konnichiwa.wav" },
+          { norwegian: "Takk", kana: "ありがとう", kanji: "", romaji: "arigatou", audio: "./audio/ja/daily-arigatou.wav" },
+          { norwegian: "Vann", kana: "みず", kanji: "水", romaji: "mizu", audio: "./audio/ja/daily-mizu.wav" },
+          { norwegian: "Jeg er norsk", kana: "わたしはノルウェーじんです", kanji: "私はノルウェー人です", romaji: "watashi wa noruwee-jin desu", audio: "./audio/ja/daily-watashi-wa-noruwee-jin-desu.wav" },
         ],
         examples: [
-          { norwegian: "Jeg drikker vann.", target: "私は水を飲みます。", reading: "watashi wa mizu o nomimasu" },
-          { norwegian: "Jeg er norsk.", target: "私はノルウェー人です。", reading: "watashi wa noruwee-jin desu" },
+          { norwegian: "Jeg drikker vann.", target: "私は水を飲みます。", reading: "watashi wa mizu o nomimasu", audio: "./audio/ja/example-watashi-wa-mizu-o-nomimasu.wav" },
+          { norwegian: "Jeg er norsk.", target: "私はノルウェー人です。", reading: "watashi wa noruwee-jin desu", audio: "./audio/ja/example-watashi-wa-noruwee-jin-desu.wav" },
         ],
         grammar: {
           title: "Verbet kommer ofte til slutt",

@@ -252,7 +252,10 @@ function createDailyLessonRenderer({
     </div>`;
     $$("[data-listen-example]").forEach((button) =>
       button.addEventListener("click", () =>
-        speak(examples[Number(button.dataset.listenExample)].target),
+        speak(
+          examples[Number(button.dataset.listenExample)].target,
+          examples[Number(button.dataset.listenExample)].audio,
+        ),
       ),
     );
   }

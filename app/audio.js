@@ -7,7 +7,7 @@ function createAudioController({ $, course, getCurrentAudio, setCurrentAudio }) 
       currentAudio.currentTime = 0;
     }
 
-    if (audioBase && audioBase.startsWith("./audio/")) {
+    if (typeof audioBase === "string" && audioBase.startsWith("./audio/")) {
       return speakWithAudioFile(text, audioBase);
     }
 

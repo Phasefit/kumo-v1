@@ -67,9 +67,9 @@ test("Japanese speech falls back to another Japanese voice when locale is unavai
 test("local Japanese audio files play before browser speech synthesis", () => {
   const { create, spoken, audioInstances, getCurrentAudio } = loadAudioController([]);
 
-  create().speak("こんにちは", "./audio/ja/konnichiwa.wav");
+  create().speak("こんにちは", "./audio/ja/word-konnichiwa.wav");
 
-  assert.equal(audioInstances[0].src, "./audio/ja/konnichiwa.wav");
+  assert.equal(audioInstances[0].src, "./audio/ja/word-konnichiwa.wav");
   assert.equal(audioInstances[0].played, true);
   assert.equal(getCurrentAudio(), audioInstances[0]);
   assert.equal(spoken.length, 0);

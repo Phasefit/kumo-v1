@@ -65,7 +65,12 @@ const courses = {
       ["す", "su", "u-en blir ofte svært svak", "kana-su"],
       ["せ", "se", "s + kort e", "kana-se"],
       ["そ", "so", "s + kort å-lignende lyd", "kana-so"],
-    ].map(([char, reading, tip, audio]) => ({ char, reading, tip, audio })),
+    ].map(([char, reading, tip, audio]) => ({
+      char,
+      reading,
+      tip,
+      audio: `./audio/ja/${audio}.wav`,
+    })),
     words: [
       [
         "おはようございます",
@@ -79,7 +84,7 @@ const courses = {
         "konnichiwa",
         "Hei / god dag",
         "En trygg og nøytral hilsen på dagtid. は skrives «ha», men uttales «wa» her.",
-        "./audio/ja/konnichiwa.wav",
+        "word-konnichiwa",
       ],
       [
         "ありがとうございます",
@@ -128,7 +133,7 @@ const courses = {
       reading,
       norwegian,
       note,
-      audio,
+      audio: `./audio/ja/${audio}.wav`,
     })),
     quiz: [
       ["HIRAGANA", "Hvilken lyd har tegnet?", "あ", ["a", "i", "o", "ka"], "a"],
@@ -1391,7 +1396,10 @@ function renderGrammar() {
     </article>`;
   $$("[data-practical-phrase]").forEach((button) =>
     button.addEventListener("click", () =>
-      speak(button.dataset.practicalPhrase),
+      speak(
+        button.dataset.practicalPhrase,
+        practicalPhrases.find((phrase) => phrase.target === button.dataset.practicalPhrase)?.audio,
+      ),
     ),
   );
 }
