@@ -6,7 +6,6 @@ const {
   validReviewStats,
   validNonNegativeInteger,
   validDueAt,
-  isDateKey: isDateKeyBase,
   validateState: validateStateBase,
 } = window.KumoState;
 const courses = {
@@ -299,13 +298,25 @@ let databaseLessonSteps = [];
 let databaseLessonStep = 0;
 let syncPending = false;
 const captchaWidgets = {};
+const { progressCacheKey, courseCacheKey, saveState } =
+  window.KumoStorage.createProgressStorage({
+    getCurrentUser: () => currentUser,
+    getActiveLanguage: () => activeLanguage,
+    getState: () => state,
+    setState: (nextState) => {
+      progressStore[activeLanguage] = nextState;
+    },
+    getIsHydrating: () => isHydrating,
+    getPersistenceTimer: () => persistenceTimer,
+    setPersistenceTimer: (timer) => {
+      persistenceTimer = timer;
+    },
+    persistState,
+    updateDashboard,
+  });
 
 function validateState(value, selectedCourse) {
   return validateStateBase(value, selectedCourse, localDateKey);
-}
-
-function isDateKey(value) {
-  return isDateKeyBase(value, localDateKey);
 }
 
 function escapeHtml(value) {
@@ -357,19 +368,6 @@ function captchaToken(name) {
 function resetCaptcha(name) {
   const widgetId = captchaWidgets[name];
   if (widgetId !== undefined) window.turnstile?.reset(widgetId);
-}
-
-function saveState(showConfirmation = false) {
-  progressStore[activeLanguage] = state;
-  localStorage.setItem(progressCacheKey(activeLanguage), JSON.stringify(state));
-  localStorage.setItem(`${progressCacheKey(activeLanguage)}:pending`, "1");
-  updateDashboard();
-  if (!currentUser || isHydrating) return false;
-
-  if (showConfirmation) return persistState(true);
-  window.clearTimeout(persistenceTimer);
-  persistenceTimer = window.setTimeout(() => persistState(false), 350);
-  return true;
 }
 
 function recordExerciseAttempt(attempt) {
@@ -453,14 +451,6 @@ function updateSaveStatus() {
   }).format(new Date());
   $("#save-status").textContent = `Lagret kl. ${time}`;
   updateConnectivityUi();
-}
-
-function progressCacheKey(language) {
-  return `kumo-progress:${currentUser?.id || "guest"}:${language}`;
-}
-
-function courseCacheKey(language) {
-  return `kumo-course:${language}`;
 }
 
 function updateVisit() {

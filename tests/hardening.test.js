@@ -33,6 +33,7 @@ test("service-worker activation preserves other apps' caches and current Kumo ca
         "kumo-v23",
         "kumo-v24",
         "kumo-v25",
+        "kumo-v26",
         "other-app-v1",
       ],
       delete: async (key) => { deleted.push(key); return true; },
@@ -41,5 +42,5 @@ test("service-worker activation preserves other apps' caches and current Kumo ca
   vm.runInNewContext(readFileSync("service-worker.js", "utf8"), context);
   handlers.activate({ waitUntil: (promise) => waits.push(promise) });
   await Promise.all(waits);
-  assert.deepEqual(deleted, ["kumo-v18", "kumo-v19", "kumo-v21", "kumo-v22", "kumo-v23", "kumo-v24"]);
+  assert.deepEqual(deleted, ["kumo-v18", "kumo-v19", "kumo-v21", "kumo-v22", "kumo-v23", "kumo-v24", "kumo-v25"]);
 });

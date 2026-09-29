@@ -1,10 +1,11 @@
-const CACHE_NAME = "kumo-v25";
+const CACHE_NAME = "kumo-v26";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js?v=25",
+  "./app.js?v=26",
   "./app/state.js?v=2",
+  "./app/storage.js?v=2",
   "./app/navigation.js?v=1",
   "./app/audio.js?v=3",
   "./app/database-renderer.js?v=2",
