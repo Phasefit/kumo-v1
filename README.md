@@ -38,12 +38,9 @@ The browser may contain a Supabase publishable/anon key. Database authorization 
 
 ## Hardening roadmap
 
-1. Verify Supabase RLS and policies.
-2. Establish browser-flow regression coverage.
-3. Reduce technical debt in `app.js` and the bundled Supabase runtime.
-4. Add CI for syntax and tests.
-5. Improve release/cache versioning.
-6. Then expand product functionality.
+The initial hardening work has established automated checks, CI, service-worker cache versioning, and incremental state/storage boundaries. The state/storage extraction is complete; see [`docs/state-refactor.md`](docs/state-refactor.md).
+
+Current focus: finish V1.2 by reviewing the full Attempt → Result → Progress → Review → Next Action journey and fixing any specific data or learning-logic gaps found. After that, update the phase status before selecting V1.3 product-experience work.
 
 ## Branching
 

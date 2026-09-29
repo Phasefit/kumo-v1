@@ -1,7 +1,15 @@
-# State refactor checkpoint
+# State and storage refactor checkpoint
 
-State validation and storage helpers have been extracted into `app/state.js` and `app/storage.js`.
+## Completed
 
-The existing `app.js` implementations remain temporarily in place until the import/call-site migration can be performed atomically. This avoids breaking the browser runtime by creating duplicate or conflicting lexical bindings.
+- State validation and learning-attempt helpers live in `app/state.js`.
+- Progress and course cache keys plus progress persistence live in `app/storage.js`.
+- `app.js` uses the extracted helpers; the duplicate local implementations have been removed.
+- `tests/storage.test.js` covers local saves, debounced signed-in saves, hydration and account changes.
+- State and storage behavior is covered by the project test suite.
 
-Next change: migrate `app.js` to import the extracted state helpers, then remove the duplicate local implementations and add module-level tests.
+## Next step: verify the learning loop
+
+Review the existing Attempt → Result → Progress → Review → Next Action flow as one user journey. Confirm where each result is stored, whether it survives reload and account changes, and whether failed database exercises are offered again correctly. Extend tests only for concrete gaps found in that review.
+
+Keep the review focused on the existing Japanese course and current architecture. Do not begin a broader state refactor unless the audit identifies a specific correctness or stability issue.
