@@ -99,6 +99,50 @@ test("state validation keeps only valid known exercise attempts", () => {
   assert.equal(result.attempts[1].exerciseKey, "database:exercise-1");
 });
 
+test("attempt result survives state validation and reload", () => {
+  const stateApi = loadStateModule();
+  const course = {
+    symbols: [],
+    words: [],
+    database: { lessons: [], exercises: [] },
+  };
+  const state = stateApi.freshState();
+
+  stateApi.recordExerciseAttempt(state, {
+    exerciseKey: "quiz:main",
+    correct: true,
+    attemptedAt: "2026-09-28T10:00:00.000Z",
+  });
+  stateApi.recordExerciseAttempt(state, {
+    exerciseKey: "quiz:main",
+    correct: false,
+    attemptedAt: "2026-09-28T10:01:00.000Z",
+  });
+
+  const reloadedState = stateApi.validateState(
+    JSON.parse(JSON.stringify(state)),
+    course,
+    () => "2026-09-28",
+  );
+
+  assert.deepEqual(
+    JSON.parse(
+      JSON.stringify(
+        stateApi.getExerciseResult(reloadedState.attempts, "quiz:main"),
+      ),
+    ),
+    {
+      exerciseKey: "quiz:main",
+      attempts: 2,
+      correct: 1,
+      incorrect: 1,
+      accuracy: 50,
+      lastCorrect: false,
+      lastAttemptAt: "2026-09-28T10:01:00.000Z",
+    },
+  );
+});
+
 test("attempt history is bounded to the latest 100 attempts", () => {
   const stateApi = loadStateModule();
   const state = stateApi.freshState();
